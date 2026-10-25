@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="uk" data-theme="mixed">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Демонстраційна верстка універсального сайту персонального фітнес-тренера. Початкові три секції.">
+  <meta name="theme-color" content="#111312">
+  <title>Yuliia Zahorodnia — фітнес-тренер | Демоверсія</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script defer src="assets/js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти до вмісту</a>
+  <header class="site-header" id="top">
+    <div class="shell header-inner">
+      <a class="wordmark" href="#top" aria-label="Yuliia Zahorodnia — на початок сторінки">
+        <span>YULIIA</span><small>ZAGORODNIA</small>
+      </a>
+      <nav class="desktop-nav" aria-label="Основна навігація">
+        <a href="#goals">Про мене</a>
+        <a href="#programs">Програми</a>
+        <a href="#programs">Харчування</a>
+        <a href="#goals">Результати</a>
+        <a href="#goals">Відгуки</a>
+        <a href="#bottom">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <a class="button button-primary header-cta" href="#programs">Записатися <span class="button-arrow" aria-hidden="true">→</span></a>
+        <div class="theme-control">
+          <button class="theme-trigger" type="button" aria-expanded="false" aria-controls="theme-options" aria-label="Вибрати оформлення">
+            <span class="theme-symbol" aria-hidden="true">◐</span><span class="theme-current">Mixed</span><span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="theme-options" id="theme-options" hidden role="group" aria-label="Оформлення сайту">
+            <button type="button" data-mode="light">Світла</button>
+            <button type="button" data-mode="dark">Темна</button>
+            <button type="button" data-mode="mixed">Контрастна</button>
+            <button type="button" data-mode="auto">Авто</button>
+          </div>
+        </div>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Відкрити меню">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Мобільна навігація" hidden>
+      <a href="#goals">Про мене</a><a href="#programs">Програми</a><a href="#programs">Харчування</a>
+      <a href="#goals">Результати</a><a href="#goals">Відгуки</a><a href="#bottom">FAQ</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Розділи 1–3 з детально затвердженого макета. Оригінальні фотографії відсутні. -->
+    <section class="hero surface-hero" aria-labelledby="hero-title">
+      <div class="hero-media" aria-hidden="true"><span>Місце для затвердженого фото / відео</span></div>
+      <div class="shell hero-inner">
+        <div class="hero-copy" data-reveal>
+          <span class="eyebrow eyebrow-on-dark">ФІТНЕС-ТРЕНЕР · ОНЛАЙН ТА В ЗАЛІ</span>
+          <h1 id="hero-title"><strong>СИЛЬНІША</strong><span>ВЕРСІЯ ТЕБЕ</span></h1>
+          <p class="hero-lead">Індивідуальні тренування, програми та харчування для здорового, красивого та впевненого тіла.</p>
+          <div class="hero-buttons">
+            <a class="button button-primary" href="#programs">Записатися на тренування <span class="button-arrow" aria-hidden="true">→</span></a>
+            <a class="button button-outline" href="#programs">Обрати програму <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="social-proof">
+            <span class="avatar-stack" aria-hidden="true"><i>Ю</i><i>М</i><i>А</i><i>+</i></span>
+            <p><strong>500+ клієнток</strong><span>у демо-макеті</span></p>
+          </div>
+          <div class="hero-stats" aria-label="Демонстраційні показники">
+            <div><strong>500+</strong><span>Задоволених<br>клієнток</span></div>
+            <div><strong>95%</strong><span>Досягають<br>своєї мети</span></div>
+            <div><strong>5+ років</strong><span>Досвіду<br>в фітнесі</span></div>
+          </div>
+        </div>
+        <aside class="hero-side" aria-label="Основні можливості" data-reveal>
+          <div class="glass-features">
+            <div class="feature-line"><span class="round-icon" aria-hidden="true">♧</span><span>Персональні<br>та групові тренування</span></div>
+            <div class="feature-line"><span class="round-icon" aria-hidden="true">▷</span><span>Онлайн-програми<br>з підтримкою</span></div>
+            <div class="feature-line"><span class="round-icon" aria-hidden="true">♡</span><span>Індивідуальне<br>харчування</span></div>
+            <div class="feature-line"><span class="round-icon" aria-hidden="true">▥</span><span>Реальні результати<br>та супровід</span></div>
+          </div>
+          <div class="hero-video"><span class="video-placeholder" aria-hidden="true">▷</span><span>Дивитися відео<br><small>Після додавання медіа</small></span></div>
+          <div class="scroll-note" aria-hidden="true">↧ <span>Гортай вниз</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="goals section-pad surface-goals" id="goals" aria-labelledby="goals-title">
+      <div class="shell">
+        <div class="goals-intro">
+          <div data-reveal><span class="eyebrow">ТВОЯ МЕТА — НАШ ШЛЯХ</span><h2 id="goals-title"><strong>РЕЗУЛЬТАТИ,</strong><span>ЯКІ ЗМІНЮЮТЬ<br>ЖИТТЯ</span></h2></div>
+          <div class="goals-copy" data-reveal><p>Я допомагаю жінкам не просто схуднути, а створити здорове, сильне та гармонійне тіло, в якому приємно жити. Без виснажливих дієт, без крайнощів — з турботою про тебе.</p><a class="button button-primary" href="#programs">Почати свій шлях <span class="button-arrow" aria-hidden="true">→</span></a></div>
+        </div>
+        <div class="benefits" aria-label="Переваги тренувань">
+          <article class="benefit" data-reveal><span class="benefit-icon" aria-hidden="true">♡</span><h3>Краще<br>самопочуття</h3><p>Більше енергії, легкість у тілі та міцне здоров’я</p></article>
+          <article class="benefit" data-reveal><span class="benefit-icon" aria-hidden="true">ϟ</span><h3>Гарна<br>форма</h3><p>Підтягнуте тіло, яке подобається тобі у дзеркалі</p></article>
+          <article class="benefit" data-reveal><span class="benefit-icon" aria-hidden="true">❀</span><h3>Впевненість<br>у собі</h3><p>Любов до свого тіла та новий рівень самооцінки</p></article>
+          <article class="benefit" data-reveal><span class="benefit-icon" aria-hidden="true">☆</span><h3>Нові<br>можливості</h3><p>Більше енергії для улюблених справ і великих цілей</p></article>
+        </div>
+        <blockquote class="quote-banner" data-reveal>
+          <div class="quote-media" aria-hidden="true">Місце для затвердженого фото</div>
+          <div class="quote-copy"><span aria-hidden="true">“</span><p>Твоє тіло — це не про ідеальність.<br>Це про силу, здоров’я, енергію<br>і життя, яке ти любиш.</p><cite>Yuliia Zagorodnia</cite></div>
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="programs section-pad surface-programs" id="programs" aria-labelledby="programs-title">
+      <div class="shell">
+        <div class="programs-heading">
+          <div data-reveal><span class="eyebrow eyebrow-on-dark">НАПРЯМИ ТРЕНУВАНЬ</span><h2 id="programs-title"><strong>ОБЕРИ СВІЙ</strong><span>ФОРМАТ</span></h2></div>
+          <div class="programs-heading-right" data-reveal><p>Тренуйся так, як зручно саме тобі. Я пропоную різні формати, щоб ти могла досягати своїх цілей у комфортному ритмі та з максимальною підтримкою.</p><a class="button button-outline" href="#program-cards">Обрати програму <span aria-hidden="true">→</span></a></div>
+        </div>
+        <div class="program-cards" id="program-cards">
+          <article class="program-card" data-reveal><div class="program-media program-media--personal" aria-hidden="true"><span>Фото програми</span></div><div class="program-content"><span class="round-icon" aria-hidden="true">♧</span><h3>Персональні<br>тренування</h3><p>Індивідуальний підхід, повна увага та максимальний результат.</p><a href="#bottom">Детальніше <span aria-hidden="true">→</span></a></div></article>
+          <article class="program-card" data-reveal><div class="program-media program-media--group" aria-hidden="true"><span>Фото тренувань</span></div><div class="program-content"><span class="round-icon" aria-hidden="true">♧</span><h3>Групові<br>тренування</h3><p>Мотивація, підтримка та енергія в команді однодумців.</p><a href="#bottom">Детальніше <span aria-hidden="true">→</span></a></div></article>
+          <article class="program-card" data-reveal><div class="program-media program-media--online" aria-hidden="true"><span>Фото онлайн-програми</span></div><div class="program-content"><span class="round-icon" aria-hidden="true">▷</span><h3>Онлайн-<br>програми</h3><p>Тренуйся з будь-якої точки світу у зручний час з моєю підтримкою.</p><a href="#bottom">Детальніше <span aria-hidden="true">→</span></a></div></article>
+          <article class="program-card" data-reveal><div class="program-media program-media--food" aria-hidden="true"><span>Фото харчування</span></div><div class="program-content"><span class="round-icon" aria-hidden="true">❀</span><h3>Харчування<br>та рецепти</h3><p>Індивідуальне меню, супровід та смачні рецепти для твоїх результатів.</p><a href="#bottom">Детальніше <span aria-hidden="true">→</span></a></div></article>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer" id="bottom"><div class="shell footer-inner"><div class="wordmark"><span>YULIIA</span><small>ZAGORODNIA</small></div><p>Демо першого етапу: секції 1–3. Решта сторінки — після погодження композиції.</p><a href="#top">Вгору ↑</a></div></footer>
+</body>
+</html>
