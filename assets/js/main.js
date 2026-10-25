@@ -9,7 +9,7 @@
   const media = window.matchMedia('(prefers-color-scheme: dark)');
   const allowed = new Set(['light', 'dark', 'mixed', 'auto']);
   const labels = { light: 'Light', dark: 'Dark', mixed: 'Mixed', auto: 'Auto' };
-  let selected = 'mixed';
+  let selected = 'light';
   try { const saved = localStorage.getItem('fitness-design-mode'); if (allowed.has(saved)) selected = saved; } catch (_) { /* Private mode may deny storage. */ }
 
   const apply = () => {
