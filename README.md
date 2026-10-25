@@ -1,31 +1,12 @@
-# Fitness Trainer Frontend — foundation (v0.1)
+# Fitness Trainer Frontend — design review build
 
-Статичний адаптивний прототип майбутньої WordPress-теми для одного фітнес-тренера. Перший кейс — Yuliia Zahorodnia. **Це не фінальний сайт і не WordPress-тема.**
+Adaptive HTML/CSS/JS frontend based on supplied approved visual references. The first 3 sections follow the detailed reference, while further sections use the supplied long-layout reference. This is a visual review build, not a released WordPress theme.
 
-## Включено в перший етап
+- One frontend with Light, Dark, and Mixed views.
+- First load follows the user's system light/dark setting. Manual selection is remembered; no visible Auto option.
+- Design tokens in CSS, semantic sections, responsive layouts, reduced-motion support.
+- Local media are extracted photographic fragments of the supplied mockups; **not** original licensed studio photographs. These images are temporary visual references and require replacement.
+- Demo values, testimonials, prices, and statistics are not verified and must not be presented as factual claims.
+- Booking, payments, real contact channels, WordPress integration, final mobile compositions, and visual pixel-match are not completed.
 
-- Семантичні HTML, CSS custom properties, JavaScript без залежностей та збірки.
-- Mobile-first адаптація, клавіатурні фокуси, меню, `prefers-reduced-motion`, reveal-анімації.
-- Одна DOM-структура; режими **Light / Dark / Mixed / Auto**, які можна перемикати у верхньому меню. Вибір зберігається локально.
-- Секції 1–3 із затвердженого детального макета: Hero → «Твоя мета — наш шлях» (разом із фотоцитатою) → «Обери свій формат».
-- Корінь репозиторію готовий до GitHub Pages (main / root), без серверної частини.
-
-## Обмеження
-
-- Немає оригінальних медіафайлів і підтверджених реальних показників; **фото та відео замінено явно позначеними демо-плейсхолдерами**, 500+/95%/5+ — суто демодані. Не публікувати як достовірні твердження.
-- Шрифти Manrope / Inter зазначені як токени з системними fallback, але самі font-файли ще не надані/не затверджені.
-- CTA в цій технічній демоверсії прокручують до секції форматів. Booking, відео, повні сторінки програм, реальні посилання й форми не інтегровані.
-- Решта 12-секційної композиції **ще не погоджена**; непогоджені секції тут не вигадані.
-- Light/Dark/Mixed — базова поведінкова основа, а не фінальна pixel-perfect звірка обох затверджених оформлень.
-
-## Запуск
-
-Відкрити `index.html` у браузері або запустити простий статичний сервер, наприклад `python -m http.server 8000`.
-
-GitHub Pages: `Settings → Pages → Build and deployment → Deploy from a branch → main / (root)`.
-
-## Перевірки
-
-`node --check assets/js/main.js` — синтаксис JS. Додаткові адаптивні smoke-тести можна запускати локально через Playwright.
-
-**Наступний етап:** погодити порядок решти блоків, додати оригінальні фото/відео й повну живу верстку згідно з макетами. WordPress-інтеграція лише після цього.
+The design is not final. CI runs browser smoke tests before GitHub Pages deployment.
