@@ -536,15 +536,15 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   html[data-theme=light] .fhero-watch { color: white; }
 }
 @media (min-width: 70rem) and (max-height: 47rem) {
-  .fhero-stage { padding-top: .8rem; padding-bottom: .7rem; }
-  .hero.fhero h1.fhero-title { font-size: clamp(2.85rem, 4.55vw, 4rem); margin-block: .6rem; }
-  .fhero-actions { margin-top: .8rem; }
-  .fhero-audience { margin-top: .65rem; }
-  .fhero-features { padding-block: .35rem; }
-  .fhero-feature { padding: .24rem 0 .3rem; }
-  .fhero-watch { min-height: 5rem; }
-  .fhero-handwrite { top: -1.55rem; right: 0; }
-  .fhero-stats { padding-block: .65rem; }
+  .fhero-stage { padding-top: .35rem; padding-bottom: .2rem; row-gap: .3rem; }
+  .hero.fhero h1.fhero-title { font-size: clamp(2.6rem, 4vw, 3.45rem); line-height: .97; margin-block: .4rem; }
+  .fhero-actions { margin-top: .65rem; }
+  .fhero-audience { margin-top: .4rem; }
+  .fhero-features { padding-block: .2rem; }
+  .fhero-feature { padding: .2rem 0 .25rem; }
+  .fhero-watch { min-height: 4.6rem; }
+  .fhero-handwrite { top: -1.5rem; right: 0; }
+  .fhero-stats { padding-block: .35rem; }
 }
 @media (min-width: 95rem) {
   .hero.fhero h1.fhero-title { font-size: clamp(4.3rem, 4.7vw, 5.4rem); }
