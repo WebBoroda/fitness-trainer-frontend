@@ -89,6 +89,9 @@ try:
                     assert a==b,(width,scheme,a,b)
                     assert page.locator('.fhero-main').evaluate('(el)=>getComputedStyle(el).scale')=='none'
                     assert page.locator('.fhero-navigation a').first.evaluate('(el)=>parseFloat(getComputedStyle(el).fontSize)')>=16
+                    for selector in ('.fhero-header-cta','.fhero-button-primary','.fhero-button-secondary','.fhero-watch-label'):
+                        size=page.locator(selector).first.evaluate('(el)=>parseFloat(getComputedStyle(el).fontSize)')
+                        assert 16<=size<=17,(selector,width,size)
                 assert page.locator('#hero-video-trigger').count()==1
                 trigger=page.locator('#hero-video-trigger')
                 trigger.click()
@@ -117,6 +120,11 @@ try:
                 assert page.evaluate("localStorage.getItem('fitness-theme')")==wanted
                 if wanted=='mixed':
                     assert 'контрастна' in themeButton.get_attribute('aria-label')
+                    if width in (375,1536):
+                        page.screenshot(path=str(SHOTS/f'hero-{width}-mixed.png'),full_page=False)
+                        mission=page.locator('#mission')
+                        mission.scroll_into_view_if_needed()
+                        mission.screenshot(path=str(SHOTS/f'mission-{width}-mixed.png'),animations='disabled')
                 page.reload(wait_until='domcontentloaded')
                 assert page.locator('html').get_attribute('data-theme')==wanted
                 if wanted=='dark':

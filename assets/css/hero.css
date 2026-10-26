@@ -543,7 +543,8 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .fhero-features { padding-block: .2rem; }
   .fhero-feature { padding: .2rem 0 .25rem; }
   .fhero-watch { min-height: 4.6rem; }
-  .fhero-handwrite { top: -1.5rem; right: 0; }
+  /* On very short screens the decorative note has no safe non-overlapping position. */
+  .fhero-handwrite, .fhero-curve { display: none; }
   .fhero-stats { padding-block: .35rem; }
 }
 @media (min-width: 95rem) {

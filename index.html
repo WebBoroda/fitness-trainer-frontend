@@ -13,7 +13,7 @@ html[data-theme=light] .hero{background:#e9e4de;color:#141311}html[data-theme=li
       <nav class="fhero-navigation" aria-label="Головна навігація"><a href="#about">Про мене</a><a href="#formats">Програми</a><a href="#nutrition">Харчування</a><a href="#results">Результати</a><a href="#reviews">Відгуки</a><a href="#faq">FAQ</a></nav>
       <div class="fhero-controls">
         <a class="fhero-header-cta" href="#pricing">Записатися<span class="fhero-cta-circle"><svg class="fhero-svg" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></span></a>
-        <div class="fhero-theme-wrap"><button type="button" id="theme-button" class="fhero-theme-trigger" aria-label="Перемкнути на темну тему" aria-pressed="false"><svg class="fhero-svg" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.5 1.5m11.2 11.2 1.5 1.5M4.9 19.1l1.5-1.5M17.6 6.4l1.5-1.5"/></svg><svg class="fhero-svg" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.4 8.4 0 0 1 9.8 3.5 8.6 8.6 0 1 0 20.5 14.2Z"/></svg></button>
+        <div class="fhero-theme-wrap"><button type="button" id="theme-button" class="fhero-theme-trigger" aria-label="Перемкнути на темну тему"><svg class="fhero-svg" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.5 1.5m11.2 11.2 1.5 1.5M4.9 19.1l1.5-1.5M17.6 6.4l1.5-1.5"/></svg><svg class="fhero-svg" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.4 8.4 0 0 1 9.8 3.5 8.6 8.6 0 1 0 20.5 14.2Z"/></svg></button>
           </div>
         <button type="button" class="fhero-menu-trigger" id="menu-button" aria-label="Відкрити меню" aria-expanded="false"><svg class="fhero-svg" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
       </div>
@@ -78,7 +78,6 @@ function apply(t,persist=false){
   const next=sequence[(sequence.indexOf(t)+1)%sequence.length];
   themeButton.setAttribute('aria-label','Тема: '+names[t]+'. Перемкнути на '+names[next]);
   themeButton.title='Тема: '+names[t]+' · наступна: '+names[next];
-  themeButton.setAttribute('aria-pressed',String(t!=='light'));
   if(persist){try{localStorage.setItem('fitness-theme',t)}catch{}}
 }
 apply(current());system.addEventListener?.('change',()=>{if(!saved())apply(current())});
