@@ -457,3 +457,73 @@ html .hero.fhero{
 html[data-theme=dark] .fhero-theme-trigger .fhero-svg:first-child,html[data-theme=mixed] .fhero-theme-trigger .fhero-svg:first-child{background:transparent;width:18px;height:18px;margin:0 6px;padding:0}
 html[data-theme=dark] .fhero-theme-trigger .fhero-svg:nth-child(2),html[data-theme=mixed] .fhero-theme-trigger .fhero-svg:nth-child(2){background:rgba(238,216,198,.65);border-radius:50%;width:35px;height:35px;margin:0;padding:8px}
 @media(max-width:47.5rem){html[data-theme=dark] .fhero-theme-trigger .fhero-svg:nth-child(2),html[data-theme=mixed] .fhero-theme-trigger .fhero-svg:nth-child(2){width:29px;height:29px;padding:7px}}
+
+
+/* Hero sizing correction: uniform 15% reduction of desktop content and full photo. */
+@media(min-width:68.8125rem){
+  .hero.fhero {min-height:100svh;background:#0c0c0b!important;background-image:none!important;}
+  html[data-theme=light] .hero.fhero{background:#f2eee9!important;background-image:none!important}
+  .hero.fhero .fhero-photo{
+    inset:0;width:100%;height:100%;max-width:none;object-fit:contain;
+    object-position:center top;opacity:1;transform:none;filter:none;
+  }
+  html[data-theme=light] .hero.fhero .fhero-photo{filter:none}
+  .hero.fhero .fhero-overlay{
+    background:linear-gradient(90deg,#0004 0%,#0002 36%,transparent 68%),linear-gradient(0deg,#0003,transparent 35%);
+  }
+  html[data-theme=light] .hero.fhero .fhero-overlay{
+    background:linear-gradient(90deg,rgba(249,247,243,.95),rgba(250,248,246,.75) 24%,rgba(247,243,240,.04) 54%,transparent 80%);
+  }
+  .fhero-header{height:clamp(3.75rem,5vw,4.6rem)}
+  .fhero-header-inner{gap:clamp(.8rem,1.2vw,1.4rem)}
+  .fhero-brand,.fhero-navigation,.fhero-controls{scale:.85}
+  .fhero-brand{transform-origin:left center}
+  .fhero-navigation{transform-origin:center center;left:0}
+  .fhero-controls{transform-origin:right center}
+  .fhero-stage{min-height:calc(100svh - clamp(3.75rem,5vw,4.6rem))}
+  .fhero-main,.fhero-stats,.fhero-features,.fhero-watch{scale:.85}
+  .fhero-main{top:clamp(2.8rem,5vh,4.1rem);transform-origin:left top}
+  .fhero-stats{bottom:clamp(2.5rem,7vh,6.25rem);transform-origin:left bottom}
+  .fhero-features{top:clamp(2rem,5vh,3.2rem);transform-origin:right top}
+  .fhero-watch{top:clamp(30rem,68vh,40.7rem);transform-origin:right top}
+  .fhero-scroll{bottom:clamp(1.4rem,4vh,3.2rem);font-size:.8rem}
+}
+@media(min-width:68.8125rem) and (max-height:45rem){
+  .hero.fhero{min-height:100svh}
+  .fhero-stage{min-height:calc(100svh - clamp(3.75rem,5vw,4.6rem))}
+  .fhero-main{top:1.1rem}
+  .fhero-stats{bottom:.8rem}
+  .fhero-features{top:1.25rem}
+  .fhero-watch{top:19.6rem}
+  .fhero-scroll{bottom:.6rem}
+}
+/* Booking buttons use one approved accent; the secondary outline CTA is unchanged. */
+.fhero-header-cta,html[data-theme=light] .fhero-header-cta{
+  background:var(--fhero-cream);border-color:var(--fhero-cream);color:#151311;
+}
+.fhero-header-cta .fhero-cta-circle{background:#fff;color:#151311}
+/* Real interactive video preview, with an explicit fallback until media is provided. */
+.fhero-watch-action{
+ display:block;position:absolute;left:0;top:0;width:100%;height:7.5rem;
+ padding:0;background:transparent;border:0;text-align:left;color:inherit;cursor:pointer;
+}
+.fhero-watch-action:hover .fhero-video-thumb,
+.fhero-watch-action:focus-visible .fhero-video-thumb{box-shadow:0 0 0 .18rem rgba(241,216,195,.8)}
+.fhero-watch-action:focus-visible,.fhero-scroll:focus-visible{outline:.18rem solid var(--fhero-cream);outline-offset:.28rem;border-radius:1rem}
+.fhero-video-dialog{max-width:min(90vw,29rem);padding:0;border:1px solid #cdb8a8;border-radius:1.25rem;overflow:hidden;background:#181817;color:#fff;box-shadow:0 2rem 5rem #0008}
+.fhero-video-dialog::backdrop{background:rgba(0,0,0,.76);backdrop-filter:blur(.3rem)}
+.fhero-video-dialog>img{width:100%;max-height:19rem;object-fit:cover}
+.fhero-video-dialog-body{padding:1.3rem 1.7rem 2rem}
+.fhero-video-dialog-body h2{margin:0 0 .7rem;font:700 1.5rem/1.2 Manrope,Inter,sans-serif;letter-spacing:0}
+.fhero-video-dialog-body p{margin:0;font:400 1rem/1.5 Manrope,Inter,sans-serif}
+.fhero-video-close{position:absolute;right:.75rem;top:.75rem;width:2.75rem;height:2.75rem;border-radius:50%;color:#151311;background:#fff;border:0;font-size:1.7rem;cursor:pointer}
+@media(max-width:68.8124rem){.fhero-watch-action{height:5.4rem}}
+@media(max-width:47.5rem){
+  .fhero-eyebrow{font-size:.61rem}
+  .hero.fhero h1.fhero-title{font-size:clamp(2.35rem,11.2vw,3.2rem)}
+  .fhero-actions{gap:.65rem}
+  .fhero-button{min-height:2.75rem}
+  .fhero-audience{margin-top:.75rem}
+  .fhero-watch-action{height:4.2rem}
+}
+@media(prefers-reduced-motion:reduce){.fhero-scroll{scroll-behavior:auto}}

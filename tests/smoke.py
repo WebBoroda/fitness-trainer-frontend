@@ -80,13 +80,23 @@ try:
                             assert sum(px)>420,f'Light hero appears dark: {px}'
                         else:
                             assert sum(px)<230,f'Dark hero appears light: {px}'
-                if width==1536:
-                    expected={'.fhero-main':(96,152),'.fhero-stats':(96,779),'.fhero-features':(1210,139),'.fhero-watch':(1210,738),'.fhero-actions':(96,520),'.fhero-audience':(96,642)}
-                    for selector,(x,y) in expected.items():
-                        box=page.locator(selector).bounding_box()
-                        assert box and abs(box['x']-x)<9 and abs(box['y']-y)<12,(selector,box)
-                    assert abs(page.locator('.fhero-features').bounding_box()['width']-268)<2
-                    assert abs(page.locator('.fhero-stats').bounding_box()['width']-550)<2
+                if width>=1101:
+                    hero=page.locator('.hero.fhero').bounding_box()
+                    assert hero and abs(hero['width']-width)<2,(width,'Hero width',hero)
+                    assert page.locator('.fhero-photo').evaluate('(im)=>getComputedStyle(im).objectFit')=='contain',(width,'cropped photo')
+                    a=page.locator('.fhero-header-cta').evaluate('(el)=>getComputedStyle(el).backgroundColor')
+                    b=page.locator('.fhero-button-primary').evaluate('(el)=>getComputedStyle(el).backgroundColor')
+                    assert a==b,(width,scheme,a,b)
+                    assert page.locator('.fhero-main').evaluate('(el)=>getComputedStyle(el).scale')=='0.85'
+                assert page.locator('#hero-video-trigger').count()==1
+                trigger=page.locator('#hero-video-trigger')
+                trigger.click()
+                assert page.locator('#hero-video-dialog').evaluate('(d)=>d.open')
+                page.keyboard.press('Escape')
+                assert not page.locator('#hero-video-dialog').evaluate('(d)=>d.open')
+                assert page.locator('.fhero-scroll').get_attribute('href')=='#mission'
+                if (width,scheme) in ((320,'light'),(375,'light'),(375,'dark'),(768,'dark'),(1024,'dark'),(1337,'dark'),(1536,'dark'),(1536,'light'),(1920,'dark'),(2007,'dark')):
+                    page.screenshot(path=str(SHOTS/f'hero-v2-{width}-{scheme}.png'),full_page=False)
                 assert page.locator('#themes').count()==0
                 menu=page.get_by_role('button',name='Відкрити меню')
                 if width<=1100:
