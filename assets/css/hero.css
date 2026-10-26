@@ -436,3 +436,18 @@ html .hero.fhero{
  .fhero-scroll {bottom:22px}
  .fhero-scroll-arrow {top:28px}
 }
+
+/* Hero must span the device viewport, not the site's 1800px content limit.
+   This fixes 1920/2007px black side gutters without changing other sections. */
+.hero.fhero {
+  width:100vw;
+  max-width:none;
+  margin-inline:calc(50% - 50vw);
+}
+@media (min-width:1801px){
+  .hero.fhero .fhero-photo{object-position:center top}
+  .fhero-header-inner{max-width:none}
+  .fhero-main,.fhero-stats{left:clamp(96px, 6.25vw, 126px)}
+  .fhero-features,.fhero-watch{right:clamp(64px, 4.15vw, 84px)}
+  .fhero-scroll{right:calc(clamp(64px, 4.15vw, 84px) + 53px)}
+}

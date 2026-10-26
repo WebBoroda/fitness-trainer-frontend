@@ -33,6 +33,10 @@ try:
                 assert page.locator('[data-set-theme]').count()==3
                 assert page.locator('[data-set-theme="auto"]').count()==0
                 assert page.locator('.fhero-photo').evaluate('(im)=>im.complete && im.naturalWidth > 0'),width
+                if width>=1337:
+                    hero=page.locator('.hero.fhero').bounding_box()
+                    assert hero and abs(hero['x'])<2 and abs(hero['width']-width)<2,('Hero should span entire viewport',width,hero)
+
                 assert page.locator('.fhero-avatars img').count()==3
                 assert page.locator('.fhero-avatars img').evaluate_all('(imgs)=>imgs.every(im=>im.complete && im.naturalWidth===162)'), 'Client photo sprite must load'
                 assert page.locator('.fhero-photo').evaluate('(el)=>getComputedStyle(el).zIndex')=='0', 'Hero photo must paint above the section background'
