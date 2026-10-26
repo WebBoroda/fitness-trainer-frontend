@@ -38,6 +38,9 @@ try:
                     probes=[png.getpixel((950,250)),png.getpixel((900,330)),png.getpixel((1050,350))]
                     assert max(map(sum,probes))>130,f'Hero background not visibly painted: {probes}'
                 assert page.locator('body').evaluate('el=>getComputedStyle(el).fontFamily')!='',width
+                if page.evaluate('document.documentElement.scrollWidth > innerWidth'):
+                    offenders=page.evaluate("""() => [...document.querySelectorAll('*')].map(e=>({cls:typeof e.className==='string'?e.className:'svg',right:Math.round(e.getBoundingClientRect().right),left:Math.round(e.getBoundingClientRect().left)})).filter(o=>o.right>innerWidth+1||o.left < -1).slice(0,18)""")
+                    print(f'OVERFLOW at {width}: {offenders}',flush=True)
                 assert not page.evaluate('document.documentElement.scrollWidth > innerWidth'),width
                 assert not errors,(width,errors)
                 if width<=760:
