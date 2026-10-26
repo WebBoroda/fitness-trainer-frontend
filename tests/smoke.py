@@ -87,7 +87,8 @@ try:
                     a=page.locator('.fhero-header-cta').evaluate('(el)=>getComputedStyle(el).backgroundColor')
                     b=page.locator('.fhero-button-primary').evaluate('(el)=>getComputedStyle(el).backgroundColor')
                     assert a==b,(width,scheme,a,b)
-                    assert page.locator('.fhero-main').evaluate('(el)=>getComputedStyle(el).scale')=='0.85'
+                    assert page.locator('.fhero-main').evaluate('(el)=>getComputedStyle(el).scale')=='none'
+                    assert page.locator('.fhero-navigation a').first.evaluate('(el)=>parseFloat(getComputedStyle(el).fontSize)')>=16
                 assert page.locator('#hero-video-trigger').count()==1
                 trigger=page.locator('#hero-video-trigger')
                 trigger.click()
@@ -110,15 +111,27 @@ try:
                     assert not menu.is_visible(),('hamburger shown on desktop',width)
                     assert page.locator('.fhero-navigation').is_visible()
                 themeButton=page.locator('#theme-button')
-                wanted='dark' if scheme=='light' else 'light'
+                wanted='dark' if scheme=='light' else 'mixed'
                 themeButton.click()
                 assert page.locator('html').get_attribute('data-theme')==wanted
                 assert page.evaluate("localStorage.getItem('fitness-theme')")==wanted
+                if wanted=='mixed':
+                    assert 'контрастна' in themeButton.get_attribute('aria-label')
                 page.reload(wait_until='domcontentloaded')
                 assert page.locator('html').get_attribute('data-theme')==wanted
+                if wanted=='dark':
+                    themeButton.click()
+                    assert page.locator('html').get_attribute('data-theme')=='mixed'
+                    themeButton.click()
+                    assert page.locator('html').get_attribute('data-theme')=='light'
                 mission=page.locator('#mission')
                 assert mission.locator('h2').count()==1
                 assert mission.locator('.benefit').count()==4
+                assert mission.locator('.mission-layout').count()==1
+                if width>=1024:
+                    first=mission.locator('.intro').bounding_box()
+                    second=mission.locator('.cards').bounding_box()
+                    assert first and second and second['x']>first['x']+first['width']-2,('mission side-by-side',width,first,second)
                 assert mission.locator('.quote blockquote').count()==1
                 photo=mission.locator('img[src$="mission-quote.jpg"]')
                 assert photo.count()==1
