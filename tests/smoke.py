@@ -30,6 +30,7 @@ try:
                 assert page.locator('[data-set-theme]').count()==3
                 assert page.locator('[data-set-theme="auto"]').count()==0
                 assert page.locator('.fhero-photo').evaluate('(im)=>im.complete && im.naturalWidth > 0'),width
+                assert page.locator('.fhero-photo').evaluate('(el)=>getComputedStyle(el).zIndex')=='0', 'Hero photo must paint above the section background'
                 assert page.locator('body').evaluate('el=>getComputedStyle(el).fontFamily')!='',width
                 assert not page.evaluate('document.documentElement.scrollWidth > innerWidth'),width
                 assert not errors,(width,errors)
