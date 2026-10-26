@@ -26,7 +26,11 @@ jobs:
       - name: Install browser test dependencies
         run: |
           python -m pip install playwright pillow
-          python -m playwright install --with-deps chromium
+          if command -v google-chrome >/dev/null 2>&1; then
+            echo 'Using runner-provided Google Chrome'
+          else
+            python -m playwright install --with-deps chromium
+          fi
       - name: Run frontend smoke tests
         run: python tests/smoke.py
       - name: Store test screenshots
