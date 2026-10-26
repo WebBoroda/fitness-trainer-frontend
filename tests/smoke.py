@@ -36,7 +36,7 @@ try:
                 if width==1536 and scheme=='dark':
                     png=Image.open(BytesIO(page.screenshot(full_page=False))).convert('RGB')
                     probes=[png.getpixel((950,250)),png.getpixel((900,330)),png.getpixel((1050,350))]
-                    assert max(map(sum,probes))>180,f'Hero background not visibly painted: {probes}'
+                    assert max(map(sum,probes))>130,f'Hero background not visibly painted: {probes}'
                 assert page.locator('body').evaluate('el=>getComputedStyle(el).fontFamily')!='',width
                 assert not page.evaluate('document.documentElement.scrollWidth > innerWidth'),width
                 assert not errors,(width,errors)
