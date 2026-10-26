@@ -23,7 +23,7 @@ try:
     with sync_playwright() as p:
         chrome=Path('/usr/bin/google-chrome')
         browser=p.chromium.launch(headless=True,executable_path=str(chrome) if chrome.exists() else None)
-        for width,height in ((320,740),(375,812),(768,1024),(900,1100),(1024,900),(1100,900),(1440,900),(1536,1024)):
+        for width,height in ((320,740),(375,812),(768,1024),(900,1100),(1024,900),(1100,900),(1337,593),(1440,900),(1536,1024),(1920,1080),(2007,904)):
             for scheme in ('light','dark'):
                 page=browser.new_page(viewport={'width':width,'height':height},color_scheme=scheme,device_scale_factor=1)
                 errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
@@ -45,7 +45,15 @@ try:
                     offenders=page.evaluate("""() => [...document.querySelectorAll('*')].map(e=>({cls:typeof e.className==='string'?e.className:'svg',right:Math.round(e.getBoundingClientRect().right),left:Math.round(e.getBoundingClientRect().left)})).filter(o=>o.right>innerWidth+1||o.left < -1).slice(0,18)""")
                     print(f'OVERFLOW at {width}: {offenders}',flush=True)
                 assert not page.evaluate('document.documentElement.scrollWidth > innerWidth'),width
-                assert not errors,(width,errors)
+                hero=page.locator('.hero.fhero').bounding_box()
+                if width>=1801:
+                    assert abs(hero['x'])<1 and abs(hero['width']-width)<1,('Hero must be full bleed',width,hero)
+                if width==1337 and height==593:
+                    assert hero['height']<=height+1,('Short laptop hero must fit the viewport',hero)
+                    assert not overlaps(page.locator('.fhero-audience').bounding_box(),page.locator('.fhero-stats').bounding_box()),'Short laptop audience/stats overlap'
+                    assert not overlaps(page.locator('.fhero-features').bounding_box(),page.locator('.fhero-watch').bounding_box()),'Short laptop feature/video overlap'
+                    assert not overlaps(page.locator('.fhero-handwrite').bounding_box(),page.locator('.fhero-scroll').bounding_box()),'Short laptop handwriting/scroll overlap'
+                                assert not errors,(width,errors)
                 if width<=760:
                     assert not overlaps(page.locator('.fhero-audience').bounding_box(),page.locator('.fhero-stats').bounding_box()),f'Mobile audience collides with stats at {width}'
                     assert not overlaps(page.locator('.fhero-stats').bounding_box(),page.locator('.fhero-features').bounding_box()),f'Mobile stats collide with features at {width}'
@@ -56,7 +64,7 @@ try:
                 if 941<=width<=1100:
                     assert not overlaps(page.locator('.fhero-watch').bounding_box(),page.locator('.fhero-scroll').bounding_box()),f'Watch and scroll overlap at {width}'
                 # Capture Light/Dark before testing manual Mixed selection.
-                if (width,scheme) in ((320,'light'),(375,'light'),(375,'dark'),(768,'dark'),(900,'dark'),(1024,'dark'),(1536,'light'),(1536,'dark')):
+                if (width,scheme) in ((320,'light'),(375,'light'),(375,'dark'),(768,'dark'),(900,'dark'),(1024,'dark'),(1337,'dark'),(1536,'light'),(1536,'dark'),(1920,'dark'),(1920,'light'),(2007,'dark')):
                     png=page.screenshot(path=str(SHOTS/f'hero-{width}-{scheme}.png'),full_page=False)
                     if width==1536:
                         px=Image.open(BytesIO(png)).convert('RGB').getpixel((110,800))
