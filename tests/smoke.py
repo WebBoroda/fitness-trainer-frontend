@@ -49,6 +49,20 @@ try:
                     assert not overlaps(page.locator('.fhero-features').bounding_box(),page.locator('.fhero-watch').bounding_box()),f'Tablet panel overlaps video at {width}'
                 if 941<=width<=1100:
                     assert not overlaps(page.locator('.fhero-watch').bounding_box(),page.locator('.fhero-scroll').bounding_box()),f'Watch and scroll overlap at {width}'
+                # Capture Light/Dark before testing manual Mixed selection.
+                if (width,scheme) in ((320,'light'),(375,'light'),(375,'dark'),(768,'dark'),(900,'dark'),(1024,'dark'),(1536,'light'),(1536,'dark')):
+                    png=page.screenshot(path=str(SHOTS/f'hero-{width}-{scheme}.png'),full_page=False)
+                    if width==1536:
+                        px=Image.open(BytesIO(png)).convert('RGB').getpixel((125,448))
+                        if scheme=='light':
+                            assert sum(px)>420,f'Light hero appears dark: {px}'
+                        else:
+                            assert sum(px)<230,f'Dark hero appears light: {px}'
+                if width==1536:
+                    expected={'.fhero-main':(96,152),'.fhero-stats':(96,779),'.fhero-features':(1210,139),'.fhero-watch':(1210,738)}
+                    for selector,(x,y) in expected.items():
+                        box=page.locator(selector).bounding_box()
+                        assert box and abs(box['x']-x)<9 and abs(box['y']-y)<12,(selector,box)
                 menu=page.get_by_role('button',name='Відкрити меню')
                 menu.click();assert page.locator('#mobile-menu').is_visible()
                 page.keyboard.press('Escape');assert not page.locator('#mobile-menu').is_visible()
@@ -58,8 +72,6 @@ try:
                 assert page.evaluate("localStorage.getItem('fitness-theme')")=='mixed'
                 page.reload(wait_until='domcontentloaded')
                 assert page.locator('html').get_attribute('data-theme')=='mixed'
-                if (width,scheme) in ((320,'light'),(375,'light'),(768,'dark'),(900,'dark'),(1024,'dark'),(1536,'dark')):
-                    page.screenshot(path=str(SHOTS/f'hero-{width}-{scheme}.png'),full_page=False)
                 print(f'PASS {width}x{height} {scheme}: responsive, panels, menu, theme, JS')
                 page.close()
         browser.close()
