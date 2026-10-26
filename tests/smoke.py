@@ -117,6 +117,9 @@ try:
                 if (width,scheme) in ((320,'light'),(375,'light'),(375,'dark'),(768,'light'),(1024,'dark'),(1337,'light'),(1536,'light'),(1536,'dark'),(1920,'light')):
                     mission.scroll_into_view_if_needed()
                     mission.locator('.reveal').evaluate_all('(els)=>els.forEach(e=>e.classList.add("visible"))')
+                    # Restore the original OS theme before taking the labelled reference image.
+                    page.evaluate("(theme)=>{document.documentElement.dataset.theme=theme}",scheme)
+                    assert page.locator('html').get_attribute('data-theme')==scheme
                     mission.screenshot(path=str(SHOTS/f'mission-{width}-{scheme}.png'),animations='disabled',timeout=30000)
                 print(f'PASS {width}x{height} {scheme}: responsive, panels, menu, theme, JS')
                 page.close()
