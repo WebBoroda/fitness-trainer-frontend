@@ -339,3 +339,9 @@ html .hero.fhero{
 .fhero-avatars img:nth-child(1){object-position:left center}
 .fhero-avatars img:nth-child(2){object-position:center center}
 .fhero-avatars img:nth-child(3){object-position:right center}
+
+/* Approved 1536px headline ink bounds: corrected after screenshot comparison. */
+@media (min-width:1101px){
+  .hero.fhero h1.fhero-title strong{transform:scaleX(1.075)}
+  .hero.fhero h1.fhero-title span{transform:scaleX(1.135)}
+}
