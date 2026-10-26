@@ -542,3 +542,14 @@ html[data-theme=dark] .fhero-theme-trigger .fhero-svg:nth-child(2),html[data-the
     mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
   }
 }
+
+/* Preserve the model's head below the header on short desktop viewports. */
+@media(min-width:68.8125rem) and (max-height:45rem){
+  .hero.fhero .fhero-photo{top:1rem;height:calc(100% - 1rem)}
+}
+/* Ensure both scroll hint and handwritten caption remain legible in Light mode. */
+@media(min-width:68.8125rem){
+  html[data-theme=light] .fhero-scroll,
+  html[data-theme=light] .fhero-scroll-arrow{color:#24201e}
+  html[data-theme=light] .fhero-handwrite{color:#24201e;text-shadow:0 1px .45rem #fff}
+}
