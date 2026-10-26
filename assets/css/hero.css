@@ -273,3 +273,19 @@ html[data-theme=light] .fhero-watch,html[data-theme=light] .fhero-scroll{color:#
 @media (min-width:761px) and (max-width:940px) and (prefers-reduced-motion: reduce) {
   .fhero-main,.fhero-features,.fhero-watch,.fhero-stats {transition:none;}
 }
+
+
+/* Explicit photographic layer ensures Hero remains visible across engines
+   when the section's height is established by min-height and positioned content. */
+html .hero.fhero{
+  background-image:url("../images/hero-trainer.webp") !important;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:center top;
+}
+@media(max-width:760px){
+  html .hero.fhero{
+    background-size:auto 530px;
+    background-position:58% top;
+  }
+}

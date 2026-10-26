@@ -1,5 +1,7 @@
 """Real-origin Playwright smoke coverage for the fitness landing page."""
 from functools import partial
+from io import BytesIO
+from PIL import Image
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from threading import Thread
@@ -31,6 +33,10 @@ try:
                 assert page.locator('[data-set-theme="auto"]').count()==0
                 assert page.locator('.fhero-photo').evaluate('(im)=>im.complete && im.naturalWidth > 0'),width
                 assert page.locator('.fhero-photo').evaluate('(el)=>getComputedStyle(el).zIndex')=='0', 'Hero photo must paint above the section background'
+                if width==1536 and scheme=='dark':
+                    png=Image.open(BytesIO(page.screenshot(full_page=False))).convert('RGB')
+                    probes=[png.getpixel((950,250)),png.getpixel((900,330)),png.getpixel((1050,350))]
+                    assert max(map(sum,probes))>180,f'Hero background not visibly painted: {probes}'
                 assert page.locator('body').evaluate('el=>getComputedStyle(el).fontFamily')!='',width
                 assert not page.evaluate('document.documentElement.scrollWidth > innerWidth'),width
                 assert not errors,(width,errors)
