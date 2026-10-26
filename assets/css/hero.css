@@ -308,3 +308,9 @@ html .hero.fhero{
  html[data-theme=light] .hero.fhero .fhero-overlay{background:linear-gradient(0deg,#f8f3ef 0%,#f8f3ef 40%,rgba(249,244,239,.62) 70%,rgba(246,240,234,.15) 100%)}
  html .hero.fhero{background-size:auto 570px;background-position:47% top}
 }
+/* Narrow viewport: fix min-content overflow in the existing About layout. */
+@media(max-width:380px){
+  .about-layout,.about-layout > *{min-width:0}
+  .about-stats{gap:10px;flex-wrap:wrap}
+  .about-stats > *{min-width:0}
+}
