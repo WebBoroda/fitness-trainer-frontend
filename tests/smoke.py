@@ -53,7 +53,7 @@ try:
                     assert not overlaps(page.locator('.fhero-audience').bounding_box(),page.locator('.fhero-stats').bounding_box()),'Short laptop audience/stats overlap'
                     assert not overlaps(page.locator('.fhero-features').bounding_box(),page.locator('.fhero-watch').bounding_box()),'Short laptop feature/video overlap'
                     assert not overlaps(page.locator('.fhero-handwrite').bounding_box(),page.locator('.fhero-scroll').bounding_box()),'Short laptop handwriting/scroll overlap'
-                                assert not errors,(width,errors)
+                assert not errors,(width,errors)
                 if width<=760:
                     assert not overlaps(page.locator('.fhero-audience').bounding_box(),page.locator('.fhero-stats').bounding_box()),f'Mobile audience collides with stats at {width}'
                     assert not overlaps(page.locator('.fhero-stats').bounding_box(),page.locator('.fhero-features').bounding_box()),f'Mobile stats collide with features at {width}'
