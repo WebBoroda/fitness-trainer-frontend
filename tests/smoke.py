@@ -30,7 +30,7 @@ try:
                 page.goto(url,wait_until='networkidle',timeout=45000)
                 assert page.locator('html').get_attribute('data-theme')==scheme,(width,scheme)
                 assert page.locator('main section').count()==11
-                assert page.locator('[data-set-theme]').count()==3
+                assert page.locator('[data-set-theme]').count()==0
                 assert page.locator('[data-set-theme="auto"]').count()==0
                 assert page.locator('.fhero-photo').evaluate('(im)=>im.complete && im.naturalWidth > 0'),width
                 if width>=1337:
@@ -87,15 +87,34 @@ try:
                         assert box and abs(box['x']-x)<9 and abs(box['y']-y)<12,(selector,box)
                     assert abs(page.locator('.fhero-features').bounding_box()['width']-268)<2
                     assert abs(page.locator('.fhero-stats').bounding_box()['width']-550)<2
+                assert page.locator('#themes').count()==0
                 menu=page.get_by_role('button',name='Відкрити меню')
-                menu.click();assert page.locator('#mobile-menu').is_visible()
-                page.keyboard.press('Escape');assert not page.locator('#mobile-menu').is_visible()
-                toggle=page.get_by_role('button',name='Вибрати оформлення')
-                toggle.click();page.locator('[data-set-theme="mixed"]').click()
-                assert page.locator('html').get_attribute('data-theme')=='mixed'
-                assert page.evaluate("localStorage.getItem('fitness-theme')")=='mixed'
+                if width<=1100:
+                    assert menu.is_visible(),('menu missing on narrow screen',width)
+                    assert not page.locator('.fhero-navigation').is_visible()
+                    menu.click();assert page.locator('#mobile-menu').is_visible()
+                    page.keyboard.press('Escape');assert not page.locator('#mobile-menu').is_visible()
+                else:
+                    assert not menu.is_visible(),('hamburger shown on desktop',width)
+                    assert page.locator('.fhero-navigation').is_visible()
+                themeButton=page.locator('#theme-button')
+                wanted='dark' if scheme=='light' else 'light'
+                themeButton.click()
+                assert page.locator('html').get_attribute('data-theme')==wanted
+                assert page.evaluate("localStorage.getItem('fitness-theme')")==wanted
                 page.reload(wait_until='domcontentloaded')
-                assert page.locator('html').get_attribute('data-theme')=='mixed'
+                assert page.locator('html').get_attribute('data-theme')==wanted
+                mission=page.locator('#mission')
+                assert mission.locator('h2').count()==1
+                assert mission.locator('.benefit').count()==4
+                assert mission.locator('.quote blockquote').count()==1
+                photo=mission.locator('img[src$="mission-quote.jpg"]')
+                assert photo.count()==1 and photo.evaluate('(im)=>im.complete && im.naturalWidth>0')
+                assert mission.evaluate('(el)=>el.scrollWidth<=el.clientWidth+1'),('mission overflow',width)
+                if (width,scheme) in ((320,'light'),(375,'light'),(375,'dark'),(768,'light'),(1024,'dark'),(1337,'light'),(1536,'light'),(1536,'dark'),(1920,'light')):
+                    mission.scroll_into_view_if_needed()
+                    mission.locator('.reveal').evaluate_all('(els)=>els.forEach(e=>e.classList.add("visible"))')
+                    mission.screenshot(path=str(SHOTS/f'mission-{width}-{scheme}.png'),animations='disabled',timeout=30000)
                 print(f'PASS {width}x{height} {scheme}: responsive, panels, menu, theme, JS')
                 page.close()
         browser.close()

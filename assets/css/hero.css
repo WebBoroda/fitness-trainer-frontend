@@ -451,3 +451,9 @@ html .hero.fhero{
   .fhero-features,.fhero-watch{right:clamp(64px, 4.15vw, 84px)}
   .fhero-scroll{right:calc(clamp(64px, 4.15vw, 84px) + 53px)}
 }
+
+/* Header controls: navigation available at desktop, hamburger only at narrow widths. */
+@media(min-width:68.8125rem){.fhero-menu-trigger,.fhero-header .mobile-menu{display:none!important}}
+html[data-theme=dark] .fhero-theme-trigger .fhero-svg:first-child,html[data-theme=mixed] .fhero-theme-trigger .fhero-svg:first-child{background:transparent;width:18px;height:18px;margin:0 6px;padding:0}
+html[data-theme=dark] .fhero-theme-trigger .fhero-svg:nth-child(2),html[data-theme=mixed] .fhero-theme-trigger .fhero-svg:nth-child(2){background:rgba(238,216,198,.65);border-radius:50%;width:35px;height:35px;margin:0;padding:8px}
+@media(max-width:47.5rem){html[data-theme=dark] .fhero-theme-trigger .fhero-svg:nth-child(2),html[data-theme=mixed] .fhero-theme-trigger .fhero-svg:nth-child(2){width:29px;height:29px;padding:7px}}
