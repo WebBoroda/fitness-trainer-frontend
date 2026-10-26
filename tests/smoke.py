@@ -52,7 +52,7 @@ try:
                     assert not overlaps(page.locator('.fhero-audience').bounding_box(),page.locator('.fhero-stats').bounding_box()),'Wide low-height audience and stats collide'
                     assert not overlaps(page.locator('.fhero-features').bounding_box(),page.locator('.fhero-watch').bounding_box()),'Wide low-height features/video collide'
                     assert not overlaps(page.locator('.fhero-watch').bounding_box(),page.locator('.fhero-scroll').bounding_box()),'Wide low-height video/scroll collide'
-                                if width==1337 and height==593:
+                if width==1337 and height==593:
                     assert hero['height']<=height+1,('Short laptop hero must fit the viewport',hero)
                     assert not overlaps(page.locator('.fhero-audience').bounding_box(),page.locator('.fhero-stats').bounding_box()),'Short laptop audience/stats overlap'
                     assert not overlaps(page.locator('.fhero-features').bounding_box(),page.locator('.fhero-watch').bounding_box()),'Short laptop feature/video overlap'
