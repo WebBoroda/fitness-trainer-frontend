@@ -54,7 +54,7 @@
 .fhero-brand {
   flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;
   color:#fff;
-  font:400 34px/1.05 'Manrope','Inter','Arial',sans-serif;
+  font:400 32px/1.05 'Manrope','Inter','Arial',sans-serif;
   letter-spacing:.25em;
 }
 .fhero-brand span{font-size:10px;letter-spacing:.45em;margin-top:7px;white-space:nowrap}
@@ -197,7 +197,7 @@ html[data-theme=light] .hero.fhero .fhero-overlay {background:linear-gradient(90
  .fhero-scroll{bottom:33px;right:var(--fhero-page-right);font-size:11px}.fhero-scroll-mouse{width:21px;height:28px}.fhero-scroll-arrow{top:34px}
 }
 @media (max-width:390px){
- .hero.fhero h1.fhero-title{font-size:10.3vw}
+ .hero.fhero h1.fhero-title{font-size:11.4vw}
  .fhero-main{top:97px}
  .fhero-stats{bottom:275px}
  .fhero-features{bottom:95px}
@@ -208,8 +208,8 @@ html[data-theme=light] .hero.fhero .fhero-overlay {background:linear-gradient(90
 }
 /* Optical adjustments measured against the approved 1536x1024 hero. */
 @media (min-width:1101px){
- .hero.fhero h1.fhero-title strong{transform:scaleX(1.07);transform-origin:left center}
- .hero.fhero h1.fhero-title span{transform:scaleX(1.14);transform-origin:left center}
+ .hero.fhero h1.fhero-title strong{transform:scaleX(1.11);transform-origin:left center}
+ .hero.fhero h1.fhero-title span{transform:scaleX(1.055);transform-origin:left center}
  .fhero-stats{bottom:107px}
 }
 @media (min-width:761px){
