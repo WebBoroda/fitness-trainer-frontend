@@ -109,7 +109,10 @@ try:
                 assert mission.locator('.benefit').count()==4
                 assert mission.locator('.quote blockquote').count()==1
                 photo=mission.locator('img[src$="mission-quote.jpg"]')
-                assert photo.count()==1 and photo.evaluate('(im)=>im.complete && im.naturalWidth>0')
+                assert photo.count()==1
+                photo.scroll_into_view_if_needed()
+                photo.evaluate("(img)=>img.decode()")
+                assert photo.evaluate('(im)=>im.complete && im.naturalWidth>0')
                 assert mission.evaluate('(el)=>el.scrollWidth<=el.clientWidth+1'),('mission overflow',width)
                 if (width,scheme) in ((320,'light'),(375,'light'),(375,'dark'),(768,'light'),(1024,'dark'),(1337,'light'),(1536,'light'),(1536,'dark'),(1920,'light')):
                     mission.scroll_into_view_if_needed()
