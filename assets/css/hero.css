@@ -324,7 +324,7 @@ html .hero.fhero{
 
 /* Reference-aligned Hero refinements; media assets and approved structure unchanged. */
 @media (min-width:1101px) {
- .hero.fhero .fhero-photo {transform:translate(-8px,-7px);}
+ .hero.fhero .fhero-photo {transform:none;}
  .fhero-feature-icon {margin-bottom:11px;}
 }
 @media (max-width:760px) {
