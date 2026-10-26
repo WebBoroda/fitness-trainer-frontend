@@ -63,10 +63,12 @@ try:
                         else:
                             assert sum(px)<230,f'Dark hero appears light: {px}'
                 if width==1536:
-                    expected={'.fhero-main':(96,152),'.fhero-stats':(96,779),'.fhero-features':(1210,139),'.fhero-watch':(1210,738)}
+                    expected={'.fhero-main':(96,152),'.fhero-stats':(96,779),'.fhero-features':(1210,139),'.fhero-watch':(1210,738),'.fhero-actions':(96,520),'.fhero-audience':(96,642)}
                     for selector,(x,y) in expected.items():
                         box=page.locator(selector).bounding_box()
                         assert box and abs(box['x']-x)<9 and abs(box['y']-y)<12,(selector,box)
+                    assert abs(page.locator('.fhero-features').bounding_box()['width']-268)<2
+                    assert abs(page.locator('.fhero-stats').bounding_box()['width']-550)<2
                 menu=page.get_by_role('button',name='Відкрити меню')
                 menu.click();assert page.locator('#mobile-menu').is_visible()
                 page.keyboard.press('Escape');assert not page.locator('#mobile-menu').is_visible()

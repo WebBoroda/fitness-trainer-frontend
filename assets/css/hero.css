@@ -54,11 +54,11 @@
 .fhero-brand {
   flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;
   color:#fff;
-  font:400 32px/1.05 'Manrope','Inter','Arial',sans-serif;
+  font:400 34.5px/1.05 'Manrope','Inter','Arial',sans-serif;
   letter-spacing:.25em;
 }
 .fhero-brand span{font-size:10px;letter-spacing:.45em;margin-top:7px;white-space:nowrap}
-.fhero-navigation{display:flex;align-items:center;justify-content:center;gap:clamp(16px,2vw,32px);margin-inline:auto}
+.fhero-navigation{display:flex;align-items:center;justify-content:center;gap:clamp(16px,2vw,32px);margin-inline:auto;position:relative;left:12px}
 .fhero-navigation a{font-size:16px;font-weight:400;color:#fff;white-space:nowrap;transition:opacity .2s ease}
 .fhero-navigation a:hover{opacity:.72}
 .fhero-controls{display:flex;align-items:center;gap:20px;flex:0 0 auto}
@@ -104,12 +104,12 @@ html[data-theme=dark] .fhero-theme-trigger .fhero-svg:nth-child(2){width:18px;he
 .fhero-avatars img:first-child{margin-left:0}
 .fhero-avatar-more{display:grid;place-items:center;width:54px;height:54px;border-radius:50%;border:1px solid #ffffff5a;margin-left:-8px;color:#fff;background:#19191999;font-size:29px;font-weight:200;line-height:1}
 .fhero-audience p{font-size:15px;line-height:1.52;margin:0}.fhero-audience strong{font-weight:600;font-size:18px}
-.fhero-stats{position:absolute;z-index:2;bottom:110px;left:var(--fhero-page-left);display:grid;grid-template-columns:repeat(3,1fr);width:550px;min-height:138px;padding:21px 18px 21px 25px;background:rgba(26,24,23,.42);border:1px solid #ffffff3e;border-radius:23px;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.fhero-stats{position:absolute;z-index:2;bottom:110px;left:var(--fhero-page-left);display:grid;grid-template-columns:.96fr 1.08fr .96fr;width:550px;min-height:138px;padding:21px 18px 21px 25px;background:rgba(26,24,23,.42);border:1px solid #ffffff3e;border-radius:23px;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
 .fhero-stats>div{display:flex;flex-direction:column;padding-left:34px;border-left:1px solid #ffffff45}
 .fhero-stats>div:first-child{padding-left:3px;border:0}
 .fhero-stats strong{font-size:31px;letter-spacing:-.035em;font-weight:600;line-height:1.12;margin-bottom:6px;white-space:nowrap}
 .fhero-stats span{font-size:17px;line-height:1.39}
-.fhero-features{position:absolute;right:var(--fhero-page-right);top:52px;z-index:2;width:268px;min-height:573px;display:flex;flex-direction:column;justify-content:center;padding:22px 38px;background:rgba(58,55,50,.62);border:1px solid #ffffff6b;border-radius:var(--fhero-pane-radius);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 12px 42px rgba(0,0,0,.12)}
+.fhero-features{position:absolute;right:var(--fhero-page-right);top:52px;z-index:2;width:268px;min-height:573px;display:flex;flex-direction:column;justify-content:center;padding:14px 38px 30px;background:rgba(58,55,50,.49);border:1px solid #ffffff6b;border-radius:var(--fhero-pane-radius);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);box-shadow:0 12px 42px rgba(0,0,0,.12)}
 .fhero-feature{font-size:17px;line-height:1.34;padding:17px 0 19px;border-bottom:1px solid #ffffff40}
 .fhero-feature:first-child{padding-top:4px}
 .fhero-feature:last-child{border:0;padding-bottom:0}
@@ -305,7 +305,7 @@ html .hero.fhero{
  .fhero-scroll{position:absolute;right:var(--fhero-page-right);bottom:47px}
  .hero.fhero .fhero-photo{height:570px;object-position:47% top}
  .hero.fhero .fhero-overlay{background:linear-gradient(0deg,#11100e 0%,#11100e 36%,rgba(10,10,10,.45) 72%,rgba(10,10,10,.30) 100%)}
- html[data-theme=light] .hero.fhero .fhero-overlay{background:linear-gradient(0deg,#f8f3ef 0%,#f8f3ef 40%,rgba(249,244,239,.62) 70%,rgba(246,240,234,.15) 100%)}
+ html[data-theme=light] .hero.fhero .fhero-overlay{background:linear-gradient(0deg,#f8f3ef 0%,#f8f3ef 39%,rgba(249,244,239,.42) 70%,rgba(246,240,234,.04) 100%)}
  html .hero.fhero{background-size:auto 570px;background-position:47% top}
 }
 /* Narrow viewport: fix min-content overflow in the existing About layout. */
@@ -320,4 +320,17 @@ html .hero.fhero{
   .hero.fhero h1.fhero-title{margin-top:18px}
   .hero.fhero h1.fhero-title strong{transform:scaleX(1.11)}
   .hero.fhero h1.fhero-title span{transform:scaleX(1.21)}
+}
+
+/* Reference-aligned Hero refinements; media assets and approved structure unchanged. */
+@media (min-width:1101px) {
+ .hero.fhero .fhero-photo {transform:translate(-8px,-7px);}
+ .fhero-feature-icon {margin-bottom:11px;}
+}
+@media (max-width:760px) {
+ .hero.fhero .fhero-photo {filter:contrast(1.045) saturate(1.02);}
+ .fhero-audience p {line-height:1.45;}
+ .fhero-stats strong {font-size:clamp(18px,5.85vw,22px);}
+ .fhero-stats span {font-size:clamp(9px,2.85vw,11px);}
+ .fhero-stats>div {padding-left:clamp(8px,3.4vw,13px);}
 }
