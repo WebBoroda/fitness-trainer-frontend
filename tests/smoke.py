@@ -21,7 +21,8 @@ def overlaps(a,b):
 
 try:
     with sync_playwright() as p:
-        browser=p.chromium.launch(headless=True)
+        chrome=Path('/usr/bin/google-chrome')
+        browser=p.chromium.launch(headless=True,executable_path=str(chrome) if chrome.exists() else None)
         for width,height in ((320,740),(375,812),(768,1024),(900,1100),(1024,900),(1100,900),(1440,900),(1536,1024)):
             for scheme in ('light','dark'):
                 page=browser.new_page(viewport={'width':width,'height':height},color_scheme=scheme,device_scale_factor=1)
