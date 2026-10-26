@@ -53,7 +53,7 @@ try:
                 if (width,scheme) in ((320,'light'),(375,'light'),(375,'dark'),(768,'dark'),(900,'dark'),(1024,'dark'),(1536,'light'),(1536,'dark')):
                     png=page.screenshot(path=str(SHOTS/f'hero-{width}-{scheme}.png'),full_page=False)
                     if width==1536:
-                        px=Image.open(BytesIO(png)).convert('RGB').getpixel((125,448))
+                        px=Image.open(BytesIO(png)).convert('RGB').getpixel((110,800))
                         if scheme=='light':
                             assert sum(px)>420,f'Light hero appears dark: {px}'
                         else:
