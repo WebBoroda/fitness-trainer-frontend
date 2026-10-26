@@ -334,3 +334,8 @@ html .hero.fhero{
  .fhero-stats span {font-size:clamp(9px,2.85vw,11px);}
  .fhero-stats>div {padding-left:clamp(8px,3.4vw,13px);}
 }
+
+/* Client portraits from the approved design, combined into one small responsive asset. */
+.fhero-avatars img:nth-child(1){object-position:left center}
+.fhero-avatars img:nth-child(2){object-position:center center}
+.fhero-avatars img:nth-child(3){object-position:right center}
