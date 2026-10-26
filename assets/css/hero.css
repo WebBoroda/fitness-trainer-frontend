@@ -241,3 +241,35 @@ html[data-theme=light] .fhero-watch,html[data-theme=light] .fhero-scroll{color:#
  html[data-theme=light] .fhero-watch{color:#1e1e1e}
  html[data-theme=light] .fhero-scroll{color:#1e1e1e}
 }
+
+
+/* Tablet sizing fix: keep the approved desktop composition intact at >=1101px. */
+@media (min-width:941px) and (max-width:1100px) {
+  .hero.fhero {min-height:990px;}
+  .fhero-stage {min-height:903px;}
+  .fhero-stats {bottom:120px;}
+  .fhero-watch {top:654px;}
+  .fhero-scroll {bottom:32px;}
+}
+@media (min-width:761px) and (max-width:940px) {
+  .hero.fhero {min-height:1200px;}
+  .hero.fhero .fhero-photo {object-position:59% 0;}
+  .hero.fhero .fhero-overlay {background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.34) 54%,rgba(0,0,0,.20)),linear-gradient(0deg,rgba(0,0,0,.68),transparent 48%);}
+  .fhero-stage {min-height:1113px;}
+  .fhero-main {top:68px;left:var(--fhero-page-left);width:calc(100% - var(--fhero-page-left) - var(--fhero-page-right));}
+  .hero.fhero h1.fhero-title {font-size:clamp(53px,7.2vw,67px);}
+  .hero.fhero .fhero-summary {max-width:600px;}
+  .fhero-actions {margin-top:27px;gap:14px;}
+  .fhero-button-primary {width:315px;}
+  .fhero-button-secondary {width:236px;}
+  .fhero-audience {margin-top:28px;}
+  .fhero-stats {top:575px;bottom:auto;left:var(--fhero-page-left);width:calc(100% - var(--fhero-page-left) - var(--fhero-page-right));min-height:130px;}
+  .fhero-features {top:749px;bottom:auto;left:var(--fhero-page-left);right:var(--fhero-page-right);width:auto;min-height:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:21px;}
+  .fhero-feature,.fhero-feature:first-child,.fhero-feature:last-child {min-width:0;font-size:13px;padding:0;border:0;}
+  .fhero-feature-icon {width:39px;height:39px;margin-bottom:9px;}
+  .fhero-watch {top:915px;left:var(--fhero-page-left);right:auto;}
+  .fhero-scroll {bottom:50px;right:var(--fhero-page-right);}
+}
+@media (min-width:761px) and (max-width:940px) and (prefers-reduced-motion: reduce) {
+  .fhero-main,.fhero-features,.fhero-watch,.fhero-stats {transition:none;}
+}
