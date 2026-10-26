@@ -413,3 +413,26 @@ html .hero.fhero{
   .fhero-scroll-arrow {top:32px;left:5px;font-size:17px}
   .fhero-header .mobile-menu {top:64px}
 }
+
+/* Wide, low-height monitors need separate vertical spacing (e.g. 2007x904). */
+@media (min-width:1600px) and (min-height:721px) and (max-height:980px) {
+ .hero.fhero {min-height:100svh}
+ .fhero-stage {min-height:calc(100svh - 87px)}
+ .fhero-stats {bottom:39px}
+ .fhero-features {top:34px;min-height:0;padding:14px 28px}
+ .fhero-feature {font-size:15px;padding:9px 0 11px}
+ .fhero-feature:first-child {padding-top:0}
+ .fhero-feature:last-child {padding-bottom:0}
+ .fhero-feature-icon {width:38px;height:38px;margin-bottom:7px}
+ .fhero-feature-icon .fhero-svg {width:24px;height:24px}
+ .fhero-watch {top:565px;height:154px}
+ .fhero-video-thumb {width:91px;height:91px}
+ .fhero-watch-label {left:104px;top:21px;font-size:14px}
+ .fhero-curve {left:199px;top:7px;width:54px;height:64px}
+ .fhero-handwrite {top:83px;font-size:16px}
+ .fhero-scroll {bottom:35px}
+}
+@media (min-width:1101px) and (max-height:720px) {
+ .fhero-scroll {bottom:22px}
+ .fhero-scroll-arrow {top:28px}
+}
