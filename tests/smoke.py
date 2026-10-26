@@ -96,6 +96,8 @@ try:
                 assert not page.locator('#hero-video-dialog').evaluate('(d)=>d.open')
                 assert page.locator('.fhero-scroll').get_attribute('href')=='#mission'
                 if (width,scheme) in ((320,'light'),(375,'light'),(375,'dark'),(768,'dark'),(1024,'dark'),(1337,'dark'),(1536,'dark'),(1536,'light'),(1920,'dark'),(2007,'dark')):
+                    page.evaluate("() => { window.scrollTo({top:0,behavior:'instant'}); document.activeElement?.blur(); }")
+                    page.wait_for_timeout(100)
                     page.screenshot(path=str(SHOTS/f'hero-v2-{width}-{scheme}.png'),full_page=False)
                 assert page.locator('#themes').count()==0
                 menu=page.get_by_role('button',name='Відкрити меню')
