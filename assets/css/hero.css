@@ -345,3 +345,10 @@ html .hero.fhero{
   .hero.fhero h1.fhero-title strong{transform:scaleX(1.11)}
   .hero.fhero h1.fhero-title span{transform:scaleX(1.21)}
 }
+
+/* Light mobile legibility: brighten the photograph only behind readable text. */
+@media(max-width:760px){
+  html[data-theme=light] .hero.fhero .fhero-overlay{
+    background:linear-gradient(0deg,#f8f3ef 0%,#f8f3ef 36%,rgba(249,244,239,.88) 59%,rgba(249,244,239,.72) 81%,rgba(246,240,234,.26) 100%);
+  }
+}
