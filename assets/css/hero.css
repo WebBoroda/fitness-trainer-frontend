@@ -461,7 +461,7 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .fhero-stage {
     display: grid;
     grid-template-columns: minmax(0, 1fr) clamp(14rem, 18vw, 17rem);
-    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-rows: minmax(0, 1fr) auto auto;
     align-items: start;
     column-gap: clamp(1.4rem, 2.2vw, 3rem);
     row-gap: .8rem;
@@ -513,7 +513,7 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .fhero-watch-action { min-height: 5.5rem; }
   .fhero-handwrite {
     position: absolute;
-    top: 4.45rem;
+    top: 2.7rem;
     right: 0;
     display: block;
     color: white;
@@ -531,7 +531,7 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
     color: white;
   }
   html[data-theme=light] .fhero-handwrite, html[data-theme=light] .fhero-curve { color: #201b19; }
-  .fhero-scroll { bottom: .45rem; right: var(--hero-gutter); font-size: 1rem; }
+  .fhero-scroll { position: static; grid-column: 2; grid-row: 3; justify-self: end; font-size: 1rem; }
   .fhero-scroll-arrow { display: none; }
   html[data-theme=light] .fhero-watch { color: white; }
 }
