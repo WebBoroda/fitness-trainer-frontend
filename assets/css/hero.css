@@ -314,3 +314,10 @@ html .hero.fhero{
   .about-stats{gap:10px;flex-wrap:wrap}
   .about-stats > *{min-width:0}
 }
+
+/* Final optical alignment against approved 1536x1024 reference; verified Manrope render. */
+@media(min-width:1101px){
+  .hero.fhero h1.fhero-title{margin-top:18px}
+  .hero.fhero h1.fhero-title strong{transform:scaleX(1.11)}
+  .hero.fhero h1.fhero-title span{transform:scaleX(1.21)}
+}
