@@ -543,6 +543,7 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .fhero-features { padding-block: .35rem; }
   .fhero-feature { padding: .24rem 0 .3rem; }
   .fhero-watch { min-height: 5rem; }
+  .fhero-handwrite { top: -1.55rem; right: 0; }
   .fhero-stats { padding-block: .65rem; }
 }
 @media (min-width: 95rem) {
