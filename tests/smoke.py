@@ -40,6 +40,10 @@ try:
                 assert page.locator('body').evaluate('el=>getComputedStyle(el).fontFamily')!='',width
                 assert not page.evaluate('document.documentElement.scrollWidth > innerWidth'),width
                 assert not errors,(width,errors)
+                if width<=760:
+                    assert not overlaps(page.locator('.fhero-audience').bounding_box(),page.locator('.fhero-stats').bounding_box()),f'Mobile audience collides with stats at {width}'
+                    assert not overlaps(page.locator('.fhero-stats').bounding_box(),page.locator('.fhero-features').bounding_box()),f'Mobile stats collide with features at {width}'
+                    assert not overlaps(page.locator('.fhero-features').bounding_box(),page.locator('.fhero-watch').bounding_box()),f'Mobile features collide with video at {width}'
                 if 761<=width<=940:
                     assert not overlaps(page.locator('.fhero-actions').bounding_box(),page.locator('.fhero-features').bounding_box()),f'Tablet buttons overlap panel at {width}'
                     assert not overlaps(page.locator('.fhero-features').bounding_box(),page.locator('.fhero-watch').bounding_box()),f'Tablet panel overlaps video at {width}'
@@ -54,7 +58,7 @@ try:
                 assert page.evaluate("localStorage.getItem('fitness-theme')")=='mixed'
                 page.reload(wait_until='domcontentloaded')
                 assert page.locator('html').get_attribute('data-theme')=='mixed'
-                if (width,scheme) in ((375,'light'),(768,'dark'),(900,'dark'),(1024,'dark'),(1536,'dark')):
+                if (width,scheme) in ((320,'light'),(375,'light'),(768,'dark'),(900,'dark'),(1024,'dark'),(1536,'dark')):
                     page.screenshot(path=str(SHOTS/f'hero-{width}-{scheme}.png'),full_page=False)
                 print(f'PASS {width}x{height} {scheme}: responsive, panels, menu, theme, JS')
                 page.close()
