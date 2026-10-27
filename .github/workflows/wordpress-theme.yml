@@ -72,7 +72,11 @@ jobs:
           $WP config create --dbname=wordpress --dbuser=wordpress --dbpass=wordpress --dbhost=127.0.0.1:3306 --skip-check
           $WP core install --url=http://127.0.0.1:8765 --title=Yuliia-CI --admin_user=ciadmin --admin_password=temporary-ci-password --admin_email=ci@example.com --skip-email
           $WP theme activate yuliia-fitness
+          $WP option update home http://127.0.0.1:8765
+          $WP option update siteurl http://127.0.0.1:8765
           $WP option get page_on_front
+          $WP option get siteurl
+          $WP eval 'echo get_theme_file_uri("/assets/images/hero-trainer.webp") . "\\n";'
       - name: Verify Gutenberg persistence and PHP rendering
         run: |
           php "$RUNNER_TEMP/wp-cli.phar" --path="$RUNNER_TEMP/wordpress" eval-file "$RUNNER_TEMP/wordpress/wp-content/themes/yuliia-fitness/tests/runtime.php"
