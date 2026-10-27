@@ -416,7 +416,7 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
   .hero.fhero .fhero-scroll{
     position:absolute;
     right:var(--hero-right-gutter);
-    bottom:7.2rem;
+    bottom:-.85rem;
     margin:0;
     transform:none;
   }
@@ -425,14 +425,14 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
 /* Keep the right-side video preview clearly separated from the scroll hint at 1536×1024. */
 @media (min-width:88rem) and (min-height:950px){
  .hero.fhero .fhero-watch{transform:translateY(-.65rem)}
- .hero.fhero .fhero-scroll{bottom:7.2rem}
+ .hero.fhero .fhero-scroll{bottom:-.85rem}
 }
 
 /* Desktop rhythm: reserve separate hit areas for video and scroll navigation. */
 @media (min-width:88rem) and (min-height:950px){
  .hero.fhero .fhero-features{min-height:34rem}
  .hero.fhero .fhero-watch{transform:none;min-height:6rem}
- .hero.fhero .fhero-scroll{bottom:7.2rem}
+ .hero.fhero .fhero-scroll{bottom:-.85rem}
 }
 
 /* Measured at 1536×1024: move the 116px watch below the 544px feature panel,
