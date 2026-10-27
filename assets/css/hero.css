@@ -695,7 +695,7 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .hero.fhero h1.fhero-title { font-size: clamp(2.6rem, 4vw, 3.45rem); line-height: .97; margin-block: .7rem; }
   .fhero-actions { margin-top: 1rem; }
   .fhero-audience { margin-top: 1rem; }
-  .fhero-side { gap: .3rem; }
+  .fhero-side { gap: clamp(1.2rem, 1.6vw, 1.45rem); }
   .fhero-scroll { margin-bottom: 0; }
   .fhero-features { padding-block: .2rem; }
   .fhero-feature { min-height: 4.65rem; padding: .2rem var(--feature-content-inset); }
