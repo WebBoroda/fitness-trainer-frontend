@@ -387,7 +387,7 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
   .hero.fhero .fhero-stats>div{padding-inline:1.25rem}
   .hero.fhero .fhero-stats strong{font-size:1.85rem}
   .hero.fhero .fhero-stats span{font-size:.94rem}
-  .hero.fhero .fhero-side{transform:translateY(-.85rem)}
+  .hero.fhero .fhero-side{transform:none;gap:clamp(1.2rem,1.75vw,1.7rem)}
   .hero.fhero .fhero-features{--feature-content-inset:1.65rem;min-height:34rem;padding:1.15rem 0}
   .hero.fhero .fhero-feature{min-height:7.8rem;grid-template-columns:2.7rem minmax(0,1fr);font-size:1rem;gap:.9rem}
   .hero.fhero .fhero-feature-icon{width:2.7rem;height:2.7rem}
@@ -398,45 +398,23 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
   .hero.fhero .fhero-watch-label{font-size:1rem}
 }
 
-/* Final wide-screen optical alignment with the approved hero crop. */
-@media (min-width:88rem) and (min-height:950px){
-  .hero.fhero h1.fhero-title strong{transform:scaleX(1.12);transform-origin:left center}
-  .hero.fhero h1.fhero-title span{transform:scaleX(1.22);transform-origin:left center}
-  .hero.fhero .fhero-button-primary{padding-left:2rem;gap:1.45rem}
-  .hero.fhero .fhero-button-secondary{min-width:16.9rem}
-  .hero.fhero .fhero-stats{transform:translateY(-2.4rem);min-height:8rem}
-  .hero.fhero .fhero-features{min-height:36rem}
-  .hero.fhero .fhero-scroll{transform:translateY(4.15rem)}
-}
-
-/* Fit the 1536×1024 approval canvas without forcing extra hero height. */
-@media (min-width:88rem) and (min-height:950px){
-  .hero.fhero .fhero-stats{transform:none}
-  .hero.fhero .fhero-watch{transform:translateY(1.65rem)}
-  .hero.fhero .fhero-scroll{
-    position:absolute;
-    right:var(--hero-right-gutter);
-    bottom:-.85rem;
-    margin:0;
-    transform:none;
+/* One wide-screen layout rule replaces the former overlapping transform/bottom
+   patches. Space is distributed by the actual side-column flex flow. */
+@media (min-width: 88rem) and (min-height: 59.375rem) {
+  .hero.fhero h1.fhero-title strong { transform: scaleX(1.12); transform-origin: left center; }
+  .hero.fhero h1.fhero-title span { transform: scaleX(1.22); transform-origin: left center; }
+  .hero.fhero .fhero-button-primary { padding-left: 2rem; gap: 1.45rem; }
+  .hero.fhero .fhero-button-secondary { min-width: 16.9rem; }
+  .hero.fhero .fhero-stats { transform: none; min-height: 0; }
+  .hero.fhero .fhero-features { min-height: clamp(29rem, 31vw, 34rem); }
+  .hero.fhero .fhero-side { transform: none; }
+  .hero.fhero .fhero-watch { transform: none; margin-top: 0; }
+  .hero.fhero .fhero-scroll {
+    position: static;
+    inset: auto;
+    bottom: auto;
+    transform: none;
+    margin-top: auto;
+    align-self: flex-end;
   }
-}
-
-/* Keep the right-side video preview clearly separated from the scroll hint at 1536×1024. */
-@media (min-width:88rem) and (min-height:950px){
- .hero.fhero .fhero-watch{transform:translateY(-.65rem)}
- .hero.fhero .fhero-scroll{bottom:-.85rem}
-}
-
-/* Desktop rhythm: reserve separate hit areas for video and scroll navigation. */
-@media (min-width:88rem) and (min-height:950px){
- .hero.fhero .fhero-features{min-height:34rem}
- .hero.fhero .fhero-watch{transform:none;min-height:6rem}
- .hero.fhero .fhero-scroll{bottom:-.85rem}
-}
-
-/* Measured at 1536×1024: move the 116px watch below the 544px feature panel,
-   above the 32px scroll affordance, retaining 30px+ vertical clearances. */
-@media(min-width:88rem) and (min-height:950px){
- .hero.fhero .fhero-watch{transform:translateY(-4rem)}
 }
