@@ -90,7 +90,7 @@
     height: 100%;
     max-width: none;
     object-fit: cover;
-    object-position: 52% center;
+    object-position: 52% top;
     transform: none;
     mask-image: none;
     -webkit-mask-image: none;
@@ -201,12 +201,13 @@ html[data-theme=light] .yf-language-control button[aria-pressed=true] { color: #
    Content sizes its own cells instead of using two stretched panel columns. */
 .hero.fhero .fhero-watch {
   display: inline-grid;
-  grid-template-columns: minmax(0, 1fr) minmax(5.75rem, .92fr);
+  grid-template-columns: max-content max-content;
   align-items: center;
   gap: clamp(.45rem, .7vw, .8rem);
   position: relative;
   align-self: start;
-  width: min(100%, 19rem);
+  width: max-content;
+  max-width: 100%;
   min-height: 0;
   padding: .25rem 0;
   margin: 0;
@@ -219,7 +220,8 @@ html[data-theme=light] .yf-language-control button[aria-pressed=true] { color: #
   align-items: center;
   min-width: 0;
   min-height: clamp(3.8rem, 4.5vw, 5.25rem);
-  width: 100%;
+  width: max-content;
+  max-width: 100%;
   gap: clamp(.4rem, .6vw, .7rem);
   padding: 0;
   background: transparent;
@@ -259,7 +261,7 @@ html[data-theme=light] .yf-language-control button[aria-pressed=true] { color: #
   width: auto;
   margin: 0;
   color: inherit;
-  font: italic clamp(.7rem, .85vw, 1rem)/1.06 "Brush Script MT", "Segoe Script", cursive;
+  font: 500 clamp(.8rem, .97vw, 1.08rem)/1.05 "Caveat", "Brush Script MT", "Segoe Script", cursive;
   white-space: nowrap;
   text-align: left;
   transform: rotate(-8deg);
@@ -310,8 +312,9 @@ html[data-theme=light] .yf-language-control button[aria-pressed=true] { color: #
 }
 @media (min-width: 42rem) and (max-width: 69.999rem) {
   .hero.fhero .fhero-watch {
-    width: min(100%, 23rem);
-    grid-template-columns: minmax(0, 1fr) minmax(6.5rem, .9fr);
+    width: max-content;
+    max-width: 100%;
+    grid-template-columns: max-content max-content;
   }
   .hero.fhero .fhero-handwrite { font-size: clamp(.78rem, 1.6vw, 1.05rem); }
   .hero.fhero .fhero-curve { right: 36%; }
