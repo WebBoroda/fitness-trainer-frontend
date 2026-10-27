@@ -658,31 +658,53 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .fhero-feature::after { inset-inline: var(--feature-content-inset); }
   .fhero-feature:last-child { border: 0; }
   .fhero-feature-icon { width: 2.1rem; height: 2.1rem; }
+  /* Video button and handwritten note occupy two real grid cells.
+     They must never overlap, including on short-height laptops. */
   .fhero-watch {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(5.4rem, 7vw, 6.7rem);
+    gap: clamp(.25rem, .6vw, .55rem);
+    align-items: center;
     width: 100%;
     min-height: 5.5rem;
     margin-top: 0;
-    padding-bottom: .5rem;
+    padding-bottom: 0;
   }
-  .fhero-watch-action { min-height: 5.5rem; }
+  .fhero-watch-action {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+    width: 100%;
+    min-height: 5.5rem;
+    gap: clamp(.3rem, .65vw, .6rem);
+  }
+  .fhero-video-thumb {
+    width: clamp(3.05rem, 3.3vw, 4rem);
+    height: clamp(3.05rem, 3.3vw, 4rem);
+    flex-basis: clamp(3.05rem, 3.3vw, 4rem);
+  }
+  .fhero-watch-label { font-size: clamp(.78rem, .9vw, .94rem); }
   .fhero-handwrite {
-    position: absolute;
-    top: 2.7rem;
-    right: 0;
+    grid-column: 2;
+    grid-row: 1;
+    position: static;
     display: block;
+    min-width: 0;
     color: white;
-    font: italic 1rem/1.1 "Brush Script MT", "Segoe Script", cursive;
+    font: italic clamp(.72rem, .85vw, .95rem)/1.12 "Brush Script MT", "Segoe Script", cursive;
     text-align: right;
-    transform: rotate(-8deg);
+    transform: rotate(-7deg);
+    pointer-events: none;
   }
   .fhero-curve {
     position: absolute;
-    top: .3rem;
-    right: .1rem;
+    top: .15rem;
+    right: 29%;
     display: block;
-    width: 2.8rem;
-    height: 3.3rem;
+    width: 2.4rem;
+    height: 2.8rem;
     color: white;
+    pointer-events: none;
   }
   html[data-theme=light] .fhero-handwrite, html[data-theme=light] .fhero-curve { color: #201b19; }
   .fhero-scroll { margin-top: auto; margin-bottom: 0; font-size: 1rem; align-self: flex-end; }
@@ -701,8 +723,8 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .fhero-feature { min-height: 4.65rem; padding: .2rem var(--feature-content-inset); }
   .fhero-watch { min-height: 4.6rem; }
   /* Keep the decorative video cue on short laptops; scale rather than hide it. */
-  .fhero-handwrite { display: block; top: 2.1rem; font-size: clamp(.72rem, 1.05vw, .9rem); }
-  .fhero-curve { display: block; width: 2.25rem; height: 2.65rem; top: .05rem; }
+  .fhero-handwrite { display: block; font-size: clamp(.7rem, 1.05vw, .84rem); }
+  .fhero-curve { display: block; width: 2.15rem; height: 2.5rem; top: .05rem; }
   .fhero-stats { padding-block: .35rem; }
 }
 @media (min-width: 95rem) {
