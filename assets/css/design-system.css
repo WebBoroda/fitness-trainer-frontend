@@ -694,3 +694,145 @@ html[data-theme=dark] #faq .faq-note{color:#e5c2a9}
     background:linear-gradient(to bottom,#f6f0ea17,#f6f0eab7 44%,#f6f0eade 100%);
   }
 }
+
+
+/* QA 2026-10-27: translucency must transmit the actual photo. Dark text-bearing
+   buttons retain a denser tint than decorative panels for readable contrast. */
+.hero.fhero .fhero-header {
+  background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(25,21,19,.10) 65%, rgba(12,12,12,.17));
+  border-bottom-color: rgba(255,255,255,.32);
+  box-shadow: inset 0 1px rgba(255,255,255,.20), 0 .25rem 1.3rem rgba(0,0,0,.08);
+  -webkit-backdrop-filter: blur(.9rem) saturate(145%);
+  backdrop-filter: blur(.9rem) saturate(145%);
+}
+.hero.fhero .fhero-features,
+.hero.fhero .fhero-stats,
+.hero.fhero .fhero-eyebrow {
+  background: linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.065) 50%,rgba(15,14,14,.15));
+  border-color: rgba(255,255,255,.38);
+  box-shadow: inset 0 1px rgba(255,255,255,.23), 0 .65rem 2rem rgba(0,0,0,.10);
+  -webkit-backdrop-filter: blur(.95rem) saturate(145%);
+  backdrop-filter: blur(.95rem) saturate(145%);
+}
+.hero.fhero .fhero-header-cta,
+.hero.fhero .fhero-button-primary {
+  background: linear-gradient(125deg,rgba(250,236,223,.72),rgba(241,210,186,.59));
+  border-color: rgba(255,255,255,.63);
+  box-shadow: inset 0 1px rgba(255,255,255,.55), 0 .4rem 1rem rgba(0,0,0,.11);
+  -webkit-backdrop-filter: blur(1rem) saturate(150%);
+  backdrop-filter: blur(1rem) saturate(150%);
+}
+.hero.fhero .fhero-header-cta:hover,
+.hero.fhero .fhero-button-primary:hover {
+  background: linear-gradient(125deg,rgba(250,236,223,.79),rgba(241,210,186,.69));
+}
+.hero.fhero .fhero-button-secondary,
+.hero.fhero .fhero-theme-trigger,
+.hero.fhero .yf-language-control {
+  background: linear-gradient(135deg,rgba(255,255,255,.11),rgba(21,18,17,.12));
+  border-color: rgba(255,255,255,.52);
+  -webkit-backdrop-filter: blur(.95rem) saturate(140%);
+  backdrop-filter: blur(.95rem) saturate(140%);
+}
+html[data-theme=light] .hero.fhero .fhero-header {
+  background: linear-gradient(145deg,rgba(255,255,255,.53),rgba(247,235,226,.28));
+}
+html[data-theme=light] .hero.fhero .fhero-features {
+  background: linear-gradient(145deg,rgba(36,33,31,.48),rgba(28,26,25,.36));
+}
+html[data-theme=light] .hero.fhero .fhero-stats {
+  background: linear-gradient(125deg,rgba(255,252,249,.60),rgba(244,231,220,.34));
+}
+html[data-theme=light] .hero.fhero .fhero-eyebrow { background: rgba(250,238,225,.57); }
+
+/* One circular UA/EN toggle, the same footprint and click-to-cycle principle as
+   the theme control. Only the currently selected language is painted. */
+.hero.fhero .yf-language-control {
+  display:grid; place-items:center; flex:0 0 2.7rem;
+  width:2.7rem; height:2.7rem; min-width:0; min-height:0;
+  padding:0; border-radius:50%;
+}
+.hero.fhero .yf-language-control .yf-language-toggle {
+  display:grid; place-items:center;
+  width:100%; height:100%; min-width:0; min-height:0;
+  padding:0; border-radius:inherit; font-size:.77rem;
+}
+.hero.fhero .yf-language-control .yf-language-half {
+  grid-area:1 / 1;
+  display:none;
+  background:transparent; color:inherit;
+  box-shadow:none;
+  font-size:inherit;
+}
+.hero.fhero .yf-language-control .yf-language-half.is-active { display:grid; }
+html[data-theme=light] .hero.fhero .yf-language-control .yf-language-half.is-active {
+  background:transparent; color:#241d1a;
+}
+/* The approved editorial layout has natural rhythm instead of stretching
+   every right-column gap to the complete monitor height. */
+@media (min-width:88rem) and (min-height:52rem) {
+  .hero.fhero { min-height:0; }
+  .hero.fhero .fhero-stage {
+    min-height:0;
+    grid-template-rows:auto auto;
+    row-gap:clamp(.9rem,1.7vw,1.4rem);
+    padding-top:clamp(2.5rem,3.1vw,4rem);
+    padding-bottom:clamp(2.75rem,3.8vw,4rem);
+  }
+  .hero.fhero .fhero-main { min-height:0; }
+  .hero.fhero .fhero-side {
+    height:auto;
+    align-self:start;
+    gap:clamp(.85rem,1.4vw,1.45rem);
+  }
+  .hero.fhero .fhero-features {
+    min-height:0;
+    padding-block:clamp(.5rem,1vw,.85rem);
+  }
+  .hero.fhero .fhero-feature {
+    min-height:clamp(5.6rem,6vw,6.65rem);
+    padding-block:clamp(.3rem,.75vw,.7rem);
+  }
+  .hero.fhero .fhero-watch,
+  .hero.fhero .fhero-watch-action { min-height:clamp(5rem,5.5vw,5.75rem); }
+  .hero.fhero .fhero-scroll {
+    margin-top:clamp(.25rem,.7vw,.65rem);
+    align-self:flex-end;
+  }
+}
+@media (max-width:41.99rem) {
+  .hero.fhero .yf-language-control {
+    width:2.2rem; height:2.2rem; flex-basis:2.2rem;
+  }
+  .hero.fhero .yf-language-control .yf-language-toggle {font-size:.67rem;}
+}
+
+
+/* Mid-size desktop and landscape laptop: the same rhythm as large desktop,
+   but preserve the special <= 593px short-laptop geometry. */
+@media (min-width:70rem) and (max-width:87.999rem) and (min-height:42rem),
+       (min-width:88rem) and (min-height:42rem) and (max-height:51.999rem) {
+  .hero.fhero { min-height:0; }
+  .hero.fhero .fhero-stage {
+    min-height:0;
+    grid-template-rows:auto auto;
+    row-gap:clamp(.65rem,1.3vw,1.1rem);
+  }
+  .hero.fhero .fhero-main { min-height:0; }
+  .hero.fhero .fhero-side {
+    height:auto;
+    align-self:start;
+    gap:clamp(.85rem,1.25vw,1.3rem);
+  }
+  .hero.fhero .fhero-features {
+    min-height:0;
+    padding-block:.4rem;
+  }
+  .hero.fhero .fhero-feature {
+    min-height:clamp(4.35rem,5.25vw,4.9rem);
+  }
+  .hero.fhero .fhero-scroll {
+    margin-top:clamp(.15rem,.6vw,.55rem);
+    align-self:flex-end;
+  }
+}
