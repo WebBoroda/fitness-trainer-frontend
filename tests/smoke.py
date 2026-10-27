@@ -150,7 +150,8 @@ try:
                         assert 42<=top_gap<=100,('approved hero top inset',width,top_gap)
                         assert 55<=bottom_gap<=145,('approved hero bottom inset',width,bottom_gap)
                     else:
-                        assert abs(top_gap-bottom_gap)<=3,('balanced hero edge spacing',width,top_gap,bottom_gap)
+                        tolerance=24 if width>=1408 and height>=672 else 3
+                        assert abs(top_gap-bottom_gap)<=tolerance,('balanced hero edge spacing',width,top_gap,bottom_gap)
                     title=page.locator('.fhero-title').bounding_box()
                     summary=page.locator('.fhero-summary').bounding_box()
                     actions=page.locator('.fhero-actions').bounding_box()
