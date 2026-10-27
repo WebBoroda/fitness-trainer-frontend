@@ -629,3 +629,76 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .about-layout, .about-layout > * { min-width: 0; }
   .about-stats { gap: .65rem; flex-wrap: wrap; }
 }
+
+
+/* Mobile hero: predictable spacing, readable benefits, and one divider per row.
+   The hover/focus surface fills the module; content stays inset from its edge. */
+@media (max-width: 41.99rem) {
+  .hero.fhero .fhero-stage {
+    gap: clamp(1.45rem, 5vw, 1.9rem);
+    padding-bottom: clamp(2.5rem, 7vw, 3.5rem);
+  }
+  .hero.fhero .fhero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: min(100%, 22rem);
+    gap: .95rem;
+    margin-top: 1.5rem;
+  }
+  .hero.fhero .fhero-actions .fhero-button {
+    width: 100%;
+    min-width: 0;
+    min-height: 3.15rem;
+    padding: .45rem .6rem .45rem 1rem;
+    gap: .65rem;
+    font-size: clamp(.875rem, 3.3vw, 1rem);
+    line-height: 1.35;
+    white-space: normal;
+    text-align: left;
+  }
+  .hero.fhero .fhero-button .fhero-cta-circle,
+  .hero.fhero .fhero-button .fhero-svg { flex-shrink: 0; }
+  .hero.fhero .fhero-audience { margin-top: 1.45rem; }
+  .hero.fhero .fhero-side { gap: 1.4rem; }
+  .hero.fhero .fhero-features {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: .35rem 0;
+    border-radius: var(--hero-radius);
+    overflow: hidden;
+  }
+  .hero.fhero .fhero-feature {
+    width: 100%;
+    min-height: 4.65rem;
+    grid-template-columns: 2.125rem minmax(0, 1fr);
+    align-items: center;
+    gap: .9rem;
+    margin: 0;
+    padding: .8rem clamp(1.05rem, 5vw, 1.4rem);
+    border: 0;
+    border-radius: 0;
+    font-size: .9rem;
+    line-height: 1.45;
+  }
+  .hero.fhero .fhero-feature-icon { width: 2.125rem; height: 2.125rem; }
+  .hero.fhero .fhero-feature::after {
+    inset-inline: clamp(1.05rem, 5vw, 1.4rem);
+    bottom: 0;
+    background: #ffffff38;
+  }
+  .hero.fhero .fhero-feature:last-child::after { display: none; }
+  .hero.fhero .fhero-feature:first-child { border-radius: 1rem 1rem 0 0; }
+  .hero.fhero .fhero-feature:last-child { border-radius: 0 0 1rem 1rem; }
+}
+@media (max-width: 22rem) {
+  .hero.fhero .fhero-feature {
+    padding-inline: .95rem;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    column-gap: .75rem;
+    font-size: .875rem;
+  }
+  .hero.fhero .fhero-feature::after { inset-inline: .95rem; }
+  .hero.fhero .fhero-stats { padding-inline: .4rem; }
+  .hero.fhero .fhero-stats > div { padding-inline: .35rem; }
+}
