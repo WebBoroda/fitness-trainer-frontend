@@ -659,46 +659,88 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .hero.fhero .fhero-button .fhero-cta-circle,
   .hero.fhero .fhero-button .fhero-svg { flex-shrink: 0; }
   .hero.fhero .fhero-audience { margin-top: 1.45rem; }
-  .hero.fhero .fhero-side { gap: 1.4rem; }
-  .hero.fhero .fhero-features {
+  /* The 2x2 panel and both lower actions share one predictable grid.
+     "Watch video" and "Scroll down" are aligned on a single horizontal row. */
+  .hero.fhero .fhero-side {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-    padding: .35rem 0;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    align-items: center;
+    column-gap: clamp(.4rem, 2vw, .85rem);
+    row-gap: clamp(.9rem, 4vw, 1.35rem);
+  }
+  .hero.fhero .fhero-features {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .35rem;
+    padding: .55rem;
     border-radius: var(--hero-radius);
     overflow: hidden;
   }
   .hero.fhero .fhero-feature {
     width: 100%;
-    min-height: 4.65rem;
-    grid-template-columns: 2.125rem minmax(0, 1fr);
+    min-width: 0;
+    min-height: clamp(4.35rem, 19vw, 5.4rem);
+    grid-template-columns: clamp(1.6rem, 7vw, 2.125rem) minmax(0, 1fr);
     align-items: center;
-    gap: .9rem;
+    gap: clamp(.35rem, 1.65vw, .7rem);
     margin: 0;
-    padding: .8rem clamp(1.05rem, 5vw, 1.4rem);
+    padding: .65rem clamp(.45rem, 2.2vw, .85rem);
     border: 0;
-    border-radius: 0;
-    font-size: .9rem;
-    line-height: 1.45;
+    border-radius: .7rem;
+    font-size: clamp(.75rem, 2.75vw, .875rem);
+    line-height: 1.4;
   }
-  .hero.fhero .fhero-feature-icon { width: 2.125rem; height: 2.125rem; }
-  .hero.fhero .fhero-feature::after {
-    inset-inline: clamp(1.05rem, 5vw, 1.4rem);
-    bottom: 0;
-    background: #ffffff38;
+  .hero.fhero .fhero-feature-icon {
+    width: clamp(1.6rem, 7vw, 2.125rem);
+    height: clamp(1.6rem, 7vw, 2.125rem);
   }
-  .hero.fhero .fhero-feature:last-child::after { display: none; }
-  .hero.fhero .fhero-feature:first-child { border-radius: 1rem 1rem 0 0; }
-  .hero.fhero .fhero-feature:last-child { border-radius: 0 0 1rem 1rem; }
+  /* No dividers in a 2x2 grid: the old horizontal rules looked arbitrary. */
+  .hero.fhero .fhero-feature::after { content: none; }
+  .hero.fhero .fhero-feature:first-child,
+  .hero.fhero .fhero-feature:last-child { border-radius: .7rem; }
+  .hero.fhero .fhero-watch {
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    min-width: 0;
+    min-height: 3.9rem;
+    margin: 0;
+  }
+  .hero.fhero .fhero-watch-action {
+    width: 100%;
+    min-height: 3.9rem;
+    gap: clamp(.4rem, 2vw, .8rem);
+  }
+  .hero.fhero .fhero-video-thumb {
+    width: clamp(3rem, 10vw, 3.7rem);
+    height: clamp(3rem, 10vw, 3.7rem);
+    flex-basis: clamp(3rem, 10vw, 3.7rem);
+  }
+  .hero.fhero .fhero-watch-label { font-size: clamp(.75rem, 2.75vw, .9rem); }
+  .hero.fhero .fhero-scroll {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    align-self: center;
+    margin: 0;
+    gap: .4rem;
+    font-size: clamp(.75rem, 2.65vw, .9rem);
+  }
+  .hero.fhero .fhero-scroll-mouse { width: 1.35rem; height: 1.8rem; }
 }
 @media (max-width: 22rem) {
+  .hero.fhero .fhero-features { gap: .2rem; padding: .4rem; }
   .hero.fhero .fhero-feature {
-    padding-inline: .95rem;
-    grid-template-columns: 2rem minmax(0, 1fr);
-    column-gap: .75rem;
-    font-size: .875rem;
+    padding-inline: .35rem;
+    grid-template-columns: 1.45rem minmax(0, 1fr);
+    column-gap: .32rem;
+    font-size: .69rem;
+    line-height: 1.35;
   }
-  .hero.fhero .fhero-feature::after { inset-inline: .95rem; }
+  .hero.fhero .fhero-feature-icon { width: 1.45rem; height: 1.45rem; }
+  .hero.fhero .fhero-watch-action { gap: .35rem; }
+  .hero.fhero .fhero-scroll { gap: .25rem; font-size: .7rem; }
   .hero.fhero .fhero-stats { padding-inline: .4rem; }
   .hero.fhero .fhero-stats > div { padding-inline: .35rem; }
 }
