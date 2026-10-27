@@ -421,3 +421,9 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
     transform:none;
   }
 }
+
+/* Keep the right-side video preview clearly separated from the scroll hint at 1536×1024. */
+@media (min-width:88rem) and (min-height:950px){
+ .hero.fhero .fhero-watch{transform:translateY(-.65rem)}
+ .hero.fhero .fhero-scroll{bottom:1.6rem}
+}
