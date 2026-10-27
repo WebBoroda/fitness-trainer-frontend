@@ -178,6 +178,13 @@ try:
                     page.evaluate("(theme)=>{document.documentElement.dataset.theme=theme}",scheme)
                     assert page.locator('html').get_attribute('data-theme')==scheme
                     mission.screenshot(path=str(SHOTS/f'mission-{width}-{scheme}.png'),animations='disabled',timeout=30000)
+                if (width,scheme) in ((375,'dark'),(768,'dark')):
+                    page.evaluate("(theme)=>{document.documentElement.dataset.theme=theme}",scheme)
+                    page.locator('.hero.fhero').screenshot(path=str(SHOTS/f'hero-full-{width}-{scheme}.png'),animations='disabled')
+                if width in (375,1536) and scheme=='dark':
+                    for n,hash_target in ((0,'#formats'),(2,'#nutrition'),(3,'#results')):
+                        feature_links.nth(n).click()
+                        assert page.evaluate('location.hash')==hash_target,(n,hash_target)
                 print(f'PASS {width}x{height} {scheme}: responsive, panels, menu, theme, JS')
                 page.close()
         browser.close()
