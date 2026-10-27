@@ -34,6 +34,8 @@ jobs:
         run: python tests/smoke.py
       - name: Full-page frontend, dynamic interaction and viewport tests
         run: python tests/experience_smoke.py
+      - name: Verify bilingual device detection, persistence, contact footer and CTA geometry
+        run: python tests/bilingual_system_smoke.py
       - name: Collect responsive screenshots
         if: always()
         uses: actions/upload-artifact@v4
