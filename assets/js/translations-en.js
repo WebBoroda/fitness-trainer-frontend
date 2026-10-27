@@ -226,5 +226,13 @@ window.YF_ENGLISH = {
   "світла": "light",
   "темна": "dark",
   "контрастна": "contrast",
-  "Перемкнути на": "Switch to"
+  "Перемкнути на": "Switch to",
+  "YULIIA · Усі права захищено": "YULIIA · All rights reserved",
+  "Соціальні мережі": "Social networks",
+  "Галерея результатів: попередні": "Results gallery: previous",
+  "Галерея результатів: наступні": "Results gallery: next",
+  "Відгуки клієнток: попередні": "Client testimonials: previous",
+  "Відгуки клієнток: наступні": "Client testimonials: next",
+  "Пакети тренувань: попередні": "Training plans: previous",
+  "Пакети тренувань: наступні": "Training plans: next"
 };
