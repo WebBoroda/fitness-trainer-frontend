@@ -95,6 +95,18 @@ try:
             check(overflow <= 2, "No horizontal overflow")
             check(boxes["features"] is not None and boxes["watch"] is not None, "Benefits and video visible")
             check(boxes["scroll"] is not None, "Scroll control visible")
+            # A visible annotation must not paint over the actionable video label.
+            if width >= 672 and boxes["handwritten"]:
+                video_label = page.locator(".fhero-watch-label").bounding_box()
+                hw = boxes["handwritten"]
+                intersects = (
+                    hw["x"] < right(video_label) - 3
+                    and right(hw) > video_label["x"] + 3
+                    and hw["y"] < bottom(video_label) - 3
+                    and bottom(hw) > video_label["y"] + 3
+                )
+                layout["spaces"]["handwriteOverlapsVideoLabel"] = intersects
+                check(not intersects, "Handwritten note does not overlap video button label")
             if width < 672:
                 rows = [f.bounding_box() for f in page.locator(".fhero-feature").all()]
                 check(
