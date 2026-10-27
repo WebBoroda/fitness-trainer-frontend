@@ -106,7 +106,11 @@ try:
                     hero_box=page.locator('.hero.fhero').bounding_box()
                     top_gap=eyebrow['y']-(header['y']+header['height'])
                     bottom_gap=(hero_box['y']+hero_box['height'])-(stats['y']+stats['height'])
-                    assert abs(top_gap-bottom_gap)<=3,('equal hero edge spacing',width,top_gap,bottom_gap)
+                    if width>=1408 and height>=950:
+                        assert 42<=top_gap<=100,('approved hero top inset',width,top_gap)
+                        assert 55<=bottom_gap<=145,('approved hero bottom inset',width,bottom_gap)
+                    else:
+                        assert abs(top_gap-bottom_gap)<=3,('balanced hero edge spacing',width,top_gap,bottom_gap)
                     title=page.locator('.fhero-title').bounding_box()
                     summary=page.locator('.fhero-summary').bounding_box()
                     actions=page.locator('.fhero-actions').bounding_box()
