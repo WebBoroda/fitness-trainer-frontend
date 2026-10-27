@@ -37,6 +37,13 @@ try:
                     hero=page.locator('.hero.fhero').bounding_box()
                     assert hero and abs(hero['x'])<2 and abs(hero['width']-width)<2,('Hero should span entire viewport',width,hero)
 
+                # All four panel rows are keyboard-accessible, correctly targeted links.
+                feature_links=page.locator('.fhero-features a.fhero-feature')
+                assert feature_links.count()==4,('feature links missing',width)
+                for i,href in enumerate(('#formats','#formats','#nutrition','#results')):
+                    link=feature_links.nth(i)
+                    assert link.get_attribute('href')==href,(i,href)
+                    assert page.locator(href).count()==1,('missing destination',href)
                 # Approved benefit panel: each icon is on the left, its text on the right.
                 for feature in page.locator('.fhero-feature').all():
                     icon=feature.locator('.fhero-feature-icon').bounding_box()
@@ -93,7 +100,11 @@ try:
                 if width>=1101:
                     panel=page.locator('.fhero-features').bounding_box()
                     video=page.locator('.fhero-watch').bounding_box()
-                    assert panel and video and 0 <= video['y']-(panel['y']+panel['height']) <= 24,('feature/video spacing',width,panel,video)
+                    assert panel and video and video['y']-(panel['y']+panel['height']) >= 18,('video must be below feature panel',width,panel,video)
+                    scroll=page.locator('.fhero-scroll').bounding_box()
+                    hero_bounds=page.locator('.hero.fhero').bounding_box()
+                    assert scroll and video['y']+video['height'] <= scroll['y']+1,('video and scroll collision',width)
+                    assert hero_bounds['y']+hero_bounds['height']-(scroll['y']+scroll['height']) >= 22,('raise scroll control above bottom',width)
                     hero=page.locator('.hero.fhero').bounding_box()
                     assert hero and abs(hero['width']-width)<2,(width,'Hero width',hero)
                     assert page.locator('.fhero-photo').evaluate('(im)=>getComputedStyle(im).objectFit')=='contain',(width,'cropped photo')
