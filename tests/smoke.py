@@ -31,6 +31,17 @@ try:
                 page.goto(url,wait_until='networkidle',timeout=45000)
                 assert page.locator('html').get_attribute('data-theme')==scheme,(width,scheme)
                 assert page.locator('main section').count()==11
+                # One theme icon container, but with distinct light/dark/mixed artwork.
+                icon=page.locator('#theme-button svg.fhero-theme-symbol')
+                assert icon.count()==1,('single theme icon',width)
+                glyphs=page.locator('#theme-button .fhero-theme-glyph')
+                assert glyphs.count()==3,('sun / moon / contrast artwork',width)
+                def visible_theme_glyph():
+                    return page.locator('#theme-button .fhero-theme-glyph').evaluate_all(
+                        '(nodes)=>nodes.filter(n=>getComputedStyle(n).display !== "none").map(n=>n.classList[1])'
+                    )
+                expected_glyph={'light':'fhero-theme-glyph-sun','dark':'fhero-theme-glyph-moon'}
+                assert visible_theme_glyph()==[expected_glyph[scheme]], ('wrong initial icon for theme',width,scheme,visible_theme_glyph())
                 assert page.locator('#theme-button .fhero-theme-symbol').count()==1, ('single dual-tone theme icon',width)
                 assert page.locator('#theme-button svg').count()==1, ('obsolete theme icon remains',width)
                 assert page.locator('[data-set-theme]').count()==0
@@ -132,6 +143,8 @@ try:
                     feature_box=feature_links.first.bounding_box()
                     assert feature_box and abs(feature_box['x']-panel['x'])<=2, ('hover must reach module left edge',width,feature_box,panel)
                     assert abs((feature_box['x']+feature_box['width'])-(panel['x']+panel['width']))<=2, ('hover must reach module right edge',width,feature_box,panel)
+                    feature_icon=feature_links.first.locator('.fhero-feature-icon').bounding_box()
+                    assert feature_icon and feature_icon['x']-panel['x']>=18, ('icon needs inner inset, not border-hugging',width,feature_icon,panel)
                     video=page.locator('.fhero-watch').bounding_box()
                     assert panel and video and video['y']-(panel['y']+panel['height']) >= 18,('video must be below feature panel',width,panel,video)
                     scroll=page.locator('.fhero-scroll').bounding_box()
@@ -178,6 +191,7 @@ try:
                 wanted='dark' if scheme=='light' else 'mixed'
                 themeButton.click()
                 assert page.locator('html').get_attribute('data-theme')==wanted
+                assert visible_theme_glyph()==[{'light':'fhero-theme-glyph-sun','dark':'fhero-theme-glyph-moon','mixed':'fhero-theme-glyph-mixed'}[wanted]], ('icon must change with selected theme',width,wanted)
                 assert page.evaluate("localStorage.getItem('fitness-theme')")==wanted
                 if wanted=='mixed':
                     assert 'контрастна' in themeButton.get_attribute('aria-label')
