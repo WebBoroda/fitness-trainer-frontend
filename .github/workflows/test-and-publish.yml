@@ -35,6 +35,8 @@ jobs:
         run: python tests/smoke.py
       - name: Verify full-page frontend interactions
         run: python tests/experience_smoke.py
+      - name: Verify bilingual device detection, persistence, contact footer and CTA geometry
+        run: python tests/bilingual_system_smoke.py
       - name: Enforce visual-layout gate before deployment
         run: python tests/hero_visual_audit.py
       - name: Store test screenshots
