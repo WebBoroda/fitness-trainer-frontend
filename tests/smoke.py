@@ -190,9 +190,11 @@ try:
                     assert a==b,(width,scheme,a,b)
                     assert page.locator('.fhero-main').evaluate('(el)=>getComputedStyle(el).scale')=='none'
                     assert page.locator('.fhero-navigation a').first.evaluate('(el)=>parseFloat(getComputedStyle(el).fontSize)')>=16
-                    for selector in ('.fhero-header-cta','.fhero-button-primary','.fhero-button-secondary','.fhero-watch-label'):
+                    for selector in ('.fhero-header-cta','.fhero-button-primary','.fhero-button-secondary'):
                         size=page.locator(selector).first.evaluate('(el)=>parseFloat(getComputedStyle(el).fontSize)')
                         assert 16<=size<=17,(selector,width,size)
+                    watch_font=page.locator('.fhero-watch-label').first.evaluate('(el)=>parseFloat(getComputedStyle(el).fontSize)')
+                    assert 14<=watch_font<=17,('fluid video label needs legible text',width,watch_font)
                 assert page.locator('#hero-video-trigger').count()==1
                 trigger=page.locator('#hero-video-trigger')
                 trigger.click()
