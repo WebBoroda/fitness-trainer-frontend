@@ -434,3 +434,9 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
  .hero.fhero .fhero-watch{transform:none;min-height:6rem}
  .hero.fhero .fhero-scroll{bottom:1.45rem}
 }
+
+/* Measured at 1536×1024: move the 116px watch below the 544px feature panel,
+   above the 32px scroll affordance, retaining 30px+ vertical clearances. */
+@media(min-width:88rem) and (min-height:950px){
+ .hero.fhero .fhero-watch{transform:translateY(-4rem)}
+}
