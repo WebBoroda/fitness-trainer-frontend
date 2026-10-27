@@ -1,0 +1,69 @@
+{
+  "version": 3,
+  "settings": {
+    "appearanceTools": false,
+    "layout": {
+      "contentSize": "920px",
+      "wideSize": "1440px"
+    },
+    "color": {
+      "custom": false,
+      "palette": [
+        {
+          "slug": "cream",
+          "color": "#f8f5f2",
+          "name": "Світлий фон"
+        },
+        {
+          "slug": "ink",
+          "color": "#141311",
+          "name": "Темний текст"
+        },
+        {
+          "slug": "peach",
+          "color": "#efd8c6",
+          "name": "Акцент"
+        },
+        {
+          "slug": "night",
+          "color": "#111312",
+          "name": "Темний фон"
+        }
+      ]
+    },
+    "typography": {
+      "customFontSize": false,
+      "fontFamilies": [
+        {
+          "fontFamily": "Manrope, Inter, sans-serif",
+          "name": "Manrope",
+          "slug": "manrope"
+        },
+        {
+          "fontFamily": "Inter, sans-serif",
+          "name": "Inter",
+          "slug": "inter"
+        }
+      ]
+    },
+    "spacing": {
+      "units": [
+        "px",
+        "rem",
+        "%",
+        "vw"
+      ]
+    }
+  },
+  "styles": {
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--manrope)",
+      "fontSize": "15px",
+      "lineHeight": "1.5"
+    },
+    "color": {
+      "background": "#f8f5f2",
+      "text": "#141311"
+    }
+  }
+}

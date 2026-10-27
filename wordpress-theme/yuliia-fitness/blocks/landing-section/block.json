@@ -1,0 +1,23 @@
+{
+  "apiVersion": 3,
+  "name": "yuliia/section",
+  "title": "Yuliia — секція лендингу",
+  "description": "Серверний блок з редагованим контентом та медіа",
+  "category": "design",
+  "icon": "layout",
+  "textdomain": "yuliia-fitness",
+  "attributes": {
+    "section": {
+      "type": "string",
+      "default": "mission"
+    },
+    "fields": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "supports": {
+    "html": false,
+    "anchor": false
+  }
+}
