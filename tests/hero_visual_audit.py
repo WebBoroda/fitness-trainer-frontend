@@ -183,9 +183,24 @@ try:
                     bottom(boxes["watch"]) <= boxes["scroll"]["y"]+5,
                     "Video does not overlap the bottom scroll affordance"
                 )
+                video_to_scroll = boxes["scroll"]["y"] - bottom(boxes["watch"])
+                layout["spaces"]["videoToScroll"] = round(video_to_scroll,2)
                 delta = bottom(boxes["scroll"]) - bottom(boxes["stats"])
                 layout["spaces"]["statsToScrollBottomDelta"] = round(delta, 2)
-                check(abs(delta) <= 24, "Scroll bottom aligns with statistics")
+                if width >= 1408 and height >= 832:
+                    check(8 <= video_to_scroll <= 50,
+                          "Wide-screen video and scroll remain proportionally spaced")
+                    check(abs(delta) <= 180,
+                          "Wide-screen scroll is part of the same compact composition")
+                    check(boxes["hero"]["height"] <= max(height, 1020),
+                          "Wide monitors must not create unnecessary empty hero height")
+                    toggle = page.locator(".yf-language-toggle").bounding_box()
+                    theme = page.locator(".fhero-theme-trigger").bounding_box()
+                    check(abs(toggle["width"] - theme["width"]) <= 2 and
+                          abs(toggle["height"] - theme["height"]) <= 2,
+                          "Language toggle matches the theme control's circular size")
+                else:
+                    check(abs(delta) <= 24, "Scroll bottom aligns with statistics")
             layout["checks"] = checks
             measurements.append(layout)
             raw = OUT / f"hero-{width}x{height}.png"
