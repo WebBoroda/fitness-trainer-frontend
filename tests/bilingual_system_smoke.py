@@ -30,6 +30,9 @@ try:
                 page.wait_for_function("window.YF_I18N && document.querySelector('#yf-socials .yf-social-link')", timeout=15000)
                 assert page.locator("html").get_attribute("lang")==expected,(locale,width,"wrong initial lang")
                 assert page.locator("html").get_attribute("data-language")==expected,(locale,width,"wrong data lang")
+                assert page.locator('[data-language-toggle]').count()==1,(locale,width,"single language control")
+                assert page.locator('[data-language-indicator]').count()==2,(locale,width,"two visual halves")
+                assert page.locator('[data-language-indicator].is-active').get_attribute('data-language-indicator')==expected,(locale,width,"active language half")
                 nav = page.locator(".fhero-navigation a").first.inner_text()
                 assert nav==("About" if expected=="en" else "Про мене"),(locale,width,nav)
                 assert page.locator("main > section").count()==11,(locale,width,"missing sections")
@@ -62,14 +65,16 @@ try:
         page.goto(url,wait_until="domcontentloaded")
         page.wait_for_function("window.YF_I18N")
         assert page.locator("html").get_attribute("lang")=="en"
-        page.locator('[data-language-choice="uk"]').click()
+        assert page.locator('[data-language-toggle]').count()==1,"single UA/EN button"
+        assert page.locator('[data-language-indicator]').count()==2,"two language halves"
+        page.locator('[data-language-toggle]').click()
         assert page.locator("html").get_attribute("lang")=="uk"
         assert page.locator(".fhero-navigation a").first.inner_text()=="Про мене"
         assert page.evaluate("localStorage.getItem('yuliia-language')")=="uk"
         page.reload(wait_until="domcontentloaded")
         page.wait_for_function("window.YF_I18N")
         assert page.locator("html").get_attribute("lang")=="uk","manual choice not persisted"
-        page.locator('[data-language-choice="en"]').click()
+        page.locator('[data-language-toggle]').click()
         assert page.locator(".fhero-navigation a").first.inner_text()=="About"
         page.reload(wait_until="domcontentloaded")
         page.wait_for_function("window.YF_I18N")

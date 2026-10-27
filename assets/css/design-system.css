@@ -433,3 +433,264 @@ a.yf-social-link:hover { background: #efd8c6; border-color: #efd8c6; color: #191
 @media (prefers-reduced-motion: reduce) {
   .yf-social-link,.yf-language-control button { transition: none; }
 }
+
+
+/* Approved reference alignment: frosted photographic surfaces, one dual language
+   switch, balanced editorial sections. All selectors are narrowly scoped. */
+.yf-language-control {
+  padding:0; overflow:hidden; border:1px solid rgba(255,255,255,.7);
+  border-radius:100rem; background:rgba(255,255,255,.1);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 .2rem .8rem #0002;
+  -webkit-backdrop-filter:blur(1rem) saturate(145%);
+  backdrop-filter:blur(1rem) saturate(145%);
+}
+.yf-language-control .yf-language-toggle {
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:stretch;
+  width:4.35rem; min-width:4.35rem; min-height:2.45rem;
+  padding:.16rem; gap:0; border:0; border-radius:inherit;
+  background:transparent;color:white;
+  font:700 .73rem/1 Manrope,Inter,sans-serif;cursor:pointer;
+}
+.yf-language-control .yf-language-half {
+  display:grid;place-items:center;min-width:0;border-radius:100rem;
+  color:inherit;background:transparent;transition:background .28s ease,color .28s ease,box-shadow .28s ease;
+}
+.yf-language-control .yf-language-half.is-active {
+  background:rgba(244,221,205,.93);color:#181614;
+  box-shadow:inset 0 1px 0 #fffc,0 2px 6px #0002;
+}
+.yf-language-control .yf-language-toggle:focus-visible {
+  outline:.16rem solid #efd8c6;outline-offset:-.1rem;
+}
+html[data-theme=light] .yf-language-control .yf-language-toggle {color:#241d1a}
+@media(max-width:41.99rem) {
+  .yf-language-control .yf-language-toggle{
+    min-width:3.75rem;width:3.75rem;min-height:2rem;padding:.12rem;font-size:.67rem;
+  }
+}
+/* Frosted glass is light transmission + diffusion, not an opaque fill and blur. */
+.hero.fhero .fhero-header {
+  background:linear-gradient(155deg,#ffffff28,#1f1b192f 45%,#10101043);
+  border-bottom:1px solid #ffffff58;
+  box-shadow:inset 0 1px 0 #ffffff38,0 8px 25px #0002;
+  -webkit-backdrop-filter:blur(1.3rem) saturate(150%);
+  backdrop-filter:blur(1.3rem) saturate(150%);
+}
+.hero.fhero .fhero-features,
+.hero.fhero .fhero-stats,
+.hero.fhero .fhero-eyebrow {
+  background:linear-gradient(135deg,#ffffff30,#ffffff17 45%,#11101030);
+  border-color:#ffffff63;
+  box-shadow:inset 0 1px 0 #ffffff40,inset 0 -1px 0 #ffffff09,0 1rem 2.5rem #0002;
+  -webkit-backdrop-filter:blur(1.2rem) saturate(155%);
+  backdrop-filter:blur(1.2rem) saturate(155%);
+}
+.hero.fhero .fhero-features{border-radius:clamp(1rem,1.35vw,1.45rem)}
+.hero.fhero .fhero-features .fhero-feature:hover,
+.hero.fhero .fhero-features .fhero-feature:focus-visible {background:#ffffff21}
+.hero.fhero .fhero-header-cta,
+.hero.fhero .fhero-button-primary {
+  background:linear-gradient(135deg,#fff8f1d1,#efd2be99);
+  border:1px solid #ffffffc0;
+  box-shadow:inset 0 1px 0 #ffffffa8,inset 0 -1px 0 #644a361f,0 .6rem 1.5rem #0002;
+  -webkit-backdrop-filter:blur(1rem) saturate(150%);
+  backdrop-filter:blur(1rem) saturate(150%);
+}
+.hero.fhero .fhero-button-secondary,
+.hero.fhero .fhero-theme-trigger {
+  background:linear-gradient(135deg,#ffffff26,#19171624);
+  box-shadow:inset 0 1px 0 #ffffff2e;
+  -webkit-backdrop-filter:blur(1rem) saturate(145%);
+  backdrop-filter:blur(1rem) saturate(145%);
+}
+html[data-theme=light] .hero.fhero .fhero-header{
+  background:linear-gradient(135deg,#ffffff94,#f5e3d854);
+}
+html[data-theme=light] .hero.fhero .fhero-stats{
+  background:linear-gradient(125deg,#ffffffa8,#f5e6d969);border-color:#ffffffc7;
+}
+html[data-theme=light] .hero.fhero .fhero-features{
+  background:linear-gradient(135deg,#28231ea3,#1f1d1b6b);border-color:#ffffff78;
+}
+html[data-theme=light] .hero.fhero .fhero-eyebrow{background:#f8e6d8ab}
+/* Larger cinematic video circle and legible, angled annotation on desktop. */
+@media(min-width:85rem) {
+  .hero.fhero .fhero-video-thumb{
+    width:clamp(4.2rem,4.55vw,5rem);height:clamp(4.2rem,4.55vw,5rem);
+    flex-basis:clamp(4.2rem,4.55vw,5rem);
+  }
+  .hero.fhero .fhero-watch{gap:clamp(.38rem,.7vw,.7rem);margin-top:.25rem;align-self:flex-start}
+  .hero.fhero .fhero-handwrite{
+    font-size:clamp(1.02rem,1.12vw,1.34rem);line-height:.98;transform:rotate(-9deg);
+  }
+  .hero.fhero .fhero-curve{width:2.5rem;height:2.75rem;top:-.6rem;right:27%}
+}
+.hero.fhero .fhero-play-mark{
+  background:#ffffffb8;border:1px solid #ffffffcc;
+  -webkit-backdrop-filter:blur(.25rem);backdrop-filter:blur(.25rem);
+}
+/* Light-reference cards and picture crops, dark theme remains selectable. */
+#mission .benefit{
+  background:#ffffff8f;border-color:#ffffffc2;
+  box-shadow:inset 0 1px 0 #ffffffe8,0 .6rem 1.5rem #2b1b1309;
+  -webkit-backdrop-filter:blur(.5rem);backdrop-filter:blur(.5rem);
+}
+html[data-theme=dark] #mission .benefit{background:#ffffff16;border-color:#ffffff29}
+#studio .studio-gallery{grid-template-columns:3.5fr .9fr .9fr}
+#studio .studio-gallery .gallery-photo{border-radius:.6rem}
+#about .about-visual .quote{border-radius:.2rem}
+#about .about-visual .quote cite{
+  font:500 clamp(1.55rem,2.2vw,2.25rem)/1 Caveat,'Segoe Script',cursive;
+  letter-spacing:.025em;
+}
+#about .about-feature-list svg{background:#eedcceba}
+#nutrition .nutrition-layout{position:relative}
+#nutrition .nutrition-photo{
+  border-radius:42% 50% 38% 48%;width:min(100%,29rem);
+  aspect-ratio:1.15/1;object-position:center;
+}
+#nutrition .nutrition-note{
+  grid-column:3;grid-row:2;margin:-1.5rem 0 0 auto;max-width:14rem;
+  color:#957965;font:500 clamp(1.1rem,1.7vw,1.7rem)/.97 Caveat,'Segoe Script',cursive;
+  text-align:center;transform:rotate(-8deg);pointer-events:none;
+}
+#nutrition .nutrition-note::after{
+  content:'↝';display:block;font-size:2rem;line-height:1;transform:rotate(16deg);
+}
+html[data-theme=dark] #nutrition .nutrition-note{color:#e5c2a9}
+#results .result-strip img{border-radius:.7rem;object-position:center bottom}
+#reviews .review{
+  background:#ffffffb8;border:1px solid #fffffff0;
+  box-shadow:inset 0 1px 0 #fff,0 .7rem 1.6rem #271d170b;
+}
+#reviews .review::before{content:none}
+#reviews .review-person{
+  display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;min-width:0;
+}
+#reviews .review-person img{
+  width:3.2rem;height:3.2rem;flex:0 0 3.2rem;
+  object-fit:cover;border-radius:.6rem;
+}
+#reviews .review-person h3{margin:0;font-size:.99rem}
+#reviews .review-person span{
+  display:block;margin-top:.12rem;font-size:.72rem;color:#918379;
+}
+#reviews .review .stars{font-size:1rem;letter-spacing:.13em}
+html[data-theme=dark] #reviews .review{
+  background:#ffffff17;border-color:#ffffff26;
+}
+html[data-theme=dark] #reviews .review-person span{color:#c9bdb6}
+#faq .faq-layout{position:relative}
+#faq .faq-note{
+  grid-column:2;justify-self:end;margin:.5rem 0 0;max-width:11rem;color:#987d6b;
+  font:500 clamp(1.1rem,1.65vw,1.65rem)/1 Caveat,'Segoe Script',cursive;
+  text-align:center;transform:rotate(-8deg);
+}
+html[data-theme=dark] #faq .faq-note{color:#e5c2a9}
+.final-section{position:relative;isolation:isolate;overflow:hidden}
+.final-section .final-photo{max-width:none}
+.final-section .wrap{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(12rem,.38fr);
+  align-items:center;gap:clamp(1rem,3vw,4rem);
+}
+.final-section .final-benefits{
+  list-style:none;margin:0 0 0 auto;padding:0;display:grid;gap:1.15rem;max-width:15rem;
+}
+.final-section .final-benefits li{
+  display:flex;align-items:center;gap:.9rem;color:#f9f6f3;
+  font-size:clamp(.76rem,.94vw,.98rem);line-height:1.35;
+}
+.final-section .final-benefits span{
+  display:grid;place-items:center;flex:0 0 2.5rem;width:2.5rem;height:2.5rem;
+  border:1px solid #ffffffb3;border-radius:50%;background:#ffffff1a;font-size:1.3rem;
+  -webkit-backdrop-filter:blur(.8rem);backdrop-filter:blur(.8rem);
+}
+@media(max-width:69.999rem){
+  #nutrition .nutrition-note{grid-column:1/-1;grid-row:auto;margin:.1rem auto 0}
+  #faq .faq-note{grid-column:1;margin:0 0 .3rem auto}
+  .final-section .wrap{grid-template-columns:minmax(0,1fr)}
+  .final-section .final-benefits{
+    grid-template-columns:repeat(3,minmax(0,1fr));max-width:100%;margin:0;gap:.75rem;
+  }
+  .final-section .final-benefits li{gap:.5rem;font-size:.75rem}
+  .final-section .final-benefits span{width:2rem;height:2rem;flex-basis:2rem}
+}
+@media(max-width:41.99rem){
+  #studio .studio-gallery{grid-template-columns:1.6fr 1fr}
+  #nutrition .nutrition-photo{width:min(100%,19rem)}
+  #nutrition .nutrition-note{font-size:1.4rem}
+  #reviews .review-person img{width:2.8rem;height:2.8rem;flex-basis:2.8rem}
+  .final-section .final-benefits{grid-template-columns:1fr;gap:.5rem}
+  .final-section .final-benefits li{font-size:.81rem}
+}
+
+
+/* The initial gallery, nutrition and final-photo assets contain strips from
+   the design-reference screenshot. Frame/crop them without changing source art. */
+#studio .studio-gallery .gallery-photo img{
+  object-position:center 75%;
+  transform:scale(1.2);
+  transform-origin:center center;
+}
+#studio .studio-gallery .gallery-photo:hover img{
+  transform:scale(1.26);
+}
+#nutrition .nutrition-visual{
+  display:block;min-width:0;width:min(100%,29rem);aspect-ratio:1.15/1;
+  margin:0 auto;border-radius:42% 50% 38% 48%;overflow:hidden;
+  background:#f5eee8;
+  box-shadow:0 1rem 2rem rgba(38,26,16,.09);
+}
+#nutrition .nutrition-visual .nutrition-photo{
+  display:block;width:100%;height:100%;max-width:none;aspect-ratio:auto;
+  margin:0;object-fit:cover;object-position:center;
+  border-radius:0;filter:none;transform:scale(1.32);
+  transform-origin:center center;
+}
+.final-section .final-photo{
+  object-position:center bottom;
+  transform:scale(1.13);
+  transform-origin:right bottom;
+}
+@media(max-width:63.99rem){
+  #nutrition .nutrition-visual{max-width:20rem}
+}
+@media(max-width:47.99rem){
+  #nutrition .nutrition-visual{width:min(100%,19rem)}
+  .final-section .final-photo{
+    object-position:center bottom;
+    transform:scale(1.4);
+    transform-origin:right bottom;
+  }
+}
+
+/* Hide the remaining pale strip baked into the source of the closing banner:
+   fade the top edge into its real dark backdrop instead of showing FAQ pixels. */
+.final-section .final-photo{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,transparent 23%,#000 39%,#000 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,transparent 23%,#000 39%,#000 100%);
+}
+
+/* On small screens the photo fades into the glass modules rather than ending
+   as a hard horizontal image edge above the headline. */
+@media(max-width:41.99rem){
+  .hero.fhero {
+    background:#121210 url('../images/hero-trainer.webp') 52% 38%/cover no-repeat;
+  }
+  .hero.fhero .fhero-photo{
+    top:var(--hero-header-height);left:0;width:100%;
+    height:min(68svh,42rem);max-width:none;
+    object-fit:cover;object-position:55% 22%;
+    -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 50%,transparent 100%);
+    mask-image:linear-gradient(to bottom,#000 0%,#000 50%,transparent 100%);
+  }
+  .hero.fhero .fhero-overlay {
+    background:linear-gradient(to bottom,#0d0d0d36 0%,#0d0d0d9c 31%,#0d0d0dbd 62%,#0d0d0de2 100%);
+  }
+  html[data-theme=light] .hero.fhero{
+    background:#f6f0ea url('../images/hero-trainer.webp') 52% 38%/cover no-repeat;
+  }
+  html[data-theme=light] .hero.fhero .fhero-overlay{
+    background:linear-gradient(to bottom,#f6f0ea17,#f6f0eab7 44%,#f6f0eade 100%);
+  }
+}
