@@ -1,0 +1,188 @@
+"""Visual layout gate: screenshot the real browser, then assert composition.
+Captures original and annotated screenshots with measured bounding boxes.
+This does not claim pixel-diff validation against an unavailable Figma export.
+"""
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+from threading import Thread
+import json
+import shutil
+from PIL import Image, ImageDraw, ImageFont
+from playwright.sync_api import sync_playwright
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / "tests" / "_screenshots" / "hero-audit"
+OUT.mkdir(parents=True, exist_ok=True)
+CASES = [
+    (320, 740), (375, 812), (480, 900),
+    (768, 1024), (974, 1374), (1024, 768),
+    (1280, 720), (1440, 900), (1536, 1024),
+    (1792, 1000), (1920, 1080)
+]
+SELECTORS = {
+    "hero": ".hero.fhero",
+    "title": ".fhero-title",
+    "intro": ".fhero-eyebrow",
+    "stats": ".fhero-stats",
+    "features": ".fhero-features",
+    "watch": ".fhero-watch",
+    "video": ".fhero-watch-action",
+    "handwritten": ".fhero-handwrite",
+    "scroll": ".fhero-scroll",
+}
+
+class Quiet(SimpleHTTPRequestHandler):
+    def log_message(self, *_):
+        pass
+
+def bottom(b):
+    return b["y"] + b["height"]
+
+def right(b):
+    return b["x"] + b["width"]
+
+def center_y(b):
+    return b["y"] + b["height"] / 2
+
+server = ThreadingHTTPServer(
+    ("127.0.0.1", 0), partial(Quiet, directory=str(ROOT))
+)
+Thread(target=server.serve_forever, daemon=True).start()
+measurements = []
+errors = []
+try:
+    with sync_playwright() as p:
+        browser_path = shutil.which("google-chrome") or shutil.which("chromium")
+        browser = p.chromium.launch(
+            headless=True, executable_path=browser_path
+        ) if browser_path else p.chromium.launch(headless=True)
+        for width, height in CASES:
+            page = browser.new_page(
+                viewport={"width": width, "height": height},
+                color_scheme="dark", reduced_motion="reduce", device_scale_factor=1
+            )
+            page.add_init_script("localStorage.setItem('fitness-theme','dark')")
+            page.goto(
+                f"http://127.0.0.1:{server.server_port}/",
+                wait_until="networkidle", timeout=45000
+            )
+            page.locator(".fhero-photo").evaluate(
+                "(img) => img.decode().catch(() => {})"
+            )
+            boxes = {}
+            for name, selector in SELECTORS.items():
+                locator = page.locator(selector).first
+                boxes[name] = locator.bounding_box() if locator.is_visible() else None
+            layout = {
+                "width": width,
+                "height": height,
+                "heroHeight": round(boxes["hero"]["height"], 2),
+                "introTop": round(boxes["intro"]["y"], 2),
+                "spaces": {},
+                "visibleHandwriting": bool(boxes["handwritten"]),
+                "boxes": boxes,
+            }
+            overflow = page.evaluate(
+                "document.documentElement.scrollWidth - document.documentElement.clientWidth"
+            )
+            layout["horizontalOverflow"] = overflow
+            checks = []
+            def check(condition, message):
+                checks.append({"pass": bool(condition), "assertion": message})
+                if not condition:
+                    errors.append(f"{width}x{height}: {message}")
+            check(overflow <= 2, "No horizontal overflow")
+            check(boxes["features"] is not None and boxes["watch"] is not None, "Benefits and video visible")
+            check(boxes["scroll"] is not None, "Scroll control visible")
+            # A visible annotation must not paint over the actionable video label.
+            if width >= 672 and boxes["handwritten"]:
+                video_label = page.locator(".fhero-watch-label").bounding_box()
+                hw = boxes["handwritten"]
+                intersects = (
+                    hw["x"] < right(video_label) - 3
+                    and right(hw) > video_label["x"] + 3
+                    and hw["y"] < bottom(video_label) - 3
+                    and bottom(hw) > video_label["y"] + 3
+                )
+                layout["spaces"]["handwriteOverlapsVideoLabel"] = intersects
+                check(not intersects, "Handwritten note does not overlap video button label")
+            if width < 672:
+                rows = [f.bounding_box() for f in page.locator(".fhero-feature").all()]
+                check(
+                    abs(rows[0]["y"]-rows[1]["y"]) < 3
+                    and abs(rows[2]["y"]-rows[3]["y"]) < 3,
+                    "Benefits remain a clean 2x2 mobile grid"
+                )
+                check(
+                    abs(center_y(boxes["watch"])-center_y(boxes["scroll"])) <= 10,
+                    "Mobile video and scroll aligned horizontally"
+                )
+            elif width < 1120:
+                check(bool(boxes["handwritten"]), "Handwritten video label visible on tablet")
+                check(boxes["intro"]["y"] < height * .32, "Tablet hero headline not pushed far down")
+                check(
+                    abs(center_y(boxes["watch"])-center_y(boxes["scroll"])) <= 10,
+                    "Tablet video and scroll aligned horizontally"
+                )
+                gap = boxes["watch"]["y"] - bottom(boxes["features"])
+                layout["spaces"]["benefitsToVideo"] = round(gap, 2)
+                check(8 <= gap <= 90, "Tablet benefits-to-video gap is natural")
+                check(
+                    not (boxes["handwritten"] and right(boxes["handwritten"]) > right(boxes["watch"])+8),
+                    "Handwriting stays in its video region"
+                )
+            else:
+                check(bool(boxes["handwritten"]), "Handwritten label preserved on desktop")
+                gap = boxes["watch"]["y"] - bottom(boxes["features"])
+                layout["spaces"]["benefitsToVideo"] = round(gap, 2)
+                check(12 <= gap <= 65, "Desktop video sits close below benefits")
+                check(
+                    bottom(boxes["watch"]) <= boxes["scroll"]["y"]+5,
+                    "Video does not overlap the bottom scroll affordance"
+                )
+                delta = bottom(boxes["scroll"]) - bottom(boxes["stats"])
+                layout["spaces"]["statsToScrollBottomDelta"] = round(delta, 2)
+                check(abs(delta) <= 24, "Scroll bottom aligns with statistics")
+            layout["checks"] = checks
+            measurements.append(layout)
+            raw = OUT / f"hero-{width}x{height}.png"
+            page.screenshot(path=str(raw), full_page=False, animations="disabled")
+            with Image.open(raw).convert("RGB") as img:
+                draw = ImageDraw.Draw(img)
+                palette = {"intro": "#eace9f", "features": "#9df0ac", "watch": "#8ce2f5",
+                           "handwritten": "#e2aafc", "scroll": "#f9bd7f", "stats": "#c5cfef"}
+                for key, color in palette.items():
+                    b = boxes[key]
+                    if not b:
+                        continue
+                    xy = (b["x"], b["y"], right(b), bottom(b))
+                    draw.rectangle(xy, outline=color, width=2)
+                    draw.text((b["x"]+3, max(0, b["y"]-14)), key, fill=color)
+                img.save(OUT / f"annotated-{width}x{height}.png")
+            if width in (974, 1536):
+                page.evaluate("document.documentElement.dataset.theme='light'")
+                page.screenshot(path=str(OUT / f"hero-{width}x{height}-light.png"),full_page=False,animations="disabled")
+                if width == 974:
+                    note_rgb = page.locator(".fhero-handwrite").evaluate(
+                        "(el) => getComputedStyle(el).color"
+                    )
+                    check(note_rgb != "rgb(255, 255, 255)", "Handwritten label has readable contrast in light tablet theme")
+            print("HERO VISUAL", width, height, json.dumps({
+                "introTop": layout["introTop"],
+                "featuresToVideo": layout["spaces"].get("benefitsToVideo"),
+                "delta": layout["spaces"].get("statsToScrollBottomDelta"),
+                "handwriting": layout["visibleHandwriting"],
+                "failures": [x["assertion"] for x in checks if not x["pass"]],
+            }), flush=True)
+            page.close()
+        browser.close()
+finally:
+    server.shutdown()
+    server.server_close()
+(OUT / "layout-metrics.json").write_text(
+    json.dumps(measurements, ensure_ascii=False, indent=2), encoding="utf-8"
+)
+if errors:
+    raise AssertionError("Hero visual audit failed:\n" + "\n".join(errors))
+print("PASS: Hero visual audit, 11 viewport sizes, screenshots and annotated layout evidence.")

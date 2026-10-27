@@ -1,0 +1,46 @@
+name: Hero Visual Layout Gate
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'assets/css/**'
+      - 'assets/js/**'
+      - 'tests/hero_visual_audit.py'
+      - '.github/workflows/hero-visual-audit.yml'
+  push:
+    branches: [fix/hero-fluid-composition-visual-qa, main]
+    paths:
+      - 'index.html'
+      - 'assets/css/**'
+      - 'assets/js/**'
+      - 'tests/hero_visual_audit.py'
+      - '.github/workflows/hero-visual-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  hero-visual-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Set up headless Chromium, Playwright and Pillow
+        run: |
+          pip install playwright pillow
+          if ! command -v google-chrome >/dev/null 2>&1 && ! command -v chromium >/dev/null 2>&1; then
+            python -m playwright install --with-deps chromium
+          fi
+      - name: Assert hero composition at mobile, tablet and desktop sizes
+        run: python tests/hero_visual_audit.py
+      - name: Upload original and annotated viewport screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hero-visual-audit
+          path: tests/_screenshots/hero-audit/
+          if-no-files-found: error
+          retention-days: 14
