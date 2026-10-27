@@ -111,6 +111,8 @@
       btn.append(img);
       btn.addEventListener('click', () => open(index));
     });
+    const studioCta = document.querySelector('a[href="#studio-gallery"]');
+    studioCta?.addEventListener('click', event => { event.preventDefault(); open(0); });
     prev.addEventListener('click', () => step(-1));
     next.addEventListener('click', () => step(1));
     close.addEventListener('click', () => dialog.close());
