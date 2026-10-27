@@ -560,7 +560,7 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .fhero-actions { margin-top: .65rem; }
   .fhero-audience { margin-top: .4rem; }
   .fhero-side { gap: 1rem; }
-  .fhero-scroll { margin-bottom: 1.15rem; }
+  .fhero-scroll { margin-bottom: 1.75rem; }
   .fhero-features { padding-block: .2rem; }
   .fhero-feature { min-height: 4.9rem; padding: .2rem 0; }
   .fhero-watch { min-height: 4.6rem; }
