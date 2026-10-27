@@ -91,6 +91,9 @@ try:
                         else:
                             assert sum(px)<230,f'Dark hero appears light: {px}'
                 if width>=1101:
+                    panel=page.locator('.fhero-features').bounding_box()
+                    video=page.locator('.fhero-watch').bounding_box()
+                    assert panel and video and 0 <= video['y']-(panel['y']+panel['height']) <= 24,('feature/video spacing',width,panel,video)
                     hero=page.locator('.hero.fhero').bounding_box()
                     assert hero and abs(hero['width']-width)<2,(width,'Hero width',hero)
                     assert page.locator('.fhero-photo').evaluate('(im)=>getComputedStyle(im).objectFit')=='contain',(width,'cropped photo')
