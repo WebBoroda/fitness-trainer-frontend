@@ -1,0 +1,264 @@
+/* Shared responsive design system. Loaded last so consistent component rules win
+   over legacy section-specific values. All geometry uses fluid/rem-based units. */
+:root {
+  --yf-space-1: .375rem;
+  --yf-space-2: .625rem;
+  --yf-space-3: 1rem;
+  --yf-space-4: 1.5rem;
+  --yf-space-5: 2rem;
+  --yf-space-6: clamp(2.5rem, 5vw, 4.25rem);
+  --yf-section-space: clamp(3.4rem, 6.2vw, 6.4rem);
+  --yf-button-height: 3.15rem;
+  --yf-button-pad-start: 1.15rem;
+  --yf-button-pad-end: .4rem;
+  --yf-button-icon: 2.25rem;
+  --yf-button-gap: .75rem;
+  --yf-heading-tracking-boost: .1rem;
+  --yf-pill-radius: 999rem;
+}
+.section { padding-block: var(--yf-section-space); }
+.section .heading {
+  letter-spacing: calc(-.06em + var(--yf-heading-tracking-boost));
+  overflow-wrap: normal;
+}
+.section .heading span { letter-spacing: calc(-.066em + var(--yf-heading-tracking-boost)); }
+#mission .heading, #mission .heading span { letter-spacing: calc(-.06em + var(--yf-heading-tracking-boost)); }
+.hero.fhero h1.fhero-title strong { letter-spacing: calc(-.065em + var(--yf-heading-tracking-boost)); }
+.hero.fhero h1.fhero-title span { letter-spacing: calc(-.07em + var(--yf-heading-tracking-boost)); }
+.yf-consultation-form h2 { letter-spacing: calc(-.06em + var(--yf-heading-tracking-boost)); }
+
+/* One primary / secondary button rhythm throughout the 11 sections and footer.
+   Keep arrow circles and glyphs unshrinkable; allow long EN labels to wrap. */
+.section .btn,
+.yf-footer .btn,
+.yf-consultation-form .btn,
+#mission .btn.fill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  width: max-content;
+  max-width: 100%;
+  min-height: var(--yf-button-height);
+  padding: var(--yf-space-1) var(--yf-button-pad-end)
+           var(--yf-space-1) var(--yf-button-pad-start);
+  gap: var(--yf-button-gap);
+  border-radius: var(--yf-pill-radius);
+  line-height: 1.3;
+  font-size: clamp(.79rem, 1vw, .95rem);
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-decoration: none;
+}
+.section .btn .arrow,
+.yf-footer .btn .arrow,
+.yf-consultation-form .btn .arrow,
+#mission .btn.fill .arrow {
+  display: grid;
+  place-items: center;
+  flex: 0 0 var(--yf-button-icon);
+  width: var(--yf-button-icon);
+  height: var(--yf-button-icon);
+  border-radius: 50%;
+  line-height: 1;
+  font-size: 1.3rem;
+}
+.fhero-button,
+.fhero-header-cta {
+  min-width: 0;
+  gap: var(--yf-button-gap);
+}
+.fhero-button > .fhero-svg,
+.fhero-button .fhero-cta-circle,
+.fhero-header-cta .fhero-cta-circle { flex-shrink: 0; }
+.fhero-actions { gap: var(--yf-space-3); }
+.section .eyebrow { margin-bottom: var(--yf-space-3); }
+.section .lead { margin-bottom: var(--yf-space-4); }
+.section .price-list,
+.section .reviews-list { gap: var(--yf-space-3); }
+.section .faq-list summary { padding-block: var(--yf-space-4); }
+.section .price { padding: var(--yf-space-4); }
+
+/* Language buttons stay visible on mobile and never compete with the menu. */
+.yf-language-control {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,.58);
+  border-radius: var(--yf-pill-radius);
+  padding: .15rem;
+  gap: .12rem;
+  background: rgba(26,26,26,.35);
+}
+.yf-language-control button {
+  display: grid;
+  place-items: center;
+  min-width: 1.9rem;
+  min-height: 2rem;
+  padding: .15rem .3rem;
+  border-radius: var(--yf-pill-radius);
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: 700 .72rem/1 Manrope,Inter,sans-serif;
+  cursor: pointer;
+  transition: color .2s ease, background-color .2s ease;
+}
+.yf-language-control button[aria-pressed=true] { color: #191716; background: #efd8c6; }
+.yf-language-control button:not([aria-pressed=true]):hover { background: rgba(255,255,255,.14); }
+.yf-language-control button:focus-visible { outline: .18rem solid #efd8c6; outline-offset: .12rem; }
+html[data-theme=light] .yf-language-control { border-color: #403730; background: rgba(255,255,255,.55); }
+html[data-theme=light] .yf-language-control button { color: #211d1a; }
+html[data-theme=light] .yf-language-control button[aria-pressed=true] { color: #211d1a; background: #efd8c6; }
+@media (max-width: 42rem) {
+  .fhero-header-inner { gap: var(--yf-space-2); }
+  .fhero-controls { gap: .3rem; }
+  .yf-language-control { padding: .1rem; gap: 0; }
+  .yf-language-control button { min-width: 1.65rem; min-height: 1.8rem; padding-inline: .2rem; font-size: .67rem; }
+  .fhero-theme-trigger { width: 2.2rem; height: 2.2rem; flex-basis: 2.2rem; }
+  .fhero-menu-trigger { min-width: 2rem; }
+  .fhero-brand { letter-spacing: .17em; }
+  .section .btn, .yf-footer .btn, .yf-consultation-form .btn {
+    font-size: clamp(.78rem, 3.5vw, .92rem);
+    gap: var(--yf-space-2);
+    padding-inline-start: var(--yf-space-3);
+    max-width: 100%;
+  }
+}
+/* The video annotation is always a visible neighbor of its button, not decoration.
+   No SVG arrow on any viewport. */
+.fhero-curve { display: none !important; }
+.hero.fhero .fhero-handwrite {
+  display: block !important;
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  color: inherit;
+  font-size: clamp(.76rem, 1.05vw, 1.08rem);
+  line-height: 1.12;
+  white-space: normal;
+  overflow-wrap: normal;
+  text-align: left;
+  transform: none;
+  pointer-events: none;
+}
+.hero.fhero .fhero-watch {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(5.4rem, .8fr);
+  gap: clamp(.4rem, 1.1vw, 1rem);
+  align-items: center;
+  min-height: 0;
+  width: 100%;
+}
+.hero.fhero .fhero-watch-action {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+  width: 100%;
+}
+.hero.fhero .fhero-handwrite {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+}
+@media (min-width: 42rem) and (max-width: 70rem) {
+  .hero.fhero .fhero-watch { grid-template-columns: minmax(0,1fr) minmax(5rem,.9fr); }
+  .hero.fhero .fhero-handwrite { font-size: clamp(.75rem, 1.6vw, 1rem); }
+}
+@media (max-width: 41.99rem) {
+  .hero.fhero .fhero-watch {
+    display: flex;
+    flex-direction: column;
+    gap: var(--yf-space-2);
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 0;
+  }
+  .hero.fhero .fhero-watch-action { width: 100%; min-height: 3.2rem; }
+  .hero.fhero .fhero-handwrite {
+    display: block;
+    font-size: clamp(.71rem, 2.7vw, .9rem);
+    line-height: 1.14;
+  }
+}
+/* Contact footer: two-column desktop composition, one-column tablet/mobile. */
+.yf-footer {
+  --footer-border: rgba(255,255,255,.17);
+  background: #101211;
+  color: #f6f1ed;
+}
+.yf-footer .yf-footer-top {
+  display: grid;
+  grid-template-columns: minmax(0,.86fr) minmax(0,1.14fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  padding-block: var(--yf-section-space);
+}
+.yf-footer-info, .yf-footer-map { min-width: 0; }
+.yf-footer .eyebrow { margin: 0 0 var(--yf-space-3); }
+.yf-footer-brand { display: inline-flex; flex-direction: column; font-size: clamp(1.9rem,3vw,3rem); font-weight: 350; letter-spacing: .24em; line-height: 1; }
+.yf-footer-brand span { margin-top: .45rem; font-size: .52rem; letter-spacing: .38em; }
+.yf-footer-info h2 { margin: var(--yf-space-5) 0 var(--yf-space-2); font-size: clamp(1.05rem,1.5vw,1.35rem); font-weight: 650; }
+.yf-footer-info address { font-style: normal; font-size: clamp(.88rem,1vw,1rem); }
+.yf-demo-caption { font-size: clamp(.76rem,.9vw,.9rem); opacity: .68; line-height: 1.55; max-width: 45ch; }
+.yf-footer-socials { margin-top: var(--yf-space-5); }
+.yf-footer-socials h3 { font-size: .8rem; font-weight: 700; letter-spacing: .06em; margin: 0 0 var(--yf-space-3); }
+.yf-social-grid { display: flex; flex-wrap: wrap; gap: var(--yf-space-2); margin-bottom: var(--yf-space-2); }
+.yf-social-link {
+  display: grid; place-items: center;
+  width: 2.9rem; height: 2.9rem;
+  flex: 0 0 2.9rem;
+  border: 1px solid var(--footer-border); border-radius: 50%;
+  color: inherit; background: rgba(255,255,255,.04);
+  transition: background .25s ease, border-color .25s ease, transform .25s ease;
+}
+a.yf-social-link:hover { background: #efd8c6; border-color: #efd8c6; color: #191716; transform: translateY(-.15rem); }
+.yf-social-link.is-placeholder { opacity: .58; cursor: default; }
+.yf-map-frame {
+  position: relative; min-height: clamp(16rem,28vw,25rem);
+  border: 1px solid var(--footer-border);
+  border-radius: var(--yf-radius); overflow: hidden;
+  background:
+    linear-gradient(25deg,transparent 49.3%,#465044 49.5% 50.5%,transparent 50.7%),
+    repeating-linear-gradient(90deg,transparent 0 2.7rem,#333934 2.75rem 2.83rem),
+    repeating-linear-gradient(0deg,#202824 0 2.3rem,#394138 2.35rem 2.4rem);
+}
+.yf-map-frame iframe { width: 100%; height: 100%; min-height: inherit; border: 0; display: block; filter: grayscale(.6) brightness(.83); }
+.yf-map-badge {
+  position: absolute; bottom: var(--yf-space-3); left: var(--yf-space-3); right: var(--yf-space-3);
+  width: fit-content; max-width: calc(100% - 2 * var(--yf-space-3));
+  border-radius: var(--yf-pill-radius); padding: var(--yf-space-2) var(--yf-space-3);
+  background: rgba(18,21,19,.9); color: #f6f1ed;
+  font-size: .76rem; line-height: 1.35; backdrop-filter: blur(.4rem);
+}
+.yf-map-bottom { display: flex; align-items: center; flex-wrap: wrap; gap: var(--yf-space-3); margin-top: var(--yf-space-3); }
+.yf-map-bottom .yf-demo-caption { margin: 0; }
+.yf-route-button[aria-disabled=true] { opacity: .65; cursor: not-allowed; pointer-events: none; }
+.yf-footer .yf-footer-bottom {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: var(--yf-space-4);
+  border-top: 1px solid var(--footer-border);
+  padding-block: var(--yf-space-5);
+}
+.yf-footer-bottom .footer-links { display: flex; flex-wrap: wrap; gap: var(--yf-space-2) var(--yf-space-4); }
+.yf-footer-bottom .yf-copyright { margin-inline: auto; opacity: .68; font-size: .78rem; }
+.yf-footer-bottom .btn { margin-inline-start: auto; }
+@media (max-width: 64rem) {
+  .yf-footer .yf-footer-top { grid-template-columns: minmax(0,1fr); gap: var(--yf-space-5); }
+  .yf-footer .yf-footer-map { max-width: 100%; }
+  .yf-footer-bottom .yf-copyright { margin-inline: 0; }
+}
+@media (max-width: 39rem) {
+  .yf-map-frame { min-height: 15rem; }
+  .yf-footer-bottom .footer-links { gap: var(--yf-space-2) var(--yf-space-3); }
+  .yf-footer-bottom .btn { margin-inline-start: 0; }
+  .yf-footer .yf-footer-top { padding-block: var(--yf-space-6); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yf-social-link,.yf-language-control button { transition: none; }
+}
