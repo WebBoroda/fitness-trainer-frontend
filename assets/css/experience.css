@@ -388,7 +388,7 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
   .hero.fhero .fhero-stats strong{font-size:1.85rem}
   .hero.fhero .fhero-stats span{font-size:.94rem}
   .hero.fhero .fhero-side{transform:translateY(-.85rem)}
-  .hero.fhero .fhero-features{min-height:34rem;padding:1.15rem 1.3rem}
+  .hero.fhero .fhero-features{--feature-gutter-x:1.3rem;min-height:34rem;padding:1.15rem var(--feature-gutter-x)}
   .hero.fhero .fhero-feature{min-height:7.8rem;grid-template-columns:2.7rem minmax(0,1fr);font-size:1rem;gap:.9rem}
   .hero.fhero .fhero-feature-icon{width:2.7rem;height:2.7rem}
   .hero.fhero .fhero-feature-icon .fhero-svg{width:1.5rem;height:1.5rem}
@@ -416,7 +416,7 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
   .hero.fhero .fhero-scroll{
     position:absolute;
     right:var(--hero-right-gutter);
-    bottom:3.6rem;
+    bottom:7.2rem;
     margin:0;
     transform:none;
   }
@@ -425,14 +425,14 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
 /* Keep the right-side video preview clearly separated from the scroll hint at 1536×1024. */
 @media (min-width:88rem) and (min-height:950px){
  .hero.fhero .fhero-watch{transform:translateY(-.65rem)}
- .hero.fhero .fhero-scroll{bottom:1.6rem}
+ .hero.fhero .fhero-scroll{bottom:7.2rem}
 }
 
 /* Desktop rhythm: reserve separate hit areas for video and scroll navigation. */
 @media (min-width:88rem) and (min-height:950px){
  .hero.fhero .fhero-features{min-height:34rem}
  .hero.fhero .fhero-watch{transform:none;min-height:6rem}
- .hero.fhero .fhero-scroll{bottom:1.45rem}
+ .hero.fhero .fhero-scroll{bottom:7.2rem}
 }
 
 /* Measured at 1536×1024: move the 116px watch below the 544px feature panel,
