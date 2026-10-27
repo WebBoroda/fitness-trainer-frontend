@@ -623,3 +623,43 @@ html[data-theme=dark] #faq .faq-note{color:#e5c2a9}
   .final-section .final-benefits{grid-template-columns:1fr;gap:.5rem}
   .final-section .final-benefits li{font-size:.81rem}
 }
+
+
+/* The initial gallery, nutrition and final-photo assets contain strips from
+   the design-reference screenshot. Frame/crop them without changing source art. */
+#studio .studio-gallery .gallery-photo img{
+  object-position:center 75%;
+  transform:scale(1.2);
+  transform-origin:center center;
+}
+#studio .studio-gallery .gallery-photo:hover img{
+  transform:scale(1.26);
+}
+#nutrition .nutrition-visual{
+  display:block;min-width:0;width:min(100%,29rem);aspect-ratio:1.15/1;
+  margin:0 auto;border-radius:42% 50% 38% 48%;overflow:hidden;
+  background:#f5eee8;
+  box-shadow:0 1rem 2rem rgba(38,26,16,.09);
+}
+#nutrition .nutrition-visual .nutrition-photo{
+  display:block;width:100%;height:100%;max-width:none;aspect-ratio:auto;
+  margin:0;object-fit:cover;object-position:center;
+  border-radius:0;filter:none;transform:scale(1.32);
+  transform-origin:center center;
+}
+.final-section .final-photo{
+  object-position:center bottom;
+  transform:scale(1.13);
+  transform-origin:right bottom;
+}
+@media(max-width:63.99rem){
+  #nutrition .nutrition-visual{max-width:20rem}
+}
+@media(max-width:47.99rem){
+  #nutrition .nutrition-visual{width:min(100%,19rem)}
+  .final-section .final-photo{
+    object-position:center bottom;
+    transform:scale(1.4);
+    transform-origin:right bottom;
+  }
+}
