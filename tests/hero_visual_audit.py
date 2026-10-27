@@ -160,6 +160,14 @@ try:
                     draw.rectangle(xy, outline=color, width=2)
                     draw.text((b["x"]+3, max(0, b["y"]-14)), key, fill=color)
                 img.save(OUT / f"annotated-{width}x{height}.png")
+            if width in (974, 1536):
+                page.evaluate("document.documentElement.dataset.theme='light'")
+                page.screenshot(path=str(OUT / f"hero-{width}x{height}-light.png"),full_page=False,animations="disabled")
+                if width == 974:
+                    note_rgb = page.locator(".fhero-handwrite").evaluate(
+                        "(el) => getComputedStyle(el).color"
+                    )
+                    check(note_rgb != "rgb(255, 255, 255)", "Handwritten label has readable contrast in light tablet theme")
             print("HERO VISUAL", width, height, json.dumps({
                 "introTop": layout["introTop"],
                 "featuresToVideo": layout["spaces"].get("benefitsToVideo"),
