@@ -18,8 +18,9 @@ try:
         chrome = shutil.which('google-chrome') or shutil.which('chromium')
         browser = p.chromium.launch(headless=True,executable_path=chrome) if chrome else p.chromium.launch(headless=True)
         for width,height in [(375,812),(768,1024),(1536,1024)]:
-            for scheme in ['dark','light']:
-                page = browser.new_page(viewport={'width':width,'height':height},color_scheme=scheme,device_scale_factor=1,reduced_motion='reduce')
+            for scheme in ['dark','light','mixed']:
+                page = browser.new_page(viewport={'width':width,'height':height},color_scheme=scheme if scheme!='mixed' else 'dark',device_scale_factor=1,reduced_motion='reduce')
+                page.add_init_script("localStorage.setItem('fitness-theme','" + scheme + "')")
                 page.goto(f'http://127.0.0.1:{server.server_port}/', wait_until='networkidle')
                 for image in page.locator('main img:visible').all():
                     image.scroll_into_view_if_needed()

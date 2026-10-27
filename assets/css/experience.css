@@ -309,3 +309,32 @@ html[data-theme=dark] #faq .faq-list details[open]{border-color:#d4ad8f}
 #pricing .price .price-action{position:relative;z-index:2}
 #pricing .price .price-action:hover{background:#fff}
 .fhero-navigation a[aria-current="location"]{text-decoration:underline;text-underline-offset:.4rem}
+
+/* Crop away strips of neighboring screenshot content from temporary reference art. */
+#studio .studio-gallery .gallery-photo{isolation:isolate}
+#studio .studio-gallery .gallery-photo img{
+  object-position:center 57%;
+  transform:scale(1.075);
+  transform-origin:center 58%;
+}
+#studio .studio-gallery .gallery-photo:hover img{transform:scale(1.14)}
+#nutrition .nutrition-photo{
+  object-position:center 62%;
+  clip-path:circle(47% at 50% 53%);
+}
+.final-section:before{
+  content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,#0b0c0c 0%,#0b0c0ce6 7%,transparent 24%);
+}
+html[data-theme=mixed] .hero.fhero{--hero-accent:#f1d8c3}
+html[data-theme=mixed] #mission,html[data-theme=mixed] #studio,html[data-theme=mixed] #about,
+html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-theme=mixed] #faq{
+  color:var(--yf-ink);color-scheme:light;
+}
+@media(prefers-reduced-motion:no-preference){
+  .fhero-title strong{animation:yf-hero-arrive .9s both cubic-bezier(.2,1,.3,1)}
+  .fhero-title span{animation:yf-hero-arrive .95s .09s both cubic-bezier(.2,1,.3,1)}
+  .fhero-summary{animation:yf-hero-arrive .95s .2s both cubic-bezier(.2,1,.3,1)}
+  .fhero-actions{animation:yf-hero-arrive 1s .28s both cubic-bezier(.2,1,.3,1)}
+  @keyframes yf-hero-arrive{from{opacity:0;filter:blur(4px);translate:0 1rem}to{opacity:1;filter:blur(0);translate:0 0}}
+}

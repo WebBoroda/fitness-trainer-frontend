@@ -33,6 +33,7 @@ try:
                 )
                 errors = []
                 page.on("pageerror", lambda e: errors.append(str(e)))
+                page.add_init_script("localStorage.setItem('fitness-theme','" + scheme + "')")
                 response = page.goto(url, wait_until="networkidle", timeout=45000)
                 assert response and response.ok, (width, response.status if response else None)
                 assert page.locator("main section").count() == 11, width
@@ -120,6 +121,10 @@ try:
                 checks.append(f"{width}px {scheme}")
                 page.close()
 
+        default = browser.new_page(viewport={"width": 375, "height": 812})
+        default.goto(url, wait_until="domcontentloaded")
+        assert default.locator("html").get_attribute("data-theme") == "mixed", "Approved mixed mode must be the initial visual"
+        default.close()
         reduced = browser.new_page(viewport={"width": 375, "height": 812}, reduced_motion="reduce")
         reduced.goto(url, wait_until="networkidle")
         assert reduced.locator(".reveal").first.evaluate(
