@@ -37,6 +37,12 @@ try:
                     hero=page.locator('.hero.fhero').bounding_box()
                     assert hero and abs(hero['x'])<2 and abs(hero['width']-width)<2,('Hero should span entire viewport',width,hero)
 
+                # Approved benefit panel: each icon is on the left, its text on the right.
+                for feature in page.locator('.fhero-feature').all():
+                    icon=feature.locator('.fhero-feature-icon').bounding_box()
+                    label=feature.locator('span').last.bounding_box()
+                    assert icon and label and icon['x']+icon['width'] <= label['x']+1,('benefit icon/text order',width,icon,label)
+                    assert abs((icon['y']+icon['height']/2)-(label['y']+label['height']/2))<=8,('benefit row vertical alignment',width,icon,label)
                 assert page.locator('.fhero-avatars img').count()==3
                 assert page.locator('.fhero-avatars img').evaluate_all('(imgs)=>imgs.every(im=>im.complete && im.naturalWidth===162)'), 'Client photo sprite must load'
                 assert page.locator('.fhero-photo').evaluate('(el)=>getComputedStyle(el).zIndex')=='0', 'Hero photo must paint above the section background'
@@ -59,6 +65,10 @@ try:
                 if width==1337 and height==593:
                     assert hero['height']<=height+1,('Short laptop hero must fit the viewport',hero)
                     assert not overlaps(page.locator('.fhero-audience').bounding_box(),page.locator('.fhero-stats').bounding_box()),'Short laptop audience/stats overlap'
+                    audience_box=page.locator('.fhero-audience').bounding_box()
+                    stats_box=page.locator('.fhero-stats').bounding_box()
+                    gap=stats_box['y']-(audience_box['y']+audience_box['height'])
+                    assert 0 <= gap <= 95,('short desktop content spacing',gap)
                     assert not overlaps(page.locator('.fhero-features').bounding_box(),page.locator('.fhero-watch').bounding_box()),'Short laptop feature/video overlap'
                     assert not overlaps(page.locator('.fhero-handwrite').bounding_box(),page.locator('.fhero-scroll').bounding_box()),'Short laptop handwriting/scroll overlap'
                 assert not errors,(width,errors)
