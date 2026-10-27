@@ -1,0 +1,40 @@
+name: Frontend Design & Motion QA
+
+on:
+  push:
+    branches: [feature/frontend-dynamic-pixel-polish]
+  pull_request:
+    paths:
+      - index.html
+      - assets/**
+      - tests/**
+      - .github/workflows/frontend-design.yml
+
+permissions:
+  contents: read
+
+jobs:
+  responsive-and-interaction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Chromium browser testing
+        run: |
+          python -m pip install playwright pillow
+          python -m playwright install --with-deps chromium
+      - name: Original reference section and responsive tests
+        run: python tests/smoke.py
+      - name: Full-page frontend, dynamic interaction and viewport tests
+        run: python tests/experience_smoke.py
+      - name: Collect responsive screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-full-page-screenshots
+          path: tests/_screenshots/
+          if-no-files-found: ignore
+          retention-days: 14
