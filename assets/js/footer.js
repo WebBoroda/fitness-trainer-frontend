@@ -13,6 +13,11 @@
   const isDemo = location.isDemo !== false;
   const notice = $('#yf-location-notice');
   if (!isDemo && notice) notice.hidden = true;
+  const mapDemoBadge = $('.yf-map-badge'), routeNote = $('.yf-map-bottom .yf-demo-caption');
+  if (!isDemo) {
+    if (mapDemoBadge) mapDemoBadge.hidden = true;
+    if (routeNote) routeNote.hidden = true;
+  }
   $('.yf-year').textContent = String(new Date().getFullYear());
 
   const icons = {
