@@ -393,9 +393,9 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
   .hero.fhero .fhero-feature-icon{width:2.7rem;height:2.7rem}
   .hero.fhero .fhero-feature-icon .fhero-svg{width:1.5rem;height:1.5rem}
   .hero.fhero .fhero-watch{min-height:6.75rem}
-  .hero.fhero .fhero-watch-action{min-height:6.75rem;gap:1rem}
-  .hero.fhero .fhero-video-thumb{width:6rem;height:6rem;flex-basis:6rem}
-  .hero.fhero .fhero-watch-label{font-size:1rem}
+  .hero.fhero .fhero-watch-action{min-height:6.75rem;gap:.55rem}
+  .hero.fhero .fhero-video-thumb{width:clamp(3.2rem,3.5vw,4rem);height:clamp(3.2rem,3.5vw,4rem);flex-basis:clamp(3.2rem,3.5vw,4rem)}
+  .hero.fhero .fhero-watch-label{font-size:clamp(.8rem,.85vw,.92rem)}
 }
 
 /* One wide-screen layout rule replaces the former overlapping transform/bottom
