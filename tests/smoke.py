@@ -179,7 +179,7 @@ try:
                     print('HERO RIGHT LAYOUT',width, 'panel',panel,'video',video,'scroll',scroll, flush=True)
                     delta=(scroll['y']+scroll['height'])-(stats['y']+stats['height'])
                     print('HERO BOTTOM ALIGNMENT',width,'stats',stats['y']+stats['height'],'scroll',scroll['y']+scroll['height'],'delta',delta,flush=True)
-                    if width>=1408 and height>=832:
+                    if width>=1120 and height>=672:
                         video_scroll_gap=scroll['y']-(video['y']+video['height'])
                         assert 8<=video_scroll_gap<=50,('consistent wide-screen video-to-scroll spacing',width,video_scroll_gap)
                         assert abs(delta)<=180,('wide-screen elements should stay in one visual rhythm',width,delta)
