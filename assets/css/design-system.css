@@ -667,8 +667,8 @@ html[data-theme=dark] #faq .faq-note{color:#e5c2a9}
 /* Hide the remaining pale strip baked into the source of the closing banner:
    fade the top edge into its real dark backdrop instead of showing FAQ pixels. */
 .final-section .final-photo{
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 28%,#000 100%);
-  mask-image:linear-gradient(to bottom,transparent 0%,#000 28%,#000 100%);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,transparent 23%,#000 39%,#000 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,transparent 23%,#000 39%,#000 100%);
 }
 
 /* On small screens the photo fades into the glass modules rather than ending
