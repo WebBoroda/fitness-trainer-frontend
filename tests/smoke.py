@@ -23,7 +23,7 @@ try:
     with sync_playwright() as p:
         chrome=Path('/usr/bin/google-chrome')
         browser=p.chromium.launch(headless=True,executable_path=str(chrome) if chrome.exists() else None)
-        for width,height in ((320,740),(375,812),(768,1024),(900,1100),(1024,900),(1100,900),(1337,593),(1440,900),(1536,1024),(1920,1080),(2007,904)):
+        for width,height in ((320,740),(375,812),(768,1024),(900,1100),(1024,900),(1100,900),(1337,593),(1348,621),(1440,900),(1536,1024),(1920,1080),(2007,904)):
             for scheme in ('light','dark'):
                 page=browser.new_page(viewport={'width':width,'height':height},color_scheme=scheme,device_scale_factor=1)
                 errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
@@ -31,6 +31,8 @@ try:
                 page.goto(url,wait_until='networkidle',timeout=45000)
                 assert page.locator('html').get_attribute('data-theme')==scheme,(width,scheme)
                 assert page.locator('main section').count()==11
+                assert page.locator('#theme-button .fhero-theme-symbol').count()==1, ('single dual-tone theme icon',width)
+                assert page.locator('#theme-button svg').count()==1, ('obsolete theme icon remains',width)
                 assert page.locator('[data-set-theme]').count()==0
                 assert page.locator('[data-set-theme="auto"]').count()==0
                 assert page.locator('.fhero-photo').evaluate('(im)=>im.complete && im.naturalWidth > 0'),width
@@ -127,13 +129,19 @@ try:
                     assert hovered['background']!=normal and hovered['radius']>=12,('rounded feature hover',width,hovered)
                     page.mouse.move(0,0)
                     panel=page.locator('.fhero-features').bounding_box()
+                    feature_box=feature_links.first.bounding_box()
+                    assert feature_box and abs(feature_box['x']-panel['x'])<=2, ('hover must reach module left edge',width,feature_box,panel)
+                    assert abs((feature_box['x']+feature_box['width'])-(panel['x']+panel['width']))<=2, ('hover must reach module right edge',width,feature_box,panel)
                     video=page.locator('.fhero-watch').bounding_box()
                     assert panel and video and video['y']-(panel['y']+panel['height']) >= 18,('video must be below feature panel',width,panel,video)
                     scroll=page.locator('.fhero-scroll').bounding_box()
                     hero_bounds=page.locator('.hero.fhero').bounding_box()
                     print('HERO RIGHT LAYOUT',width, 'panel',panel,'video',video,'scroll',scroll, flush=True)
+                    delta=(scroll['y']+scroll['height'])-(stats['y']+stats['height'])
+                    print('HERO BOTTOM ALIGNMENT',width,'stats',stats['y']+stats['height'],'scroll',scroll['y']+scroll['height'],'delta',delta,flush=True)
+                    assert abs(delta)<=5, ('scroll baseline should match stats bottom',width,delta)
                     assert scroll and video['y']+video['height'] <= scroll['y']+1,('video and scroll collision',width)
-                    assert hero_bounds['y']+hero_bounds['height']-(scroll['y']+scroll['height']) >= 22,('raise scroll control above bottom',width)
+                    assert hero_bounds['y']+hero_bounds['height']-(scroll['y']+scroll['height']) >= 16,('keep aligned controls clear of the hero lower edge',width)
                     hero=page.locator('.hero.fhero').bounding_box()
                     assert hero and abs(hero['width']-width)<2,(width,'Hero width',hero)
                     assert page.locator('.fhero-photo').evaluate('(im)=>getComputedStyle(im).objectFit')=='contain',(width,'cropped photo')
