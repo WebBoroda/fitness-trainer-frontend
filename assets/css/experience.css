@@ -388,7 +388,7 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
   .hero.fhero .fhero-stats strong{font-size:1.85rem}
   .hero.fhero .fhero-stats span{font-size:.94rem}
   .hero.fhero .fhero-side{transform:translateY(-.85rem)}
-  .hero.fhero .fhero-features{--feature-gutter-x:1.3rem;min-height:34rem;padding:1.15rem var(--feature-gutter-x)}
+  .hero.fhero .fhero-features{--feature-content-inset:1.65rem;min-height:34rem;padding:1.15rem 0}
   .hero.fhero .fhero-feature{min-height:7.8rem;grid-template-columns:2.7rem minmax(0,1fr);font-size:1rem;gap:.9rem}
   .hero.fhero .fhero-feature-icon{width:2.7rem;height:2.7rem}
   .hero.fhero .fhero-feature-icon .fhero-svg{width:1.5rem;height:1.5rem}
