@@ -1,0 +1,38 @@
+name: Bilingual UI and Contact Footer
+on:
+  pull_request:
+    paths:
+      - index.html
+      - assets/**
+      - tests/bilingual_system_smoke.py
+      - .github/workflows/bilingual-footer.yml
+  push:
+    branches:
+      - feat/bilingual-fluid-footer-design-system
+permissions:
+  contents: read
+jobs:
+  locale-and-responsive-footer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright browser test
+        run: |
+          pip install playwright pillow
+          if ! command -v google-chrome >/dev/null 2>&1 && ! command -v chromium >/dev/null 2>&1; then
+            python -m playwright install --with-deps chromium
+          fi
+      - name: Verify language detection, stored choice, 11 sections, footer and buttons
+        run: python tests/bilingual_system_smoke.py
+      - name: Upload mobile/tablet/desktop UA EN screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ua-en-footer-and-buttons
+          path: tests/_screenshots/bilingual-system/
+          if-no-files-found: ignore
+          retention-days: 14
