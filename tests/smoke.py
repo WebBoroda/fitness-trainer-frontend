@@ -98,6 +98,28 @@ try:
                         else:
                             assert sum(px)<230,f'Dark hero appears light: {px}'
                 if width>=1101:
+                    # Equal outer spacing, avoiding the former large unused lower edge.
+                    header=page.locator('.fhero-header').bounding_box()
+                    eyebrow=page.locator('.fhero-eyebrow').bounding_box()
+                    stats=page.locator('.fhero-stats').bounding_box()
+                    hero_box=page.locator('.hero.fhero').bounding_box()
+                    top_gap=eyebrow['y']-(header['y']+header['height'])
+                    bottom_gap=(hero_box['y']+hero_box['height'])-(stats['y']+stats['height'])
+                    assert abs(top_gap-bottom_gap)<=3,('equal hero edge spacing',width,top_gap,bottom_gap)
+                    title=page.locator('.fhero-title').bounding_box()
+                    summary=page.locator('.fhero-summary').bounding_box()
+                    actions=page.locator('.fhero-actions').bounding_box()
+                    audience=page.locator('.fhero-audience').bounding_box()
+                    assert summary['y']-(title['y']+title['height'])>=10,('heading/body spacing',width)
+                    assert actions['y']-(summary['y']+summary['height'])>=10,('body/CTA spacing',width)
+                    assert audience['y']-(actions['y']+actions['height'])>=10,('CTA/audience spacing',width)
+                    # One soft rounded hover surface includes both icon and label.
+                    feature=feature_links.first
+                    normal=feature.evaluate('(el)=>getComputedStyle(el).backgroundColor')
+                    feature.hover()
+                    hovered=feature.evaluate('(el)=>({background:getComputedStyle(el).backgroundColor,radius:parseFloat(getComputedStyle(el).borderTopLeftRadius)})')
+                    assert hovered['background']!=normal and hovered['radius']>=12,('rounded feature hover',width,hovered)
+                    page.mouse.move(0,0)
                     panel=page.locator('.fhero-features').bounding_box()
                     video=page.locator('.fhero-watch').bounding_box()
                     assert panel and video and video['y']-(panel['y']+panel['height']) >= 18,('video must be below feature panel',width,panel,video)

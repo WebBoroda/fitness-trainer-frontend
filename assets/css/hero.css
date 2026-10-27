@@ -290,12 +290,31 @@ html[data-theme=mixed] .fhero-theme-trigger .fhero-svg {
   text-decoration: none;
   font-size: .9rem;
   line-height: 1.4;
+  position: relative;
+  padding-inline: .4rem;
+  border-radius: .875rem;
   cursor: pointer;
+  transition: background-color .2s var(--hero-ease);
 }
 @media (hover: hover) {
-  .fhero-feature:hover { background: rgba(255,255,255,.08); }
+  .fhero-feature:hover { background: rgba(255,255,255,.11); }
 }
-.fhero-feature:focus-visible { outline: .15rem solid var(--hero-accent); outline-offset: .15rem; border-radius: .45rem; }
+/* Straight separators do not inherit the hover item's rounded corners. */
+.fhero-feature::after {
+  content: "";
+  position: absolute;
+  inset-inline: .4rem;
+  bottom: 0;
+  height: 1px;
+  background: #ffffff43;
+  pointer-events: none;
+}
+.fhero-feature:last-child::after { display: none; }
+.fhero-feature:focus-visible {
+  outline: .15rem solid var(--hero-accent);
+  outline-offset: .15rem;
+  background: rgba(255,255,255,.11);
+}
 .fhero-feature > span:last-child { min-width: 0; overflow-wrap: anywhere; }
 .fhero-feature-icon {
   display: grid;
@@ -476,14 +495,23 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .fhero-stage {
     display: grid;
     grid-template-columns: minmax(0, 1fr) clamp(14rem, 18vw, 17rem);
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
     align-items: start;
     column-gap: clamp(1.4rem, 2.2vw, 3rem);
     row-gap: .8rem;
     min-height: calc(max(36rem, 100svh) - var(--hero-header-height));
-    padding: clamp(1.25rem, 3vh, 2.8rem) var(--hero-right-gutter) 1.3rem var(--hero-gutter);
+    padding: clamp(1.25rem, 3vh, 2.8rem) var(--hero-right-gutter) clamp(1.25rem, 3vh, 2.8rem) var(--hero-gutter);
   }
-  .fhero-main { grid-column: 1; grid-row: 1; max-width: 44rem; }
+  .fhero-main {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    min-height: min(100%, 70svh);
+    max-width: 44rem;
+  }
   .hero.fhero h1.fhero-title {
     font-size: clamp(3.3rem, 4.9vw, 5.3rem);
     white-space: nowrap;
@@ -496,16 +524,16 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   .fhero-stats {
     grid-column: 1;
     grid-row: 2;
-    align-self: start;
+    align-self: end;
     width: min(100%, 31rem);
-    margin-top: clamp(3.75rem, 5.3vw, 6.5rem);
+    margin-top: 0;
     padding: .85rem .7rem;
   }
   .fhero-stats > div { padding-inline: 1rem; }
   .fhero-stats span { font-size: .875rem; }
   .fhero-side {
     grid-column: 2;
-    grid-row: 1 / 4;
+    grid-row: 1 / 3;
     gap: clamp(1.2rem, 2vw, 2rem);
     height: 100%;
   }
@@ -517,8 +545,9 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   }
   .fhero-feature {
     min-height: 4.9rem;
-    padding: .4rem 0;
-    border-bottom: 1px solid #ffffff43;
+    padding: .4rem .5rem;
+    margin-inline: -.5rem;
+    border-bottom: 0;
     font-size: .875rem;
   }
   .fhero-feature:last-child { border: 0; }
@@ -555,10 +584,11 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
   html[data-theme=light] .fhero-watch { color: white; }
 }
 @media (min-width: 70rem) and (max-height: 47rem) {
-  .fhero-stage { padding-top: 1.15rem; padding-bottom: .2rem; row-gap: .3rem; }
-  .hero.fhero h1.fhero-title { font-size: clamp(2.6rem, 4vw, 3.45rem); line-height: .97; margin-block: .4rem; }
-  .fhero-actions { margin-top: .65rem; }
-  .fhero-audience { margin-top: .4rem; }
+  .fhero-stage { padding-block: 1.25rem; row-gap: .3rem; }
+  .fhero-main { min-height: min(100%, 60svh); }
+  .hero.fhero h1.fhero-title { font-size: clamp(2.6rem, 4vw, 3.45rem); line-height: .97; margin-block: .7rem; }
+  .fhero-actions { margin-top: 1rem; }
+  .fhero-audience { margin-top: 1rem; }
   .fhero-side { gap: .3rem; }
   .fhero-scroll { margin-bottom: 1.75rem; }
   .fhero-features { padding-block: .2rem; }
