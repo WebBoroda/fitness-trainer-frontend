@@ -27,7 +27,7 @@ try:
             for scheme in ('light','dark'):
                 page=browser.new_page(viewport={'width':width,'height':height},color_scheme=scheme,device_scale_factor=1)
                 errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
-                page.add_init_script("localStorage.setItem('fitness-theme', '"+scheme+"')")
+                page.add_init_script("if (!localStorage.getItem('fitness-theme')) localStorage.setItem('fitness-theme', '"+scheme+"')")
                 page.goto(url,wait_until='networkidle',timeout=45000)
                 assert page.locator('html').get_attribute('data-theme')==scheme,(width,scheme)
                 assert page.locator('main section').count()==11

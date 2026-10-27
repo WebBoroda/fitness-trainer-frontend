@@ -33,7 +33,7 @@ try:
                 )
                 errors = []
                 page.on("pageerror", lambda e: errors.append(str(e)))
-                page.add_init_script("localStorage.setItem('fitness-theme','" + scheme + "')")
+                page.add_init_script("if (!localStorage.getItem('fitness-theme')) localStorage.setItem('fitness-theme','" + scheme + "')")
                 response = page.goto(url, wait_until="networkidle", timeout=45000)
                 assert response and response.ok, (width, response.status if response else None)
                 assert page.locator("main section").count() == 11, width
