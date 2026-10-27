@@ -397,3 +397,14 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
   .hero.fhero .fhero-video-thumb{width:6rem;height:6rem;flex-basis:6rem}
   .hero.fhero .fhero-watch-label{font-size:1rem}
 }
+
+/* Final wide-screen optical alignment with the approved hero crop. */
+@media (min-width:88rem) and (min-height:950px){
+  .hero.fhero h1.fhero-title strong{transform:scaleX(1.12);transform-origin:left center}
+  .hero.fhero h1.fhero-title span{transform:scaleX(1.22);transform-origin:left center}
+  .hero.fhero .fhero-button-primary{padding-left:2rem;gap:1.45rem}
+  .hero.fhero .fhero-button-secondary{min-width:16.9rem}
+  .hero.fhero .fhero-stats{transform:translateY(-2.4rem);min-height:8rem}
+  .hero.fhero .fhero-features{min-height:36rem}
+  .hero.fhero .fhero-scroll{transform:translateY(4.15rem)}
+}
