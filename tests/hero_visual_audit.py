@@ -187,7 +187,7 @@ try:
                 layout["spaces"]["videoToScroll"] = round(video_to_scroll,2)
                 delta = bottom(boxes["scroll"]) - bottom(boxes["stats"])
                 layout["spaces"]["statsToScrollBottomDelta"] = round(delta, 2)
-                if width >= 1408 and height >= 832:
+                if width >= 1120 and height >= 672:
                     check(8 <= video_to_scroll <= 50,
                           "Wide-screen video and scroll remain proportionally spaced")
                     check(abs(delta) <= 180,
