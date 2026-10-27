@@ -9,7 +9,15 @@
   const attributes = new WeakMap();
   const translatableAttrs = ['aria-label', 'alt', 'title', 'placeholder', 'content'];
   const normalize = value => String(value).replace(/\s+/g, ' ').trim();
-  const translate = value => english[normalize(value)] || value;
+  const translate = value => {
+    const source = normalize(value);
+    if (english[source]) return english[source];
+    const theme = /^Тема: (світла|темна|контрастна)(?:\. Перемкнути на | · наступна: )(світла|темна|контрастна)$/.exec(source);
+    if (theme) return 'Theme: ' + english[theme[1]] + ' · next: ' + english[theme[2]];
+    const gallery = /^Переглянути фото: (.+)$/.exec(source);
+    if (gallery) return 'View photo: ' + (english[gallery[1]] || gallery[1]);
+    return value;
+  };
   const remember = language => {
     try { localStorage.setItem(key, language); } catch (_) { /* Private browsing */ }
   };
@@ -22,7 +30,6 @@
     return first.startsWith('en') ? 'en' : 'uk';
   };
   let language = preferred();
-  const hasUkrainian = text => /[\u0404\u0406\u0407\u0490\u0430-\u044f\u0410-\u042f]/u.test(text);
   const excluded = node => {
     let p = node.parentElement;
     while (p && p !== document.body) {
