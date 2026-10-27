@@ -23,7 +23,7 @@ try:
     with sync_playwright() as p:
         chrome=Path('/usr/bin/google-chrome')
         browser=p.chromium.launch(headless=True,executable_path=str(chrome) if chrome.exists() else None)
-        for width,height in ((320,740),(375,812),(768,1024),(900,1100),(1024,900),(1100,900),(1337,593),(1348,621),(1440,900),(1536,1024),(1920,1080),(2007,904)):
+        for width,height in ((280,740),(320,740),(360,780),(375,812),(480,900),(640,960),(768,1024),(900,1100),(1024,900),(1100,900),(1337,593),(1348,621),(1440,900),(1536,1024),(1920,1080),(2007,904)):
             for scheme in ('light','dark'):
                 page=browser.new_page(viewport={'width':width,'height':height},color_scheme=scheme,device_scale_factor=1)
                 errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
@@ -54,6 +54,29 @@ try:
                 # All four panel rows are keyboard-accessible, correctly targeted links.
                 feature_links=page.locator('.fhero-features a.fhero-feature')
                 assert feature_links.count()==4,('feature links missing',width)
+                if width <= 671:
+                    # Narrow-screen benefits form ONE readable vertical list.
+                    panel_box=page.locator('.fhero-features').bounding_box()
+                    mobile_rows=[link.bounding_box() for link in feature_links.all()]
+                    assert all(box and box['height']>=60 for box in mobile_rows),('feature touch areas too tight',width,mobile_rows)
+                    for index,box in enumerate(mobile_rows):
+                        assert abs(box['x']-panel_box['x'])<=2,('feature hover does not span left side',width,index,box,panel_box)
+                        assert abs(box['x']+box['width']-(panel_box['x']+panel_box['width']))<=2,('feature hover does not span right side',width,index,box,panel_box)
+                        icon_box=feature_links.nth(index).locator('.fhero-feature-icon').bounding_box()
+                        assert icon_box['x']-panel_box['x']>=14,('icon too close to panel border',width,index,icon_box,panel_box)
+                        assert feature_links.nth(index).evaluate('(el)=>parseFloat(getComputedStyle(el).fontSize)')>=14,('feature text too small',width,index)
+                        if index:
+                            prev=mobile_rows[index-1]
+                            assert box['y']>=prev['y']+prev['height']-2,('feature rows collide or form columns',width,index)
+                    for index in range(3):
+                        pseudo=feature_links.nth(index).evaluate('(el)=>({display:getComputedStyle(el,"::after").display,width:parseFloat(getComputedStyle(el,"::after").width)})')
+                        assert pseudo['display']!='none' and pseudo['width']>=panel_box['width']*.65,('misplaced row divider',width,index,pseudo)
+                    assert feature_links.last.evaluate('(el)=>getComputedStyle(el,"::after").display')=='none',('extra last divider',width)
+                    buttons=page.locator('.fhero-actions .fhero-button')
+                    first,second=buttons.nth(0).bounding_box(),buttons.nth(1).bounding_box()
+                    assert second['y']-(first['y']+first['height'])>=12,('mobile CTAs need visible vertical gap',width,first,second)
+                    assert abs(first['width']-second['width'])<2,('mobile CTAs should share the same width',width,first,second)
+
                 for i,href in enumerate(('#formats','#formats','#nutrition','#results')):
                     link=feature_links.nth(i)
                     assert link.get_attribute('href')==href,(i,href)
