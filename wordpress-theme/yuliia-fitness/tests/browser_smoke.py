@@ -25,7 +25,12 @@ with sync_playwright() as playwright:
         page.wait_for_timeout(250)
         assert page.locator("h1").count() == 1, f"Missing single H1 at {width}"
         assert page.locator(".hero.fhero").count() == 1
-        assert page.locator(".fhero-photo").evaluate("(e) => e.complete && e.naturalWidth > 0"), "Hero photo failed to load"
+        if not page.locator(".fhero-photo").evaluate("(e) => e.complete && e.naturalWidth > 0"):
+            src = page.locator(".fhero-photo").get_attribute("src")
+            resp = page.request.get(src)
+            print("DEBUG IMAGE:", src, "status", resp.status, "mime", resp.headers.get("content-type"), "bytes", len(resp.body()), flush=True)
+            page.screenshot(path=str(out / "wp-image-debug.png"), full_page=False)
+            raise AssertionError("Hero photo failed to load")
         overflow = page.evaluate("Math.max(document.documentElement.scrollWidth,document.body.scrollWidth)-window.innerWidth")
         assert overflow <= 4, f"Horizontal overflow {overflow}px at {width}px"
         if width in [375, 1440]:
