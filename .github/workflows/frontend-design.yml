@@ -38,3 +38,17 @@ jobs:
           path: tests/_screenshots/
           if-no-files-found: ignore
           retention-days: 14
+
+  package-browser-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package exact GitHub Pages source for local visual review
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-source-review
+          path: |
+            index.html
+            assets/
+            tests/
+          retention-days: 7
