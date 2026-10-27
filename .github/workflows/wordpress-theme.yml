@@ -35,8 +35,17 @@ jobs:
           node --check wordpress-theme/yuliia-fitness/assets/js/editor.js
       - name: Validate theme JSON and media structure
         run: python3 wordpress-theme/yuliia-fitness/tests/check_assets.py
-      - name: WordPress runtime note
-        run: echo 'Runtime/editor visual tests require a WordPress staging environment.'
+      - name: Package installable WordPress theme
+        run: |
+          (cd wordpress-theme && zip -q -r "$GITHUB_WORKSPACE/yuliia-fitness.zip" yuliia-fitness)
+      - name: Upload theme ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: yuliia-fitness-wordpress-theme
+          path: yuliia-fitness.zip
+          retention-days: 14
+      - name: Editor and visual QA note
+        run: echo 'Gutenberg visual editor and pixel-perfect review require manual staging QA.'
 
   wordpress-runtime:
     runs-on: ubuntu-latest

@@ -51,7 +51,7 @@ node --check wordpress-theme/yuliia-fitness/assets/js/editor.js
 python3 wordpress-theme/yuliia-fitness/tests/check_assets.py
 ```
 
-GitHub Actions runs static validation. **NOT TESTED:** theme installation in WordPress, Gutenberg persistence, contact email delivery, accessibility audit, responsive visual comparison with the approved 320–1920px mockups, Safari/iOS and Firefox, real Lighthouse/CWV measurements. Tests must be run on staging before production use.
+**CI PASS:** PHP 8.2, JavaScript, all 11 template/media checks, real WordPress + MySQL install/theme activation, Gutenberg block database persistence and server rendering, HTTP checks, Chromium responsive smoke at 320–1920px, theme switching, mobile menu, FAQ, image loading and reduced-motion. Browser screenshots and an installable theme ZIP are uploaded as GitHub Actions artifacts. **NOT TESTED / BLOCKED:** Gutenberg visual editor UI, SMTP delivery, pixel-perfect design comparison, full WCAG audit, Firefox/Safari/mobile-device compatibility, real Lighthouse/CWV, production hosting. Do not publish without staging review.
 
 **Media provenance:** extracted pictures are temporary fragments of the supplied reference design, **not licensed original photos**. Replace them with approved originals. **Demo figures, prices, success stories and reviews are not verified facts**; do not publish them as claims without sign-off.
 
