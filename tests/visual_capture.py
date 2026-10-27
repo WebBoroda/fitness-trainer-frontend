@@ -21,7 +21,7 @@ try:
             for scheme in ['dark','light']:
                 page = browser.new_page(viewport={'width':width,'height':height},color_scheme=scheme,device_scale_factor=1,reduced_motion='reduce')
                 page.goto(f'http://127.0.0.1:{server.server_port}/', wait_until='networkidle')
-                for image in page.locator('main img').all():
+                for image in page.locator('main img:visible').all():
                     image.scroll_into_view_if_needed()
                     image.evaluate('(el)=>el.decode().catch(()=>{})')
                 page.locator('.reveal').evaluate_all("(els)=>els.forEach(el=>el.classList.add('visible'))")

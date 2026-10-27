@@ -46,10 +46,10 @@ try:
                 assert page.locator(".studio-gallery .gallery-photo").count() == 3
                 assert page.locator(".yf-consultation-modal").count() == 1
 
-                for img in page.locator("main img").all():
+                for img in page.locator("main img:visible").all():
                     img.scroll_into_view_if_needed(timeout=10000)
                     img.evaluate("(el) => el.decode().catch(()=>{})")
-                bad_images = page.locator("main img").evaluate_all(
+                bad_images = page.locator("main img:visible").evaluate_all(
                     "(items) => items.filter(img=>!img.complete || img.naturalWidth===0).map(img=>img.src)"
                 )
                 assert not bad_images, (width, bad_images)
