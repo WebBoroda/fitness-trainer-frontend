@@ -80,6 +80,77 @@
 .section .faq-list summary { padding-block: var(--yf-space-4); }
 .section .price { padding: var(--yf-space-4); }
 
+/* Full-bleed approved photograph: no object-fit letterboxing at desktop widths.
+   Frosted surfaces stay translucent so the image is actually visible behind them. */
+@media (min-width: 70rem) {
+  .hero.fhero .fhero-photo {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: 52% top;
+    transform: none;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+.hero.fhero .fhero-header {
+  background: rgba(15,15,15,.29);
+  border-bottom-color: rgba(255,255,255,.22);
+  -webkit-backdrop-filter: blur(1.1rem) saturate(140%);
+  backdrop-filter: blur(1.1rem) saturate(140%);
+}
+.hero.fhero .fhero-header .mobile-menu {
+  background: rgba(22,21,21,.75);
+  -webkit-backdrop-filter: blur(1.1rem) saturate(135%);
+  backdrop-filter: blur(1.1rem) saturate(135%);
+}
+.hero.fhero .fhero-header-cta,
+.hero.fhero .fhero-button-primary {
+  background: rgba(243,219,200,.82);
+  border-color: rgba(255,244,235,.78);
+  color: #1d1714;
+  box-shadow: inset 0 .07rem 0 rgba(255,255,255,.28), 0 .3rem 1rem rgba(0,0,0,.08);
+  -webkit-backdrop-filter: blur(.85rem) saturate(130%);
+  backdrop-filter: blur(.85rem) saturate(130%);
+}
+.hero.fhero .fhero-header-cta:hover,
+.hero.fhero .fhero-button-primary:hover { background: rgba(247,229,215,.91); }
+.hero.fhero .fhero-cta-circle {
+  background: rgba(255,255,255,.92);
+  -webkit-backdrop-filter: blur(.2rem);
+  backdrop-filter: blur(.2rem);
+}
+.hero.fhero .fhero-button-secondary {
+  background: rgba(20,20,20,.18);
+  -webkit-backdrop-filter: blur(.9rem);
+  backdrop-filter: blur(.9rem);
+}
+.hero.fhero .fhero-eyebrow {
+  background: rgba(29,28,27,.4);
+  -webkit-backdrop-filter: blur(.8rem);
+  backdrop-filter: blur(.8rem);
+}
+.hero.fhero .fhero-stats {
+  background: rgba(29,27,27,.48);
+  -webkit-backdrop-filter: blur(1rem) saturate(135%);
+  backdrop-filter: blur(1rem) saturate(135%);
+}
+.hero.fhero .fhero-features {
+  background: rgba(40,39,37,.54);
+  -webkit-backdrop-filter: blur(1.15rem) saturate(130%);
+  backdrop-filter: blur(1.15rem) saturate(130%);
+}
+html[data-theme=light] .hero.fhero .fhero-header {
+  background: rgba(248,240,233,.64);
+  border-bottom-color: rgba(42,33,27,.24);
+}
+html[data-theme=light] .hero.fhero .fhero-stats { background: rgba(255,250,245,.72); }
+html[data-theme=light] .hero.fhero .fhero-features { background: rgba(38,35,32,.65); }
+html[data-theme=light] .hero.fhero .fhero-eyebrow { color: #241d18; background: rgba(249,236,225,.78); }
+
 /* Language buttons stay visible on mobile and never compete with the menu. */
 .yf-language-control {
   display: inline-flex;
@@ -126,66 +197,166 @@ html[data-theme=light] .yf-language-control button[aria-pressed=true] { color: #
     max-width: 100%;
   }
 }
-/* The video annotation is always a visible neighbor of its button, not decoration.
-   No SVG arrow on any viewport. */
-.fhero-curve { display: none !important; }
+/* Approved hero: a single compact video + handwritten + arrow component.
+   Content sizes its own cells instead of using two stretched panel columns. */
+.hero.fhero .fhero-watch {
+  display: inline-grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  gap: clamp(.45rem, .7vw, .8rem);
+  position: relative;
+  align-self: start;
+  width: max-content;
+  max-width: 100%;
+  min-height: 0;
+  padding: .25rem 0;
+  margin: 0;
+}
+.hero.fhero .fhero-watch-action {
+  display: inline-flex;
+  grid-column: 1;
+  grid-row: 1;
+  justify-content: flex-start;
+  align-items: center;
+  min-width: 0;
+  min-height: clamp(3.8rem, 4.5vw, 5.25rem);
+  width: max-content;
+  max-width: 100%;
+  gap: clamp(.4rem, .6vw, .7rem);
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+.hero.fhero .fhero-video-thumb {
+  width: clamp(3rem, 3.7vw, 4.5rem);
+  height: clamp(3rem, 3.7vw, 4.5rem);
+  flex: 0 0 clamp(3rem, 3.7vw, 4.5rem);
+  background: transparent;
+  border: .11rem solid rgba(255,255,255,.93);
+  box-shadow: 0 .25rem 1rem rgba(0,0,0,.12);
+}
+.hero.fhero .fhero-video-thumb img { object-fit: cover; }
+.hero.fhero .fhero-play-mark {
+  width: clamp(1.45rem, 1.7vw, 1.85rem);
+  height: clamp(1.45rem, 1.7vw, 1.85rem);
+  background: rgba(255,255,255,.89);
+  backdrop-filter: blur(.2rem);
+  box-shadow: 0 .08rem .35rem rgba(0,0,0,.2);
+}
+.hero.fhero .fhero-watch-label {
+  min-width: 0;
+  flex: 0 1 auto;
+  font-size: clamp(.875rem, .93vw, 1rem);
+  line-height: 1.34;
+}
 .hero.fhero .fhero-handwrite {
   display: block !important;
+  grid-column: 2;
+  grid-row: 1;
   position: static !important;
   top: auto !important;
   right: auto !important;
-  width: auto;
   min-width: 0;
   max-width: 100%;
+  width: auto;
   margin: 0;
   color: inherit;
-  font-size: clamp(.76rem, 1.05vw, 1.08rem);
-  line-height: 1.12;
-  white-space: normal;
-  overflow-wrap: normal;
+  font: 500 clamp(.8rem, .97vw, 1.08rem)/1.05 "Caveat", "Brush Script MT", "Segoe Script", cursive;
+  white-space: nowrap;
   text-align: left;
-  transform: none;
+  transform: rotate(-8deg);
+  transform-origin: center left;
   pointer-events: none;
 }
-.hero.fhero .fhero-watch {
+.hero.fhero .fhero-curve {
+  display: block !important;
+  position: absolute;
+  z-index: 1;
+  top: -.55rem;
+  right: clamp(5.9rem, 38%, 7.3rem);
+  width: clamp(1.7rem, 2.3vw, 2.6rem);
+  height: clamp(1.8rem, 2.65vw, 3rem);
+  color: inherit;
+  opacity: .94;
+  transform: rotate(-10deg);
+  pointer-events: none;
+}
+.hero.fhero .fhero-scroll {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(5.4rem, .8fr);
-  gap: clamp(.4rem, 1.1vw, 1rem);
+  display: inline-flex;
   align-items: center;
-  min-height: 0;
-  width: 100%;
+  padding-bottom: 1.1rem;
+  gap: .55rem;
+  text-decoration: none;
 }
-.hero.fhero .fhero-watch-action {
-  grid-column: 1;
-  grid-row: 1;
-  min-width: 0;
-  width: 100%;
+.hero.fhero .fhero-scroll > span:nth-child(2) {
+  position: relative;
 }
-.hero.fhero .fhero-handwrite {
-  grid-column: 2;
-  grid-row: 1;
-  align-self: center;
+.hero.fhero .fhero-scroll > span:nth-child(2)::after {
+  content: "";
+  position: absolute;
+  bottom: -.3rem;
+  left: 0;
+  width: 57%;
+  border-bottom: 1px solid currentColor;
+  opacity: .65;
 }
-@media (min-width: 42rem) and (max-width: 70rem) {
-  .hero.fhero .fhero-watch { grid-template-columns: minmax(0,1fr) minmax(5rem,.9fr); }
-  .hero.fhero .fhero-handwrite { font-size: clamp(.75rem, 1.6vw, 1rem); }
+.hero.fhero .fhero-scroll-arrow {
+  display: block !important;
+  position: absolute;
+  right: 8%;
+  bottom: -.65rem;
+  font-size: 1.35rem;
+  font-weight: 300;
+  line-height: 1;
+}
+@media (min-width: 42rem) and (max-width: 69.999rem) {
+  .hero.fhero .fhero-watch {
+    width: max-content;
+    max-width: 100%;
+    grid-template-columns: max-content max-content;
+  }
+  .hero.fhero .fhero-handwrite { font-size: clamp(.78rem, 1.6vw, 1.05rem); }
+  .hero.fhero .fhero-curve { right: 36%; }
 }
 @media (max-width: 41.99rem) {
   .hero.fhero .fhero-watch {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
-    gap: var(--yf-space-2);
     align-items: flex-start;
-    justify-content: center;
-    min-width: 0;
+    gap: clamp(.2rem, .8vw, .5rem);
+    width: min(100%, 12rem);
+    min-height: 0;
+    padding-block: .2rem;
   }
-  .hero.fhero .fhero-watch-action { width: 100%; min-height: 3.2rem; }
+  .hero.fhero .fhero-watch-action {
+    min-height: 3.4rem;
+    width: auto;
+    max-width: 100%;
+    gap: .55rem;
+  }
+  .hero.fhero .fhero-video-thumb {
+    width: clamp(2.7rem, 10vw, 3.35rem);
+    height: clamp(2.7rem, 10vw, 3.35rem);
+    flex-basis: clamp(2.7rem, 10vw, 3.35rem);
+  }
+  .hero.fhero .fhero-watch-label { font-size: clamp(.72rem, 2.7vw, .86rem); }
   .hero.fhero .fhero-handwrite {
-    display: block;
-    font-size: clamp(.71rem, 2.7vw, .9rem);
-    line-height: 1.14;
+    align-self: flex-start;
+    margin-inline-start: clamp(.75rem, 2vw, 1.35rem);
+    font-size: clamp(.7rem, 2.65vw, .89rem);
+    transform: rotate(-7deg);
   }
+  .hero.fhero .fhero-curve {
+    top: clamp(2.55rem, 7vw, 3.15rem);
+    left: clamp(5.2rem, 21vw, 7rem);
+    right: auto;
+    width: 1.75rem;
+    height: 1.8rem;
+    transform: rotate(68deg);
+  }
+  .hero.fhero .fhero-scroll { padding-bottom: .75rem; }
+  .hero.fhero .fhero-scroll-arrow { bottom: -.55rem; font-size: 1.08rem; }
 }
 /* Contact footer: two-column desktop composition, one-column tablet/mobile. */
 .yf-footer {

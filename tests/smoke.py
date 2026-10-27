@@ -184,7 +184,7 @@ try:
                     assert hero_bounds['y']+hero_bounds['height']-(scroll['y']+scroll['height']) >= 16,('keep aligned controls clear of the hero lower edge',width)
                     hero=page.locator('.hero.fhero').bounding_box()
                     assert hero and abs(hero['width']-width)<2,(width,'Hero width',hero)
-                    assert page.locator('.fhero-photo').evaluate('(im)=>getComputedStyle(im).objectFit')=='contain',(width,'cropped photo')
+                    assert page.locator('.fhero-photo').evaluate('(im)=>getComputedStyle(im).objectFit')=='cover',(width,'photo must cover full desktop width')
                     a=page.locator('.fhero-header-cta').evaluate('(el)=>getComputedStyle(el).backgroundColor')
                     b=page.locator('.fhero-button-primary').evaluate('(el)=>getComputedStyle(el).backgroundColor')
                     assert a==b,(width,scheme,a,b)

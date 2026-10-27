@@ -95,6 +95,48 @@ try:
             check(overflow <= 2, "No horizontal overflow")
             check(boxes["features"] is not None and boxes["watch"] is not None, "Benefits and video visible")
             check(boxes["scroll"] is not None, "Scroll control visible")
+            curve = page.locator('.fhero-curve')
+            check(curve.count() == 1 and curve.is_visible(), "Curved arrow points toward handwritten caption")
+            curve_box = curve.bounding_box()
+            note = boxes["handwritten"]
+            video_trigger = boxes["video"]
+            check(note is not None and curve_box is not None, "Handwriting and curved arrow always visible")
+            if note and video_trigger:
+                if width < 672:
+                    check(note["y"] >= video_trigger["y"] + video_trigger["height"] * .62,
+                          "Mobile handwritten label sits immediately below video")
+                    check(note["y"] - bottom(video_trigger) <= 17,
+                          "No excessive mobile distance between video and caption")
+                else:
+                    gap_x = note["x"] - right(video_trigger)
+                    layout["spaces"]["videoToCaptionHorizontal"] = round(gap_x,2)
+                    check(-13 <= gap_x <= 32, "Handwritten caption directly next to video, not across empty column")
+                    check(abs(center_y(note) - center_y(video_trigger)) < 38,
+                          "Caption vertically aligned with video")
+            if curve_box and page.locator('.fhero-video-thumb').count():
+                circle = page.locator('.fhero-video-thumb').bounding_box()
+                check(curve_box["x"] > circle["x"] + circle["width"] - 4,
+                      "Curved arrow does not cover the video thumbnail")
+            scroll_style = page.locator('.fhero-scroll').evaluate("""el => ({
+              arrow: getComputedStyle(el.querySelector('.fhero-scroll-arrow')).display,
+              underline: getComputedStyle(el.querySelector('span:nth-child(2)'), '::after').content
+            })""")
+            check(scroll_style["arrow"] != "none" and scroll_style["underline"] != "none",
+                  "Scroll cue has partial underline and downward arrow")
+            for selector in ('.fhero-header', '.fhero-stats', '.fhero-features',
+                             '.fhero-button-primary'):
+                blur = page.locator(selector).first.evaluate(
+                    'el => getComputedStyle(el).backdropFilter || getComputedStyle(el).webkitBackdropFilter'
+                )
+                check('blur(' in blur, "Real frosted-glass backdrop for " + selector)
+            if width >= 1120:
+                photo = page.locator('.fhero-photo').bounding_box()
+                check(abs(photo["x"] - boxes["hero"]["x"]) < 2 and
+                      abs(photo["width"] - boxes["hero"]["width"]) < 2,
+                      "Full-bleed hero photograph spans the viewport without side bands")
+                mode = page.locator('.fhero-photo').evaluate('el => getComputedStyle(el).objectFit')
+                check(mode == "cover", "Approved cover image fills the entire hero")
+
             # A visible annotation must not paint over the actionable video label.
             if width >= 672 and boxes["handwritten"]:
                 video_label = page.locator(".fhero-watch-label").bounding_box()
