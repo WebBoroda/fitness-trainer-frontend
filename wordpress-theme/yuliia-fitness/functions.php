@@ -25,6 +25,7 @@ add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style( 'yuliia-style', get_theme_file_uri( '/assets/css/site.css' ), array( 'yuliia-fonts' ), YULIIA_VERSION );
     wp_enqueue_style( 'yuliia-hero', get_theme_file_uri( '/assets/css/hero.css' ), array( 'yuliia-style' ), YULIIA_VERSION );
     wp_enqueue_style( 'yuliia-mission', get_theme_file_uri( '/assets/css/mission.css' ), array( 'yuliia-hero' ), YULIIA_VERSION );
+    wp_enqueue_style( 'yuliia-motion', get_theme_file_uri( '/assets/css/motion.css' ), array( 'yuliia-mission' ), YULIIA_VERSION );
     wp_enqueue_script( 'yuliia-ui', get_theme_file_uri( '/assets/js/site.js' ), array(), YULIIA_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 } );
 
@@ -47,7 +48,7 @@ function yuliia_field( array $fields, string $key, string $fallback ): string {
 
 function yuliia_image( array $fields, string $key, string $fallback ): string {
     $url = yuliia_field( $fields, $key, '' );
-    if ( '' !== $url && wp_http_validate_url( $url ) ) {
+    if ( '' !== $url && preg_match( '~^(https?://|/)~i', $url ) ) {
         return $url;
     }
     return get_theme_file_uri( '/' . ltrim( $fallback, '/' ) );

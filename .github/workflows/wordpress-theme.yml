@@ -1,0 +1,39 @@
+name: WordPress Theme CI
+
+on:
+  push:
+    branches:
+      - feature/dynamic-wordpress-theme
+  pull_request:
+    paths:
+      - 'wordpress-theme/**'
+      - '.github/workflows/wordpress-theme.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  static-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, json
+          tools: none
+      - name: Validate PHP syntax
+        run: |
+          find wordpress-theme/yuliia-fitness -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Validate JavaScript syntax
+        run: |
+          node --check wordpress-theme/yuliia-fitness/assets/js/site.js
+          node --check wordpress-theme/yuliia-fitness/assets/js/editor.js
+      - name: Validate theme JSON and media structure
+        run: python3 wordpress-theme/yuliia-fitness/tests/check_assets.py
+      - name: WordPress runtime note
+        run: echo 'Runtime/editor visual tests require a WordPress staging environment.'
