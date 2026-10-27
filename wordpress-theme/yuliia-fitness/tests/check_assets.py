@@ -22,7 +22,7 @@ for name, info in data.items():
     for field_group, variable in (("texts", "t"), ("images", "i"), ("links", "l")):
         keys = [field["key"] for field in info[field_group]]
         assert len(keys) == len(set(keys)), (name, field_group)
-        assert all(re.fullmatch(rf"{variable}\\d+", key) for key in keys), (name, keys)
+        assert all(key.startswith(variable) and key[1:].isdigit() for key in keys), (name, keys)
         for key in keys:
             assert f"'{key}'" in template, (name, key)
 print(f"PASS: {len(data)} sections, all referenced media, block config and JSON.")
