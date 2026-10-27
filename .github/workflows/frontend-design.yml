@@ -25,7 +25,11 @@ jobs:
       - name: Install Chromium browser testing
         run: |
           python -m pip install playwright pillow
-          python -m playwright install --with-deps chromium
+          if command -v google-chrome >/dev/null 2>&1 || command -v chromium >/dev/null 2>&1; then
+            echo 'Using preinstalled Chromium-family browser'
+          else
+            python -m playwright install --with-deps chromium
+          fi
       - name: Original reference section and responsive tests
         run: python tests/smoke.py
       - name: Full-page frontend, dynamic interaction and viewport tests

@@ -1,6 +1,7 @@
 """Visual and interaction smoke test of the GitHub Pages frontend, not WordPress."""
 import pathlib
 from functools import partial
+import shutil
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from threading import Thread
 from playwright.sync_api import sync_playwright
@@ -20,7 +21,8 @@ url = f"http://127.0.0.1:{server.server_port}/"
 checks = []
 try:
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=True)
+        chrome = shutil.which('google-chrome') or shutil.which('chromium')
+        browser = playwright.chromium.launch(headless=True, executable_path=chrome) if chrome else playwright.chromium.launch(headless=True)
         for width, height in [(320, 740), (375, 812), (480, 850), (768, 1024),
                               (1024, 768), (1440, 900), (1536, 1024), (1920, 1080)]:
             for scheme in ("dark", "light"):
@@ -80,7 +82,7 @@ try:
                 assert not page.locator(".yf-gallery-modal").evaluate("(el)=>el.open")
 
                 # Locally generated consultation text, never a fake "sent" action.
-                page.locator('a[href="#consultation"]').first.click()
+                page.locator('.fhero-button-primary').click()
                 assert page.locator("#consultation").evaluate("(el)=>el.open")
                 page.locator('#consultation textarea[name="goal"]').fill("Покращити витривалість і силу")
                 page.locator("#consultation button[type=submit]").click()
