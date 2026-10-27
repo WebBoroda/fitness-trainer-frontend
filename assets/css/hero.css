@@ -683,7 +683,7 @@ html[data-theme=mixed] .hero.fhero { --hero-accent: #f1d8c3; }
     height: clamp(3.05rem, 3.3vw, 4rem);
     flex-basis: clamp(3.05rem, 3.3vw, 4rem);
   }
-  .fhero-watch-label { font-size: clamp(.78rem, .9vw, .94rem); }
+  .fhero-watch-label { font-size: clamp(.875rem, 1.05vw, 1rem); }
   .fhero-handwrite {
     grid-column: 2;
     grid-row: 1;
