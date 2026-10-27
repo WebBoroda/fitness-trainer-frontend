@@ -88,11 +88,17 @@
     while (walker.nextNode()) translateTextNode(walker.currentNode);
     element.querySelectorAll('[aria-label],[alt],[title],[placeholder],meta[name="description"]').forEach(translateAttributes);
   };
+  // One accessible button with two visual language halves.
   const showSelected = () => {
-    document.querySelectorAll('[data-language-choice]').forEach(button => {
-      const isActive = button.dataset.languageChoice === language;
-      button.setAttribute('aria-pressed', String(isActive));
-      button.setAttribute('aria-label', (language === 'en' ? 'Language: ' : 'Мова: ') + button.dataset.languageChoice.toUpperCase());
+    const toggle = document.querySelector('[data-language-toggle]');
+    if (!toggle) return;
+    toggle.dataset.activeLanguage = language;
+    toggle.setAttribute('aria-label', language === 'uk'
+      ? 'Мова сайту: українська. Перемкнути на англійську'
+      : 'Website language: English. Switch to Ukrainian');
+    toggle.setAttribute('title', language === 'uk' ? 'Switch to English' : 'Перемкнути українською');
+    document.querySelectorAll('[data-language-indicator]').forEach(half => {
+      half.classList.toggle('is-active', half.dataset.languageIndicator === language);
     });
   };
   const setLanguage = (next, persist = false) => {
@@ -111,8 +117,8 @@
     if (persist) remember(language);
     document.dispatchEvent(new CustomEvent('yf:languagechange', { detail: { language } }));
   };
-  document.querySelectorAll('[data-language-choice]').forEach(button => {
-    button.addEventListener('click', () => setLanguage(button.dataset.languageChoice, true));
+  document.querySelector('[data-language-toggle]')?.addEventListener('click', () => {
+    setLanguage(language === 'uk' ? 'en' : 'uk', true);
   });
   setLanguage(language);
 
