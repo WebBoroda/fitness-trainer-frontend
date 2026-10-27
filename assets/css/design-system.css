@@ -558,7 +558,7 @@ html[data-theme=dark] #mission .benefit{background:#ffffff16;border-color:#fffff
   content:'↝';display:block;font-size:2rem;line-height:1;transform:rotate(16deg);
 }
 html[data-theme=dark] #nutrition .nutrition-note{color:#e5c2a9}
-#results .result-strip img{border-radius:.7rem;object-position:center 22%}
+#results .result-strip img{border-radius:.7rem;object-position:center bottom}
 #reviews .review{
   background:#ffffffb8;border:1px solid #fffffff0;
   box-shadow:inset 0 1px 0 #fff,0 .7rem 1.6rem #271d170b;
@@ -662,4 +662,11 @@ html[data-theme=dark] #faq .faq-note{color:#e5c2a9}
     transform:scale(1.4);
     transform-origin:right bottom;
   }
+}
+
+/* Hide the remaining pale strip baked into the source of the closing banner:
+   fade the top edge into its real dark backdrop instead of showing FAQ pixels. */
+.final-section .final-photo{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 28%,#000 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 28%,#000 100%);
 }
