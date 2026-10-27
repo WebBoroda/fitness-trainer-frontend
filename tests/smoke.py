@@ -117,6 +117,7 @@ try:
                     feature=feature_links.first
                     normal=feature.evaluate('(el)=>getComputedStyle(el).backgroundColor')
                     feature.hover()
+                    page.wait_for_timeout(240)  # The approved hover transition lasts 200 ms.
                     hovered=feature.evaluate('(el)=>({background:getComputedStyle(el).backgroundColor,radius:parseFloat(getComputedStyle(el).borderTopLeftRadius)})')
                     assert hovered['background']!=normal and hovered['radius']>=12,('rounded feature hover',width,hovered)
                     page.mouse.move(0,0)
