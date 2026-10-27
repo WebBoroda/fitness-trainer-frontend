@@ -55,27 +55,31 @@ try:
                 feature_links=page.locator('.fhero-features a.fhero-feature')
                 assert feature_links.count()==4,('feature links missing',width)
                 if width <= 671:
-                    # Narrow-screen benefits form ONE readable vertical list.
+                    # Reference-approved mobile composition: 2x2 features with no stray rules.
                     panel_box=page.locator('.fhero-features').bounding_box()
-                    mobile_rows=[link.bounding_box() for link in feature_links.all()]
-                    assert all(box and box['height']>=60 for box in mobile_rows),('feature touch areas too tight',width,mobile_rows)
-                    for index,box in enumerate(mobile_rows):
-                        assert abs(box['x']-panel_box['x'])<=2,('feature hover does not span left side',width,index,box,panel_box)
-                        assert abs(box['x']+box['width']-(panel_box['x']+panel_box['width']))<=2,('feature hover does not span right side',width,index,box,panel_box)
-                        icon_box=feature_links.nth(index).locator('.fhero-feature-icon').bounding_box()
-                        assert icon_box['x']-panel_box['x']>=14,('icon too close to panel border',width,index,icon_box,panel_box)
-                        assert feature_links.nth(index).evaluate('(el)=>parseFloat(getComputedStyle(el).fontSize)')>=14,('feature text too small',width,index)
-                        if index:
-                            prev=mobile_rows[index-1]
-                            assert box['y']>=prev['y']+prev['height']-2,('feature rows collide or form columns',width,index)
-                    for index in range(3):
-                        pseudo=feature_links.nth(index).evaluate('(el)=>({display:getComputedStyle(el,"::after").display,width:parseFloat(getComputedStyle(el,"::after").width)})')
-                        assert pseudo['display']!='none' and pseudo['width']>=panel_box['width']*.65,('misplaced row divider',width,index,pseudo)
-                    assert feature_links.last.evaluate('(el)=>getComputedStyle(el,"::after").display')=='none',('extra last divider',width)
+                    rows=[link.bounding_box() for link in feature_links.all()]
+                    assert all(box and box['height']>=58 for box in rows),('benefit touch targets too short',width,rows)
+                    assert abs(rows[0]['y']-rows[1]['y'])<3 and abs(rows[2]['y']-rows[3]['y'])<3,('benefits should form two aligned rows',width,rows)
+                    assert rows[1]['x']>=rows[0]['x']+rows[0]['width']-2,('first two benefits must be side by side',width,rows)
+                    assert rows[3]['x']>=rows[2]['x']+rows[2]['width']-2,('second two benefits must be side by side',width,rows)
+                    assert rows[2]['y']>=rows[0]['y']+rows[0]['height']-2,('2x2 benefit rows collide',width,rows)
+                    for index,box in enumerate(rows):
+                        assert box['x']>=panel_box['x']+4,('benefit has no left inset',width,index,box,panel_box)
+                        assert box['x']+box['width']<=panel_box['x']+panel_box['width']-4,('benefit has no right inset',width,index,box,panel_box)
+                        assert feature_links.nth(index).evaluate('(el)=>getComputedStyle(el,"::after").content')=='none',('unwanted separator inside mobile 2x2 module',width,index)
+                        assert feature_links.nth(index).evaluate('(el)=>parseFloat(getComputedStyle(el).fontSize)')>=10.8,('benefit font too small',width,index)
+                    watch=page.locator('.fhero-watch').bounding_box()
+                    scroll=page.locator('.fhero-scroll').bounding_box()
+                    assert watch and scroll,('mobile actions missing',width)
+                    assert watch['x']+watch['width']<=scroll['x']+2,('video and scroll must be separate horizontally',width,watch,scroll)
+                    watch_mid=watch['y']+watch['height']/2
+                    scroll_mid=scroll['y']+scroll['height']/2
+                    assert abs(watch_mid-scroll_mid)<8,('video and scroll controls not aligned on one row',width,watch,scroll)
+                    assert watch['y']>=panel_box['y']+panel_box['height']+10,('insufficient gap below benefits',width,watch,panel_box)
                     buttons=page.locator('.fhero-actions .fhero-button')
                     first,second=buttons.nth(0).bounding_box(),buttons.nth(1).bounding_box()
-                    assert second['y']-(first['y']+first['height'])>=12,('mobile CTAs need visible vertical gap',width,first,second)
-                    assert abs(first['width']-second['width'])<2,('mobile CTAs should share the same width',width,first,second)
+                    assert second['y']-(first['y']+first['height'])>=12,('mobile primary CTAs need breathing room',width,first,second)
+                    assert abs(first['width']-second['width'])<2,('mobile primary CTAs should share the same width',width,first,second)
 
                 for i,href in enumerate(('#formats','#formats','#nutrition','#results')):
                     link=feature_links.nth(i)
