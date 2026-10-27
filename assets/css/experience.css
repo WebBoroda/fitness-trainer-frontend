@@ -408,3 +408,16 @@ html[data-theme=mixed] #nutrition,html[data-theme=mixed] #reviews,html[data-them
   .hero.fhero .fhero-features{min-height:36rem}
   .hero.fhero .fhero-scroll{transform:translateY(4.15rem)}
 }
+
+/* Fit the 1536×1024 approval canvas without forcing extra hero height. */
+@media (min-width:88rem) and (min-height:950px){
+  .hero.fhero .fhero-stats{transform:none}
+  .hero.fhero .fhero-watch{transform:translateY(1.65rem)}
+  .hero.fhero .fhero-scroll{
+    position:absolute;
+    right:var(--hero-right-gutter);
+    bottom:3.6rem;
+    margin:0;
+    transform:none;
+  }
+}
