@@ -133,7 +133,7 @@ add_action( 'after_switch_theme', function () {
         'post_name' => 'golovna',
         'post_status' => 'publish',
         'post_type' => 'page',
-        'post_content' => implode( "\n\n", $blocks ),
+        'post_content' => implode( '', $blocks ),
     ), true );
     if ( ! is_wp_error( $id ) ) {
         update_option( 'show_on_front', 'page' );
