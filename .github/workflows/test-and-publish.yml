@@ -31,8 +31,12 @@ jobs:
           else
             python -m playwright install --with-deps chromium
           fi
-      - name: Run frontend smoke tests
+      - name: Verify reference geometry and responsive interactions
         run: python tests/smoke.py
+      - name: Verify full-page frontend interactions
+        run: python tests/experience_smoke.py
+      - name: Enforce visual-layout gate before deployment
+        run: python tests/hero_visual_audit.py
       - name: Store test screenshots
         if: always()
         uses: actions/upload-artifact@v4
