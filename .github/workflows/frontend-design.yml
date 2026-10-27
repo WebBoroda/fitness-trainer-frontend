@@ -1,0 +1,79 @@
+name: Frontend Design & Motion QA
+
+on:
+  push:
+    branches: [feature/frontend-dynamic-pixel-polish]
+  pull_request:
+    paths:
+      - index.html
+      - assets/**
+      - tests/**
+      - .github/workflows/frontend-design.yml
+
+permissions:
+  contents: read
+
+jobs:
+  responsive-and-interaction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Chromium browser testing
+        run: |
+          python -m pip install playwright pillow
+          if command -v google-chrome >/dev/null 2>&1 || command -v chromium >/dev/null 2>&1; then
+            echo 'Using preinstalled Chromium-family browser'
+          else
+            python -m playwright install --with-deps chromium
+          fi
+      - name: Original reference section and responsive tests
+        run: python tests/smoke.py
+      - name: Full-page frontend, dynamic interaction and viewport tests
+        run: python tests/experience_smoke.py
+      - name: Collect responsive screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-full-page-screenshots
+          path: tests/_screenshots/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  package-browser-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package exact GitHub Pages source for local visual review
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-source-review
+          path: |
+            index.html
+            assets/
+            tests/
+          retention-days: 7
+
+  visual-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare snapshot tooling
+        run: pip install playwright
+      - name: Capture full page at design widths
+        run: python tests/visual_capture.py
+      - name: Upload full-page visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-reference-comparison
+          path: tests/_screenshots/visual-*
+          if-no-files-found: ignore
+          retention-days: 14

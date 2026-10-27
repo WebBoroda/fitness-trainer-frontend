@@ -27,6 +27,7 @@ try:
             for scheme in ('light','dark'):
                 page=browser.new_page(viewport={'width':width,'height':height},color_scheme=scheme,device_scale_factor=1)
                 errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
+                page.add_init_script("if (!localStorage.getItem('fitness-theme')) localStorage.setItem('fitness-theme', '"+scheme+"')")
                 page.goto(url,wait_until='networkidle',timeout=45000)
                 assert page.locator('html').get_attribute('data-theme')==scheme,(width,scheme)
                 assert page.locator('main section').count()==11
@@ -105,7 +106,11 @@ try:
                     hero_box=page.locator('.hero.fhero').bounding_box()
                     top_gap=eyebrow['y']-(header['y']+header['height'])
                     bottom_gap=(hero_box['y']+hero_box['height'])-(stats['y']+stats['height'])
-                    assert abs(top_gap-bottom_gap)<=3,('equal hero edge spacing',width,top_gap,bottom_gap)
+                    if width>=1408 and height>=950:
+                        assert 42<=top_gap<=100,('approved hero top inset',width,top_gap)
+                        assert 55<=bottom_gap<=145,('approved hero bottom inset',width,bottom_gap)
+                    else:
+                        assert abs(top_gap-bottom_gap)<=3,('balanced hero edge spacing',width,top_gap,bottom_gap)
                     title=page.locator('.fhero-title').bounding_box()
                     summary=page.locator('.fhero-summary').bounding_box()
                     actions=page.locator('.fhero-actions').bounding_box()
@@ -126,6 +131,7 @@ try:
                     assert panel and video and video['y']-(panel['y']+panel['height']) >= 18,('video must be below feature panel',width,panel,video)
                     scroll=page.locator('.fhero-scroll').bounding_box()
                     hero_bounds=page.locator('.hero.fhero').bounding_box()
+                    print('HERO RIGHT LAYOUT',width, 'panel',panel,'video',video,'scroll',scroll, flush=True)
                     assert scroll and video['y']+video['height'] <= scroll['y']+1,('video and scroll collision',width)
                     assert hero_bounds['y']+hero_bounds['height']-(scroll['y']+scroll['height']) >= 22,('raise scroll control above bottom',width)
                     hero=page.locator('.hero.fhero').bounding_box()
@@ -187,13 +193,17 @@ try:
                     first=mission.locator('.intro').bounding_box()
                     second=mission.locator('.cards').bounding_box()
                     assert first and second and second['x']>first['x']+first['width']-2,('mission side-by-side',width,first,second)
-                assert mission.locator('.quote blockquote').count()==1
-                photo=mission.locator('img[src$="mission-quote.jpg"]')
+                assert mission.locator('.quote blockquote').count()==0
+                about=page.locator('#about')
+                assert about.locator('.quote blockquote').count()==1
+                photo=about.locator('img[src$="mission-quote.jpg"]')
                 assert photo.count()==1
                 photo.scroll_into_view_if_needed()
                 photo.evaluate("(img)=>img.decode()")
                 assert photo.evaluate('(im)=>im.complete && im.naturalWidth>0')
                 assert mission.evaluate('(el)=>el.scrollWidth<=el.clientWidth+1'),('mission overflow',width)
+                assert about.evaluate('(el)=>el.scrollWidth<=el.clientWidth+1'),('about overflow',width)
+                assert page.locator('img[src^="data:"]').count()==0, 'Images should be external resources'
                 if (width,scheme) in ((320,'light'),(375,'light'),(375,'dark'),(768,'light'),(1024,'dark'),(1337,'light'),(1536,'light'),(1536,'dark'),(1920,'light')):
                     mission.scroll_into_view_if_needed()
                     mission.locator('.reveal').evaluate_all('(els)=>els.forEach(e=>e.classList.add("visible"))')

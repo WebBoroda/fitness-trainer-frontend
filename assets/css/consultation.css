@@ -1,0 +1,17 @@
+/* Functional consultation composition for a static GitHub Pages frontend. */
+.yf-consultation-modal{max-width:min(92vw,35rem);max-height:min(92vh,45rem);width:100%;border:1px solid #e0c8b6;
+  padding:0;border-radius:1.35rem;background:#f9f5f0;color:#191614;box-shadow:0 2rem 6rem #0008}
+.yf-consultation-modal::backdrop{background:#080908ce;backdrop-filter:blur(.4rem)}
+.yf-consultation-form{position:relative;display:grid;gap:1.15rem;padding:clamp(1.25rem,4vw,2.4rem);font-family:Manrope,Inter,sans-serif}
+.yf-planner-close{position:absolute;right:1rem;top:1rem;border:0;background:#eee0d4;border-radius:50%;width:2.5rem;height:2.5rem;font-size:1.4rem;cursor:pointer}
+.yf-consultation-form .eyebrow{justify-self:start;margin:0}
+.yf-consultation-form h2{font-size:clamp(1.85rem,4vw,2.65rem);line-height:1;letter-spacing:-.06em;margin:0;max-width:13ch}
+.yf-planner-intro{font-size:.92rem;line-height:1.55;margin:0;color:#57514c}
+.yf-consultation-form label{display:grid;gap:.45rem;font-weight:600;font-size:.88rem}
+.yf-consultation-form select,.yf-consultation-form textarea{width:100%;border:1px solid #b9a79a;border-radius:.75rem;background:white;color:#171514;font:400 1rem/1.4 Manrope,Inter,sans-serif;padding:.8rem 1rem}
+.yf-consultation-form textarea{resize:vertical}
+.yf-consultation-form .btn{justify-self:start;border:0;cursor:pointer;background:#efd8c6;color:#181514}
+.yf-planner-status{min-height:1.2em;margin:0;font-size:.8rem}
+.yf-planner-fallback{font-size:.78rem!important}
+.fhero-navigation a[aria-current=location],.footer-links a[aria-current=location]{color:#efd8c6}
+html[data-theme=light] .fhero-navigation a[aria-current=location]{color:#975f41}
