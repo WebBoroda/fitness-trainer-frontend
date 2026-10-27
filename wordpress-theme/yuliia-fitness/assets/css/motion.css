@@ -1,0 +1,9 @@
+/* Progressive enhancement: sections must be visible without JavaScript. */
+html:not(.yf-motion) .reveal {opacity:1!important;transform:none!important;}
+.yf-slider-controls{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.yf-slider-controls[hidden]{display:none!important}
+.yf-slider-controls button{border-radius:50%;border:1px solid currentColor;background:transparent;color:inherit;height:39px;width:39px;cursor:pointer}
+.yf-slider-controls button:focus-visible{outline:3px solid #c38c66}
+.result-strip,.reviews-list{scroll-behavior:smooth;scroll-snap-type:x proximity}
+.result-strip>* ,.reviews-list>* {scroll-snap-align:start}
+@media(prefers-reduced-motion:reduce){.result-strip,.reviews-list{scroll-behavior:auto}}
