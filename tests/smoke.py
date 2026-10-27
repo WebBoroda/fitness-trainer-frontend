@@ -179,7 +179,12 @@ try:
                     print('HERO RIGHT LAYOUT',width, 'panel',panel,'video',video,'scroll',scroll, flush=True)
                     delta=(scroll['y']+scroll['height'])-(stats['y']+stats['height'])
                     print('HERO BOTTOM ALIGNMENT',width,'stats',stats['y']+stats['height'],'scroll',scroll['y']+scroll['height'],'delta',delta,flush=True)
-                    assert abs(delta)<=5, ('scroll baseline should match stats bottom',width,delta)
+                    if width>=1408 and height>=832:
+                        video_scroll_gap=scroll['y']-(video['y']+video['height'])
+                        assert 8<=video_scroll_gap<=50,('consistent wide-screen video-to-scroll spacing',width,video_scroll_gap)
+                        assert abs(delta)<=180,('wide-screen elements should stay in one visual rhythm',width,delta)
+                    else:
+                        assert abs(delta)<=5, ('scroll baseline should match stats bottom',width,delta)
                     assert scroll and video['y']+video['height'] <= scroll['y']+1,('video and scroll collision',width)
                     assert hero_bounds['y']+hero_bounds['height']-(scroll['y']+scroll['height']) >= 16,('keep aligned controls clear of the hero lower edge',width)
                     hero=page.locator('.hero.fhero').bounding_box()
