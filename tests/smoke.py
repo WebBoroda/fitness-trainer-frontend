@@ -131,6 +131,7 @@ try:
                     assert panel and video and video['y']-(panel['y']+panel['height']) >= 18,('video must be below feature panel',width,panel,video)
                     scroll=page.locator('.fhero-scroll').bounding_box()
                     hero_bounds=page.locator('.hero.fhero').bounding_box()
+                    print('HERO RIGHT LAYOUT',width, 'panel',panel,'video',video,'scroll',scroll, flush=True)
                     assert scroll and video['y']+video['height'] <= scroll['y']+1,('video and scroll collision',width)
                     assert hero_bounds['y']+hero_bounds['height']-(scroll['y']+scroll['height']) >= 22,('raise scroll control above bottom',width)
                     hero=page.locator('.hero.fhero').bounding_box()
