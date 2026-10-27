@@ -76,6 +76,12 @@ jobs:
       - name: Verify Gutenberg persistence and PHP rendering
         run: |
           php "$RUNNER_TEMP/wp-cli.phar" --path="$RUNNER_TEMP/wordpress" eval-file "$RUNNER_TEMP/wordpress/wp-content/themes/yuliia-fitness/tests/runtime.php"
+      - name: Install browser test dependencies
+        run: |
+          python3 -m pip install playwright
+          if ! command -v google-chrome >/dev/null 2>&1 && ! command -v chromium >/dev/null 2>&1; then
+            python3 -m playwright install --with-deps chromium
+          fi
       - name: Smoke-test rendered homepage over HTTP
         run: |
           php -S 127.0.0.1:8765 -t "$RUNNER_TEMP/wordpress" > "$RUNNER_TEMP/yf-http.log" 2>&1 &
@@ -86,3 +92,12 @@ jobs:
           grep -q 'ТЕСТ РЕДАГУВАННЯ' "$RUNNER_TEMP/yf-home.html"
           grep -q 'id="contact"' "$RUNNER_TEMP/yf-home.html"
           grep -q 'assets/js/site.js' "$RUNNER_TEMP/yf-home.html"
+          python3 wordpress-theme/yuliia-fitness/tests/browser_smoke.py
+      - name: Upload responsive screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wordpress-responsive-smoke
+          path: wordpress-theme/yuliia-fitness/tests/_screenshots/
+          if-no-files-found: ignore
+          retention-days: 7
