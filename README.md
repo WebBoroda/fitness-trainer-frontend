@@ -44,3 +44,22 @@ GitHub Actions validates this branch. It captures actual browser screenshots for
 The approved reference is a visual screenshot rather than structured Figma geometry. Accurate photos, original media rights, verified client statistics, prices, authentic reviews and an actual video/contact endpoint have not been supplied. All such demonstration text must be replaced or validated before a commercial launch. Browser QA covers supported viewport checks, but full manual Safari/iOS review, WCAG audit and measured production Core Web Vitals are still outstanding.
 
 The experimental WordPress conversion in a separate draft branch is not needed for this frontend delivery and is not deployed with GitHub Pages.
+
+
+## Bilingual UI and editable footer data
+
+- Language controls are in the header: **UA / EN**. On the first visit the page checks the browser's first preferred language (`en-*` → English, `uk-*` → Ukrainian, others → Ukrainian). A manual selection is saved in `localStorage` under `yuliia-language`, then takes precedence on return visits.
+- English translations, including texts in all eleven sections, photo descriptions and consultation UI, live in **`assets/js/translations-en.js`**. The original Ukrainian copy stays in `index.html`. Translate dynamic elements using the same dictionary key; nothing requires a translation API.
+- Social profile links, studio location and map coordinates are collected in **`assets/js/site-config.js`**. Fill in the verified destination address and social URLs there, then set `location.isDemo` to `false`. The map uses OpenStreetMap. A working Google Maps directions link is generated only once real coordinates are configured.
+- Until real links are configured, social icons are intentionally non-clickable. The map is explicitly marked as a **demo location**, not a gym address; directions are disabled.
+- Shared visual tokens for type tracking, CTA sizes, icon circles, spacing, fluid typography and footer layout are in **`assets/css/design-system.css`**. The handwritten video note is always visible and its decorative arrow has been removed.
+
+### Automated checks
+
+```sh
+python tests/bilingual_system_smoke.py
+python tests/hero_visual_audit.py
+python tests/experience_smoke.py
+```
+
+The bilingual test checks first-visit language detection, persistent UA/EN switching, translated dynamic dialogs, working layout of CTA arrows, map/social rendering and captures mobile/tablet/desktop screenshots in both languages. CI gates publishing on these checks; this does not replace pixel-diff validation against a design source.

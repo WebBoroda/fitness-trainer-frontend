@@ -178,7 +178,10 @@
     event.preventDefault();
     const goal = input.value.trim();
     if (!goal) { input.focus(); return; }
-    const value = 'Заявка на консультацію YULIIA ZAGORODNIA\nФормат: ' + format.value + '\nМета: ' + goal;
+    const tr = value => window.YF_I18N?.t(value) || value;
+    const value = tr('Заявка на консультацію YULIIA ZAGORODNIA') + '\n'
+      + tr('Формат:') + ' ' + tr(format.value) + '\n'
+      + tr('Мета:') + ' ' + goal;
     try {
       if (!navigator.clipboard?.writeText) throw new Error('Clipboard not available');
       await navigator.clipboard.writeText(value);

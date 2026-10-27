@@ -62,7 +62,7 @@ try:
                 viewport={"width": width, "height": height},
                 color_scheme="dark", reduced_motion="reduce", device_scale_factor=1
             )
-            page.add_init_script("localStorage.setItem('fitness-theme','dark')")
+            page.add_init_script("localStorage.setItem('fitness-theme','dark');localStorage.setItem('yuliia-language','uk')")
             page.goto(
                 f"http://127.0.0.1:{server.server_port}/",
                 wait_until="networkidle", timeout=45000
