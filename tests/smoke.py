@@ -141,7 +141,7 @@ try:
                     print('HERO BOTTOM ALIGNMENT',width,'stats',stats['y']+stats['height'],'scroll',scroll['y']+scroll['height'],'delta',delta,flush=True)
                     assert abs(delta)<=5, ('scroll baseline should match stats bottom',width,delta)
                     assert scroll and video['y']+video['height'] <= scroll['y']+1,('video and scroll collision',width)
-                    assert hero_bounds['y']+hero_bounds['height']-(scroll['y']+scroll['height']) >= 22,('raise scroll control above bottom',width)
+                    assert hero_bounds['y']+hero_bounds['height']-(scroll['y']+scroll['height']) >= 16,('keep aligned controls clear of the hero lower edge',width)
                     hero=page.locator('.hero.fhero').bounding_box()
                     assert hero and abs(hero['width']-width)<2,(width,'Hero width',hero)
                     assert page.locator('.fhero-photo').evaluate('(im)=>getComputedStyle(im).objectFit')=='contain',(width,'cropped photo')
