@@ -35,6 +35,11 @@
     });
   });
 
+  // All circular actions share a font-independent vector arrow.
+  const arrowIcon = direction => '<svg class="yf-arrow-svg' +
+    (direction < 0 ? ' yf-arrow-svg--left' : '') +
+    '" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#yf-icon-arrow-right"/></svg>';
+
   // Accessible scroll-snap carousels: arrows appear only when contents overflow.
   const carousels = [
     { selector: '#results .result-strip', label: 'Галерея результатів' },
@@ -52,7 +57,7 @@
     const buttons = [-1, 1].map(direction => {
       const button = document.createElement('button');
       button.type = 'button';
-      button.textContent = direction < 0 ? '←' : '→';
+      button.innerHTML = arrowIcon(direction);
       button.setAttribute('aria-label', direction < 0 ? label + ': попередні' : label + ': наступні');
       button.addEventListener('click', () => {
         track.scrollBy({ left: direction * Math.max(220, track.clientWidth * .8), behavior: motion() });
@@ -82,7 +87,8 @@
     dialog.setAttribute('aria-label', 'Перегляд фотографій спортивного простору');
     dialog.innerHTML = '<button class="yf-gallery-close" type="button" aria-label="Закрити галерею">×</button>'
       + '<figure><img alt="" loading="eager"><figcaption></figcaption></figure>'
-      + '<div class="yf-gallery-controls"><button type="button" aria-label="Попереднє фото">←</button><button type="button" aria-label="Наступне фото">→</button></div>';
+      + '<div class="yf-gallery-controls"><button type="button" aria-label="Попереднє фото">' + arrowIcon(-1)
+      + '</button><button type="button" aria-label="Наступне фото">' + arrowIcon(1) + '</button></div>';
     document.body.append(dialog);
     const photo = $('figure img', dialog), caption = $('figcaption', dialog);
     const [prev, next] = $$('.yf-gallery-controls button', dialog);

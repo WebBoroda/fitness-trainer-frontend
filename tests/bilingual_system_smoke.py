@@ -53,6 +53,18 @@ try:
                 overflow = page.evaluate("document.documentElement.scrollWidth-document.documentElement.clientWidth")
                 assert overflow<=3,(locale,width,"horizontal overflow",overflow)
                 buttons=page.locator('.section .btn .arrow,.fhero-actions .fhero-cta-circle,.fhero-actions .fhero-button-secondary .fhero-svg,.yf-footer .btn .arrow')
+                # Every text-arrow circle across sections, prices, carousels and footer
+                # uses a real SVG, not a font glyph that drifts with line-height.
+                circles = page.locator('.section .btn .arrow, .yf-footer .btn .arrow, #pricing .price-action, .yf-carousel-controls:not([hidden]) button')
+                assert circles.count() >= 15, (locale,width,"missing shared arrow circles")
+                for circle in circles.all():
+                    outer = circle.bounding_box()
+                    icon = circle.locator('svg.yf-arrow-svg')
+                    assert icon.count() == 1, (locale,width,"arrow missing vector icon")
+                    inner = icon.bounding_box()
+                    assert outer is not None and inner is not None
+                    assert abs((outer["x"] + outer["width"]/2) - (inner["x"] + inner["width"]/2)) <= 1, (locale,width,"horizontal arrow center",outer,inner)
+                    assert abs((outer["y"] + outer["height"]/2) - (inner["y"] + inner["height"]/2)) <= 1, (locale,width,"vertical arrow center",outer,inner)
                 for button in buttons.all():
                     child=button.bounding_box()
                     parent=button.locator("xpath=..").bounding_box()

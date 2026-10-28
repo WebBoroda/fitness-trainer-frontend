@@ -64,6 +64,19 @@
   line-height: 1;
   font-size: 1.3rem;
 }
+/* The same baseline-independent SVG arrow is centered in all circular actions. */
+.yf-arrow-svg {
+  display: block;
+  flex: 0 0 auto;
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.yf-arrow-svg--left { transform: rotate(180deg); }
 .fhero-button,
 .fhero-header-cta {
   min-width: 0;

@@ -75,6 +75,11 @@ try:
                 gallery = page.locator('a[href="#studio-gallery"]')
                 gallery.click()
                 assert page.locator(".yf-gallery-modal").evaluate("(el)=>el.open"), width
+                for control in page.locator(".yf-gallery-controls button").all():
+                    outer = control.bounding_box()
+                    vector = control.locator(".yf-arrow-svg").bounding_box()
+                    assert outer and vector and abs((outer["x"]+outer["width"]/2)-(vector["x"]+vector["width"]/2))<=1, ("gallery arrow x center",width)
+                    assert abs((outer["y"]+outer["height"]/2)-(vector["y"]+vector["height"]/2))<=1, ("gallery arrow y center",width)
                 photo_first = page.locator(".yf-gallery-modal img").get_attribute("src")
                 page.locator('.yf-gallery-controls button[aria-label="Наступне фото"]').click()
                 photo_next = page.locator(".yf-gallery-modal img").get_attribute("src")
