@@ -44,7 +44,11 @@ try:
                 assert page.locator("#pricing .price-action").count() == 3
                 assert page.locator("img[src^='data:']").count() == 0
                 assert page.locator("html").get_attribute("data-theme") == scheme
-                assert page.locator(".studio-gallery .gallery-photo").count() == 3
+                assert page.locator(".studio-gallery .gallery-photo").count() == 5
+                assert page.locator(".studio-gallery .gallery-photo:visible").count() == 3
+                expected = ["gym-01-main.webp","gym-02-dumbbells.webp","gym-03-cardio.webp","gym-04-strength.webp","gym-05-stretching.webp"]
+                paths = page.locator("#studio .studio-gallery img").evaluate_all("(items)=>items.map(img=>img.getAttribute('src').split('/').pop())")
+                assert paths == expected, (width,paths)
                 assert page.locator(".yf-consultation-modal").count() == 1
 
                 for img in page.locator("main img:visible").all():
@@ -81,9 +85,14 @@ try:
                     assert outer and vector and abs((outer["x"]+outer["width"]/2)-(vector["x"]+vector["width"]/2))<=1, ("gallery arrow x center",width)
                     assert abs((outer["y"]+outer["height"]/2)-(vector["y"]+vector["height"]/2))<=1, ("gallery arrow y center",width)
                 photo_first = page.locator(".yf-gallery-modal img").get_attribute("src")
+                assert photo_first.endswith("gym-01-main.webp"), (width,photo_first)
+                for photo_index in range(1,5):
+                    page.locator('.yf-gallery-controls button[aria-label="Наступне фото"]').click()
+                    current = page.locator(".yf-gallery-modal img").get_attribute("src")
+                    assert current.endswith(expected[photo_index]), (width,photo_index,current)
+                    assert f"{photo_index+1} / 5" in page.locator(".yf-gallery-modal figcaption").inner_text()
                 page.locator('.yf-gallery-controls button[aria-label="Наступне фото"]').click()
-                photo_next = page.locator(".yf-gallery-modal img").get_attribute("src")
-                assert photo_first != photo_next
+                assert page.locator(".yf-gallery-modal img").get_attribute("src") == photo_first, (width,"gallery navigation wrap")
                 page.keyboard.press("Escape")
                 assert not page.locator(".yf-gallery-modal").evaluate("(el)=>el.open")
 
