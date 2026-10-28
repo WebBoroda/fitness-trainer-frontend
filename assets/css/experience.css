@@ -58,8 +58,19 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
   border:1px solid #ffffff3b;border-radius:.85rem;
   background:#1a1c1b;overflow:hidden;isolation:isolate;
   transition:transform .8s cubic-bezier(.22,1,.36,1),border-color .55s ease,box-shadow .8s ease}
-/* Full-width portraits fade directly into the card's dark caption area:
-   one image only, without repeat patterns or visible double exposure. */
+/* Preserve the approved full-width framing. Diffuse colors from the same
+   image gently continue underneath the photo fade; the blur prevents any
+   second recognisable person or a hard cutoff above the captions. */
+#formats .program-card:nth-child(1){--formats-ambient:url("../images/formats-personal-v2.webp")}
+#formats .program-card:nth-child(2){--formats-ambient:url("../images/formats-group-v2.webp")}
+#formats .program-card:nth-child(3){--formats-ambient:url("../images/formats-online-v2.webp")}
+#formats .program-card:nth-child(-n+3)::before{
+  content:"";position:absolute;inset:-1.75rem;z-index:-3;pointer-events:none;
+  background:var(--formats-ambient) center/cover no-repeat;
+  filter:blur(1.8rem) brightness(.62) saturate(.84);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 24%,#000 68%);
+  mask-image:linear-gradient(to bottom,transparent 24%,#000 68%);
+}
 #formats .program-card>img{
   z-index:-2;object-fit:contain;object-position:center top;
   filter:none;transform:scale(1);
@@ -74,11 +85,11 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 }
 /* As in the photo-studio reference: ONE uninterrupted CSS shade over a clean photo. */
 #formats .program-card::after{z-index:-1;pointer-events:none;background:linear-gradient(to top,
-  rgba(12,12,14,.88) 0%,rgba(14,14,16,.74) 19%,
-  rgba(17,17,19,.60) 37%,rgba(18,18,20,.38) 52%,
-  rgba(19,19,21,.16) 65%,transparent 79%)}
-#formats .program-card:hover,#formats .program-card:focus-within{transform:translateY(-.28rem);border-color:#efd8c6a0;box-shadow:0 1.25rem 2rem #0004}
-#formats .program-card:hover>img,#formats .program-card:focus-within>img{transform:scale(1.025)}
+  rgba(12,12,14,.84) 0%,rgba(14,14,16,.71) 19%,
+  rgba(17,17,19,.56) 37%,rgba(18,18,20,.35) 52%,
+  rgba(19,19,21,.14) 65%,transparent 79%)}
+#formats .program-card:hover,#formats .program-card:focus-within{transform:translateY(-.35rem);border-color:#efd8c6a0;box-shadow:0 1.35rem 2.2rem #0004}
+#formats .program-card:hover>img,#formats .program-card:focus-within>img{transform:scale(1.045)}
 #formats .program-card .ico{display:grid;place-items:center;margin:auto 0 .5rem;width:2.5rem;height:2.5rem;
   border:1px solid #ffffffb8;border-radius:50%;background:#15161655}
 #formats .program-card .ico svg{width:1.35rem;height:1.35rem;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}

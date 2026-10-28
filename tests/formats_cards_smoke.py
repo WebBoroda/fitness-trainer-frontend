@@ -38,6 +38,9 @@ try:
                       mask:getComputedStyle(img).maskImage,
                       duration:getComputedStyle(img).transitionDuration,
                       backing:getComputedStyle(el).backgroundImage,
+                      ambient:getComputedStyle(el,'::before').backgroundImage,
+                      ambientBlur:getComputedStyle(el,'::before').filter,
+                      position:getComputedStyle(img).objectPosition,
                       ink:getComputedStyle(el).color,
                       overlay:getComputedStyle(el,'::after').backgroundImage,
                       card:box(el),ico:box(el.querySelector('.ico')),
@@ -63,8 +66,12 @@ try:
                     assert x['backing']=='none',(w,theme,i,'duplicated photo backdrop')
                     if i<3:
                         assert 'linear-gradient' in x['mask'],(w,theme,i,'photo fade is abrupt')
+                        assert 'formats-' in x['ambient'],(w,theme,i,'missing soft photo continuation')
+                        assert 'blur(' in x['ambientBlur'],(w,theme,i,'background must be diffuse')
+                        assert x['position']=='50% 0%',(w,theme,i,'approved photo position changed',x['position'])
                     else:
                         assert x['mask']=='none',(w,theme,i,'nutrition framing changed')
+                        assert x['position']=='64% 10%',(w,theme,i,'nutrition framing changed')
                     assert max(float(t.strip().removesuffix('s')) for t in x['duration'].split(',')) < .05,(w,theme,i,'reduced-motion animation not minimized',x['duration'])
                     assert 'linear-gradient' in x['overlay'],(w,theme,i,'missing CSS overlay')
                     assert x['ink']=='rgb(255, 255, 255)',(w,theme,i,'wrong ink',x['ink'])
@@ -78,6 +85,22 @@ try:
                 if w in (375,768,1440):
                     page.locator('#formats').screenshot(path=str(SHOTS/f'{theme}-{w}.png'),animations='disabled')
                 page.close()
+        # Independently verify that the hover zoom runs in normal motion mode,
+        # unlike the reduced-motion screenshots above.
+        hover=b.new_page(viewport={'width':1440,'height':900},reduced_motion='no-preference')
+        hover.add_init_script("localStorage.setItem('fitness-theme','light')")
+        hover.goto(f'http://127.0.0.1:{server.server_port}',wait_until='networkidle')
+        card=hover.locator('#formats .program-card').first
+        card.scroll_into_view_if_needed()
+        card.evaluate("(el)=>el.classList.add('visible')")
+        normal=card.locator('img').evaluate("(el)=>({fit:getComputedStyle(el).objectFit,position:getComputedStyle(el).objectPosition,duration:getComputedStyle(el).transitionDuration})")
+        assert normal['fit']=='contain' and normal['position']=='50% 0%',normal
+        assert any(float(s.strip().removesuffix('s'))>1 for s in normal['duration'].split(',')),normal
+        card.hover()
+        hover.wait_for_timeout(1700)
+        transform=card.locator('img').evaluate("(el)=>getComputedStyle(el).transform")
+        assert '1.045' in transform,(transform,'smooth hover zoom not active')
+        hover.close()
         b.close()
 finally:
     server.shutdown()
