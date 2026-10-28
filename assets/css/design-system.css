@@ -942,44 +942,32 @@ html[data-theme="light"] :is(#formats, #results, #pricing, .final-section) .btn.
   background: rgba(239,216,198,.45);
 }
 
-/* Programs: photographic cards remain photographic, not black panels.
-   A cream scrim supports dark text in the same approved card geometry. */
+/* Program cards use a continuous photographic shade in every theme;
+   the surrounding Light-theme section stays light. */
 html[data-theme="light"] #formats::before,
 html[data-theme="light"] #formats::after {
   background: none;
 }
 html[data-theme="light"] #formats .program-card {
-  background: var(--yf-light-card);
-  border-color: var(--yf-light-border);
-  color: var(--yf-light-ink);
+  background: #282626;
+  border-color: rgba(58,49,43,.30);
+  color: #fff;
 }
-html[data-theme="light"] #formats .program-card > img {
-  filter: brightness(1.04) saturate(.94);
-}
+html[data-theme="light"] #formats .program-card > img {filter:none}
 html[data-theme="light"] #formats .program-card::after {
-  background: linear-gradient(
-    to bottom,
-    rgba(250,247,243,.05) 5%,
-    rgba(250,247,243,.30) 30%,
-    rgba(250,247,243,.91) 59%,
-    rgba(250,247,243,.99) 85%
-  );
+  background:linear-gradient(to top,
+    rgba(18,16,16,.83) 0%,rgba(20,18,18,.68) 19%,
+    rgba(24,21,21,.51) 37%,rgba(27,24,24,.30) 52%,
+    rgba(29,26,26,.12) 65%,transparent 79%);
 }
 html[data-theme="light"] #formats .program-card .ico {
-  background: rgba(255,252,249,.85);
-  border-color: #86776c;
-  color: #211c18;
+  background: rgba(25,23,23,.28);
+  border-color: rgba(255,255,255,.78);
+  color: #fff;
 }
-html[data-theme="light"] #formats .program-card p {
-  color: #443b34;
-}
-html[data-theme="light"] #formats .program-card a:hover {
-  color: #805238;
-}
-html[data-theme="light"] #formats .program-card:hover > img,
-html[data-theme="light"] #formats .program-card:focus-within > img {
-  filter: brightness(1.09) saturate(.94);
-}
+html[data-theme="light"] #formats .program-card p {color:#f2eeea}
+html[data-theme="light"] #formats .program-card a:hover {color:#efd8c6}
+
 
 /* Results and pricing: light canvases and translucent pale price cards. */
 html[data-theme="light"] #results p,
