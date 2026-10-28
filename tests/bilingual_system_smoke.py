@@ -23,7 +23,7 @@ try:
     with sync_playwright() as p:
         chrome = shutil.which("google-chrome") or shutil.which("chromium") or shutil.which("chromium-browser")
         browser = p.chromium.launch(headless=True, executable_path=chrome, args=["--no-sandbox"]) if chrome else p.chromium.launch(headless=True, args=["--no-sandbox"])
-        for locale, expected in (("en-US","en"),("uk-UA","uk"),("pl-PL","uk")):
+        for locale, expected in (("en-US","uk"),("uk-UA","uk"),("pl-PL","uk")):
             for width,height in cases:
                 page = browser.new_page(viewport={"width":width,"height":height},locale=locale, reduced_motion="reduce")
                 page.goto(url,wait_until="domcontentloaded")
@@ -33,6 +33,12 @@ try:
                 assert page.locator('[data-language-toggle]').count()==1,(locale,width,"single language control")
                 assert page.locator('[data-language-indicator]').count()==2,(locale,width,"two visual halves")
                 assert page.locator('[data-language-indicator].is-active').get_attribute('data-language-indicator')==expected,(locale,width,"active language half")
+                assert "Записатися на тренування" in page.locator(".fhero-button-primary").inner_text()
+                assert "Обрати програму" in page.locator(".fhero-button-secondary").inner_text()
+                toggle = page.locator(".yf-language-toggle").bounding_box()
+                indicator = page.locator(".yf-language-half.is-active").bounding_box()
+                assert abs((toggle["x"] + toggle["width"]/2) - (indicator["x"] + indicator["width"]/2)) < 1
+                assert abs((toggle["y"] + toggle["height"]/2) - (indicator["y"] + indicator["height"]/2)) < 1
                 nav = page.locator(".fhero-navigation a").first.inner_text()
                 assert nav==("About" if expected=="en" else "Про мене"),(locale,width,nav)
                 assert page.locator("main > section").count()==11,(locale,width,"missing sections")
@@ -64,21 +70,27 @@ try:
         page=browser.new_page(locale="en-US",viewport={"width":375,"height":812})
         page.goto(url,wait_until="domcontentloaded")
         page.wait_for_function("window.YF_I18N")
-        assert page.locator("html").get_attribute("lang")=="en"
+        assert page.locator("html").get_attribute("lang")=="uk"
         assert page.locator('[data-language-toggle]').count()==1,"single UA/EN button"
         assert page.locator('[data-language-indicator]').count()==2,"two language halves"
         page.locator('[data-language-toggle]').click()
-        assert page.locator("html").get_attribute("lang")=="uk"
-        assert page.locator(".fhero-navigation a").first.inner_text()=="Про мене"
-        assert page.evaluate("localStorage.getItem('yuliia-language')")=="uk"
-        page.reload(wait_until="domcontentloaded")
-        page.wait_for_function("window.YF_I18N")
-        assert page.locator("html").get_attribute("lang")=="uk","manual choice not persisted"
-        page.locator('[data-language-toggle]').click()
+        assert page.locator("html").get_attribute("lang")=="en"
         assert page.locator(".fhero-navigation a").first.inner_text()=="About"
+        assert "Book a training session" in page.locator(".fhero-button-primary").inner_text()
+        assert "Choose a program" in page.locator(".fhero-button-secondary").inner_text()
+        assert page.evaluate("localStorage.getItem('yuliia-language')")=="en"
         page.reload(wait_until="domcontentloaded")
         page.wait_for_function("window.YF_I18N")
         assert page.locator("html").get_attribute("lang")=="en","English choice not persisted"
+        page.locator('[data-language-toggle]').click()
+        assert page.locator("html").get_attribute("lang")=="uk"
+        assert "Записатися на тренування" in page.locator(".fhero-button-primary").inner_text()
+        assert "Обрати програму" in page.locator(".fhero-button-secondary").inner_text()
+        page.reload(wait_until="domcontentloaded")
+        page.wait_for_function("window.YF_I18N")
+        assert page.locator("html").get_attribute("lang")=="uk","Ukrainian choice not persisted"
+        page.locator('[data-language-toggle]').click()
+        assert page.locator("html").get_attribute("lang")=="en"
         page.locator("#pricing .btn").click()
         page.wait_for_timeout(150)
         assert page.locator(".yf-consultation-modal").is_visible(),"Booking modal not opening"

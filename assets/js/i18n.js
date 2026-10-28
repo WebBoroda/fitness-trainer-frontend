@@ -1,4 +1,4 @@
-/* English/Ukrainian UI with device-language detection and persisted manual choice.
+/* Ukrainian is the default. Explicit UA/EN choices persist between visits.
    Never relies on a location lookup or third-party translation service. */
 (() => {
   'use strict';
@@ -26,8 +26,7 @@
       const stored = localStorage.getItem(key);
       if (stored === 'uk' || stored === 'en') return stored;
     } catch (_) {}
-    const first = (navigator.languages?.[0] || navigator.language || 'uk').toLowerCase();
-    return first.startsWith('en') ? 'en' : 'uk';
+    return 'uk';
   };
   let language = preferred();
   const excluded = node => {

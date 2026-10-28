@@ -1,7 +1,7 @@
 /* Functional consultation composition for a static GitHub Pages frontend. */
 .yf-consultation-modal{max-width:min(92vw,35rem);max-height:min(92vh,45rem);width:100%;border:1px solid #e0c8b6;
   padding:0;border-radius:1.35rem;background:#f9f5f0;color:#191614;box-shadow:0 2rem 6rem #0008}
-.yf-consultation-modal::backdrop{background:#080908ce;backdrop-filter:blur(.4rem)}
+.yf-consultation-modal::backdrop{background:#080908ce;backdrop-filter:blur(.3rem)}
 .yf-consultation-form{position:relative;display:grid;gap:1.15rem;padding:clamp(1.25rem,4vw,2.4rem);font-family:Manrope,Inter,sans-serif}
 .yf-planner-close{position:absolute;right:1rem;top:1rem;border:0;background:#eee0d4;border-radius:50%;width:2.5rem;height:2.5rem;font-size:1.4rem;cursor:pointer}
 .yf-consultation-form .eyebrow{justify-self:start;margin:0}
