@@ -314,6 +314,7 @@ html[data-theme=dark] #faq .faq-list details[open]{border-color:#d4ad8f}
   #formats .program-cards{
     grid-template-columns:minmax(0,14.375rem);
     justify-content:center;
+    row-gap:24px;
   }
   #formats .program-card{min-height:24.75rem}
 }

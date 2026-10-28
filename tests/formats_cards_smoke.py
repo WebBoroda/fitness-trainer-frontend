@@ -83,7 +83,7 @@ try:
                 if w<500:
                     assert all(abs(r['width']-230)<=1 for r in rects),(w,theme,'230px centered card',rects)
                     assert all(abs(r['x']+r['width']/2-w/2)<=2 for r in rects),(w,theme,'card not centered',rects)
-                    assert all(rects[i+1]['y']>=rects[i]['y']+rects[i]['height']-1 for i in range(3)),(w,theme,'cards not stacked',rects)
+                    assert all(abs(rects[i+1]['y']-(rects[i]['y']+rects[i]['height'])-24)<=1 for i in range(3)),(w,theme,'vertical spacing must equal 24px',rects)
                 elif w in (500,501):
                     assert abs(rects[0]['y']-rects[1]['y'])<=2,(w,theme,'500px must remain two columns',rects)
                     assert rects[2]['y']>rects[0]['y'],(w,theme,'expect second row',rects)
