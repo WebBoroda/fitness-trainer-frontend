@@ -24,6 +24,11 @@ try:
                 page.locator('#formats').scroll_into_view_if_needed()
                 cards=page.locator('#formats .program-card')
                 assert cards.count()==4,(w,theme,'card count')
+                for image in cards.locator('img').all():
+                    image.scroll_into_view_if_needed()
+                    image.evaluate('(el)=>el.decode().catch(()=>{})')
+                page.wait_for_function("[...document.querySelectorAll('#formats .program-card img')].every(img=>img.complete && img.naturalWidth>=1000)")
+                page.locator('#formats').scroll_into_view_if_needed()
                 data=cards.evaluate_all("""els=>els.map(el=>{
                     const img=el.querySelector('img');
                     const box=x=>{const r=x.getBoundingClientRect();return [r.top,r.bottom]};
