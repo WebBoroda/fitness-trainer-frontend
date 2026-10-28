@@ -78,7 +78,7 @@ try:
                 # Gallery: first CTA must open an actual keyboard-accessible dialog.
                 gallery = page.locator('a[href="#studio-gallery"]')
                 gallery.click()
-                assert page.locator(".yf-gallery-modal").evaluate("(el)=>el.open"), width
+                assert page.locator(".yf-gallery-modal").evaluate("(el)=>el.open"), (width,errors,page.evaluate("""() => ({markup: document.querySelector('.yf-gallery-modal')?.innerHTML.slice(0,1000), hasTrack: !!document.querySelector('.yf-gallery-mobile-track'), scriptType: typeof window.matchMedia})"""))
                 buttons = page.locator(".yf-gallery-controls button")
                 def bounds():
                     return [button.bounding_box() for button in buttons.all()]
