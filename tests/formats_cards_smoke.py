@@ -41,8 +41,14 @@ try:
                       link:box(el.querySelector('a'))}
                 })""")
                 for i,x in enumerate(data):
-                    assert x['src']==f"assets/images/formats-{['personal','group','online','nutrition'][i]}.webp",(w,i,x['src'])
+                    assert x['src']==(
+                        f"assets/images/formats-{['personal','group','online'][i]}-v2.webp" if i<3
+                        else "assets/images/formats-nutrition.webp"
+                    ),(w,i,x['src'])
                     assert x['width']>=1000,(w,i,'image resolution',x['width'])
+                    assert x['ico'][0] > x['card'][0]+(x['card'][1]-x['card'][0])*.38,(w,theme,i,'content too high')
+                    assert x['link'][1]>=x['card'][1]-42,(w,theme,i,'link not at bottom')
+                    assert x['link'][0]-x['desc'][1]<=32,(w,theme,i,'excess gap above details')
                     assert x['filter']=='none',(w,theme,i,'unwanted photo filter')
                     assert 'linear-gradient' in x['overlay'],(w,theme,i,'missing CSS overlay')
                     assert x['ink']=='rgb(255, 255, 255)',(w,theme,i,'wrong ink',x['ink'])
@@ -60,4 +66,4 @@ try:
 finally:
     server.shutdown()
     server.server_close()
-print('PASS formats cards: original photos, overlays, content alignment, light/dark, 320–1920px')
+print('PASS formats cards: semantic photos, lower aligned content, CSS overlay, light/dark, 320–1920px')

@@ -59,9 +59,9 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
   background:#1a1c1b;overflow:hidden;isolation:isolate;
   transition:transform .5s var(--yf-ease),border-color .35s,box-shadow .5s}
 #formats .program-card>img{z-index:-2;transition:transform .9s var(--yf-ease);filter:none;object-position:center}
-#formats .program-card:nth-child(1)>img{object-position:40% center}
+#formats .program-card:nth-child(1)>img{object-position:50% center}
 #formats .program-card:nth-child(2)>img{object-position:62% center}
-#formats .program-card:nth-child(3)>img{object-position:69% center}
+#formats .program-card:nth-child(3)>img{object-position:36% center}
 #formats .program-card:nth-child(4)>img{object-position:64% 10%}
 /* As in the photo-studio reference: ONE uninterrupted CSS shade over a clean photo. */
 #formats .program-card::after{z-index:-1;pointer-events:none;background:linear-gradient(to top,
@@ -75,7 +75,7 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 #formats .program-card .ico svg{width:1.35rem;height:1.35rem;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 #formats .program-card h3{max-width:14ch;min-height:2.46em;margin-bottom:.55rem;font:750 clamp(.83rem,1vw,1.05rem)/1.23 Manrope,Inter,sans-serif}
 #formats .program-card p{max-width:24ch;min-height:5.8em;margin:0;color:#e4dfdc;font:400 clamp(.72rem,.84vw,.89rem)/1.45 Manrope,Inter,sans-serif}
-#formats .program-card a{margin-top:auto;padding-top:.85rem;font-weight:600;border-bottom:0;display:inline-flex;align-items:center;gap:.5rem}
+#formats .program-card a{margin-top:.85rem;padding-top:0;font-weight:600;border-bottom:0;display:inline-flex;align-items:center;gap:.5rem}
 #formats .program-card a:hover{color:var(--yf-sand)}
 
 /* Studio: asymmetrical gallery with a generous landscape lead image. */
