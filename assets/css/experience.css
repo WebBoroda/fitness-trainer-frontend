@@ -67,7 +67,7 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 #formats .program-card:nth-child(-n+3)::before{
   content:"";position:absolute;inset:-1.75rem;z-index:-2;pointer-events:none;
   background:var(--formats-ambient) center/cover no-repeat;
-  filter:blur(3.2rem) brightness(.98) saturate(.9);
+  filter:blur(1.6rem) brightness(1.18) saturate(.95);
   -webkit-mask-image:linear-gradient(to bottom,transparent 24%,#000 68%);
   mask-image:linear-gradient(to bottom,transparent 24%,#000 68%);
 }
@@ -85,9 +85,9 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 }
 /* As in the photo-studio reference: ONE uninterrupted CSS shade over a clean photo. */
 #formats .program-card::after{z-index:0;pointer-events:none;background:linear-gradient(to top,
-  rgba(12,12,14,.84) 0%,rgba(14,14,16,.71) 19%,
-  rgba(17,17,19,.56) 37%,rgba(18,18,20,.35) 52%,
-  rgba(19,19,21,.14) 65%,transparent 79%)}
+  rgba(12,12,14,.70) 0%,rgba(14,14,16,.54) 19%,
+  rgba(17,17,19,.42) 37%,rgba(18,18,20,.24) 52%,
+  rgba(19,19,21,.09) 65%,transparent 79%)}
 #formats .program-card:hover,#formats .program-card:focus-within{transform:translateY(-.35rem);border-color:#efd8c6a0;box-shadow:0 1.35rem 2.2rem #0004}
 #formats .program-card:hover>img,#formats .program-card:focus-within>img{transform:scale(1.045)}
 #formats .program-card .ico{display:grid;place-items:center;margin:auto 0 .5rem;width:2.5rem;height:2.5rem;

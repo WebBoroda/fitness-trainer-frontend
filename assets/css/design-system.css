@@ -956,9 +956,9 @@ html[data-theme="light"] #formats .program-card {
 html[data-theme="light"] #formats .program-card > img {filter:none}
 html[data-theme="light"] #formats .program-card::after {
   background:linear-gradient(to top,
-    rgba(18,16,16,.80) 0%,rgba(20,18,18,.65) 19%,
-    rgba(24,21,21,.48) 37%,rgba(27,24,24,.28) 52%,
-    rgba(29,26,26,.11) 65%,transparent 79%);
+    rgba(18,16,16,.70) 0%,rgba(20,18,18,.54) 19%,
+    rgba(24,21,21,.42) 37%,rgba(27,24,24,.24) 52%,
+    rgba(29,26,26,.09) 65%,transparent 79%);
 }
 html[data-theme="light"] #formats .program-card .ico {
   background: rgba(25,23,23,.28);
