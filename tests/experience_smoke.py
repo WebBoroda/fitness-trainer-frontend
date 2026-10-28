@@ -86,19 +86,31 @@ try:
                 assert all(button.is_visible() != is_mobile for button in buttons.all()), (width, "gallery arrow visibility")
 
                 def swipe(start_x, start_y, end_x, end_y):
-                    # Real Chromium touch input, not synthetic JS events.
+                    # Real Chromium touch input; assert the slide follows the
+                    # finger BEFORE release, then returns to centered position.
                     devtools = page.context.new_cdp_session(page)
                     devtools.send("Emulation.setTouchEmulationEnabled", {"enabled": True, "maxTouchPoints": 1})
                     devtools.send("Input.dispatchTouchEvent", {
                         "type": "touchStart",
                         "touchPoints": [{"x": start_x, "y": start_y, "id": 1}]
                     })
-                    devtools.send("Input.dispatchTouchEvent", {
-                        "type": "touchMove",
-                        "touchPoints": [{"x": end_x, "y": end_y, "id": 1}]
-                    })
+                    mid_x, mid_y = (start_x + end_x)//2, (start_y + end_y)//2
+                    for px,py in [(mid_x,mid_y),(end_x,end_y)]:
+                        devtools.send("Input.dispatchTouchEvent", {
+                            "type": "touchMove",
+                            "touchPoints": [{"x": px, "y": py, "id": 1}]
+                        })
+                    strip = page.locator(".yf-gallery-mobile-track")
+                    if abs(end_x-start_x) > abs(end_y-start_y)*1.4:
+                        assert "calc(" in strip.evaluate("(el)=>el.style.transform"), (width,"image not following finger")
                     devtools.send("Input.dispatchTouchEvent", {"type": "touchEnd", "touchPoints": []})
                     devtools.detach()
+                    page.wait_for_function("""() => {
+                      const el = document.querySelector('.yf-gallery-mobile-track');
+                      return el && getComputedStyle(el).transform &&
+                        !document.querySelector('.yf-gallery-modal').matches(':not([open])') &&
+                        el.style.transform === 'translate3d(-100%, 0, 0)';
+                    }""",timeout=2400)
 
                 if not is_mobile:
                     fixed_boxes = bounds()
@@ -111,8 +123,11 @@ try:
 
                 photo_first = page.locator(".yf-gallery-modal img").get_attribute("src")
                 assert photo_first.endswith("gym-01-main.webp"), (width,photo_first)
-                figure = page.locator(".yf-gallery-modal figure")
-                fig_box = figure.bounding_box()
+                viewport = page.locator(".yf-gallery-mobile-viewport")
+                if is_mobile:
+                    assert viewport.is_visible() and page.locator(".yf-gallery-mobile-track img").count()==3, width
+                    assert page.locator(".yf-gallery-modal figure>img").is_hidden(), width
+                fig_box = (viewport if is_mobile else page.locator(".yf-gallery-modal figure")).bounding_box()
                 for photo_index in range(1,5):
                     if is_mobile:
                         swipe(int(fig_box["x"]+fig_box["width"]*.70),
