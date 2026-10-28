@@ -56,21 +56,21 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 #formats .program-cards{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(.5rem,1vw,.85rem);min-width:0}
 #formats .program-card{min-width:0;min-height:clamp(19rem,30vw,29rem);padding:1.15rem 1.15rem .55rem;
   border:1px solid #ffffff3b;border-radius:.85rem;
-  background:#1a1c1b var(--formats-photo) center / cover no-repeat;
-  overflow:hidden;isolation:isolate;
+  background:#1a1c1b;overflow:hidden;isolation:isolate;
   transition:transform .8s cubic-bezier(.22,1,.36,1),border-color .55s ease,box-shadow .8s ease}
-#formats .program-card:nth-child(1){--formats-photo:url("../images/formats-personal-v2.webp")}
-#formats .program-card:nth-child(2){--formats-photo:url("../images/formats-group-v2.webp")}
-#formats .program-card:nth-child(3){--formats-photo:url("../images/formats-online-v2.webp")}
-#formats .program-card:nth-child(4){--formats-photo:url("../images/formats-nutrition.webp")}
-/* The original photo stays clean: contain reveals its full width, while the
-   same image behind it fills the remaining frame without a contrasting band. */
+/* Full-width portraits fade directly into the card's dark caption area:
+   one image only, without repeat patterns or visible double exposure. */
 #formats .program-card>img{
-  z-index:-2;object-fit:contain;object-position:center 22%;
+  z-index:-2;object-fit:contain;object-position:center top;
   filter:none;transform:scale(1);
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 16%,#000 58%,transparent 88%);
-  mask-image:linear-gradient(to bottom,transparent 0%,#000 16%,#000 58%,transparent 88%);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 43%,transparent 69%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 43%,transparent 69%);
   transition:transform 1.45s cubic-bezier(.22,1,.36,1);
+}
+/* The approved nutrition photo already fits the frame naturally. */
+#formats .program-card:nth-child(4)>img{
+  object-fit:cover;object-position:64% 10%;
+  -webkit-mask-image:none;mask-image:none;
 }
 /* As in the photo-studio reference: ONE uninterrupted CSS shade over a clean photo. */
 #formats .program-card::after{z-index:-1;pointer-events:none;background:linear-gradient(to top,

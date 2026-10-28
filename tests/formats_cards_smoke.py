@@ -59,9 +59,12 @@ try:
                     assert x['link'][1]>=x['card'][1]-42,(w,theme,i,'link not at bottom')
                     assert x['link'][0]-x['desc'][1]<=32,(w,theme,i,'excess gap above details')
                     assert x['filter']=='none',(w,theme,i,'unwanted photo filter')
-                    assert x['fit']=='contain',(w,theme,i,'photo still tightly cropped')
-                    assert 'formats-' in x['backing'],(w,theme,i,'missing seamless image backing')
-                    assert 'linear-gradient' in x['mask'],(w,theme,i,'photo edge is abrupt')
+                    assert x['fit']==('contain' if i<3 else 'cover'),(w,theme,i,'photo fitting')
+                    assert x['backing']=='none',(w,theme,i,'duplicated photo backdrop')
+                    if i<3:
+                        assert 'linear-gradient' in x['mask'],(w,theme,i,'photo fade is abrupt')
+                    else:
+                        assert x['mask']=='none',(w,theme,i,'nutrition framing changed')
                     assert max(float(t.strip().removesuffix('s')) for t in x['duration'].split(',')) < .05,(w,theme,i,'reduced-motion animation not minimized',x['duration'])
                     assert 'linear-gradient' in x['overlay'],(w,theme,i,'missing CSS overlay')
                     assert x['ink']=='rgb(255, 255, 255)',(w,theme,i,'wrong ink',x['ink'])
