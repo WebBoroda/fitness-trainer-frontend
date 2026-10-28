@@ -80,17 +80,33 @@
 .section .faq-list summary { padding-block: var(--yf-space-4); }
 .section .price { padding: var(--yf-space-4); }
 
-/* Full-bleed approved photograph: no object-fit letterboxing at desktop widths.
-   Frosted surfaces stay translucent so the image is actually visible behind them. */
+/* The hero photograph covers the COMPLETE hero stage, not only the compact
+   content's intrinsic height. The viewport background therefore cannot end
+   above the bottom edge on tall / ultra-wide displays. */
 @media (min-width: 70rem) {
+  .hero.fhero {
+    min-height: 100svh;
+  }
   .hero.fhero .fhero-photo {
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     max-width: none;
     object-fit: cover;
     object-position: 52% top;
+    transform: none;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+/* Tablet photo also extends behind the entire right column and actions. */
+@media (min-width: 42rem) and (max-width: 69.999rem) {
+  .hero.fhero .fhero-photo {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 59% top;
     transform: none;
     mask-image: none;
     -webkit-mask-image: none;
@@ -745,6 +761,44 @@ html[data-theme=light] .hero.fhero .fhero-stats {
 }
 html[data-theme=light] .hero.fhero .fhero-eyebrow { background: rgba(250,238,225,.57); }
 
+/* Light mode is not a white matte over the photo. Translucent cream on the
+   text side preserves contrast AND leaves the gym visible through the tint. */
+html[data-theme=light] .hero.fhero .fhero-overlay {
+  background:
+    linear-gradient(90deg,
+      rgba(246,240,234,.72) 0%,
+      rgba(246,240,234,.59) 24%,
+      rgba(246,240,234,.24) 48%,
+      rgba(246,240,234,0) 69%),
+    linear-gradient(0deg, rgba(15,14,13,.045), transparent 31%);
+}
+/* This CTA sits on the photograph, including in light mode: white foreground
+   with a dark optical shadow for icons, text, underline and downward arrow. */
+html[data-theme=light] .hero.fhero .fhero-scroll {
+  color: #fff;
+  text-shadow: 0 .075rem .4rem rgba(0,0,0,.85);
+  filter: drop-shadow(0 .075rem .16rem rgba(0,0,0,.6));
+}
+html[data-theme=light] .hero.fhero .fhero-scroll-mouse {
+  background: rgba(12,12,12,.22);
+  border-color: rgba(255,255,255,.96);
+  -webkit-backdrop-filter: blur(.35rem);
+  backdrop-filter: blur(.35rem);
+}
+html[data-theme=light] .hero.fhero .fhero-scroll > span:nth-child(2)::after {
+  border-color: #fff;
+  opacity: .9;
+}
+/* The handwritten cue sits in the same dark photographic zone. */
+@media (min-width: 70rem) {
+  html[data-theme=light] .hero.fhero .fhero-watch,
+  html[data-theme=light] .hero.fhero .fhero-handwrite,
+  html[data-theme=light] .hero.fhero .fhero-curve {
+    color: #fff;
+    text-shadow: 0 .06rem .3rem rgba(0,0,0,.67);
+  }
+}
+
 /* One circular UA/EN toggle, the same footprint and click-to-cycle principle as
    the theme control. Only the currently selected language is painted. */
 .hero.fhero .yf-language-control {
@@ -771,7 +825,7 @@ html[data-theme=light] .hero.fhero .yf-language-control .yf-language-half.is-act
 /* The approved editorial layout has natural rhythm instead of stretching
    every right-column gap to the complete monitor height. */
 @media (min-width:88rem) and (min-height:52rem) {
-  .hero.fhero { min-height:0; }
+  .hero.fhero { min-height:100svh; }
   .hero.fhero .fhero-stage {
     min-height:0;
     grid-template-rows:auto auto;
@@ -812,7 +866,7 @@ html[data-theme=light] .hero.fhero .yf-language-control .yf-language-half.is-act
    but preserve the special <= 593px short-laptop geometry. */
 @media (min-width:70rem) and (max-width:87.999rem) and (min-height:42rem),
        (min-width:88rem) and (min-height:42rem) and (max-height:51.999rem) {
-  .hero.fhero { min-height:0; }
+  .hero.fhero { min-height:100svh; }
   .hero.fhero .fhero-stage {
     min-height:0;
     grid-template-rows:auto auto;

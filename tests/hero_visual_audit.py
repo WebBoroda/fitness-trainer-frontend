@@ -8,7 +8,7 @@ from pathlib import Path
 from threading import Thread
 import json
 import shutil
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageStat
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -129,6 +129,16 @@ try:
                     'el => getComputedStyle(el).backdropFilter || getComputedStyle(el).webkitBackdropFilter'
                 )
                 check('blur(' in blur, "Real frosted-glass backdrop for " + selector)
+            if width >= 672:
+                full_photo = page.locator('.fhero-photo').bounding_box()
+                check(abs(full_photo["x"] - boxes["hero"]["x"]) < 2 and
+                      abs(full_photo["width"] - boxes["hero"]["width"]) < 2 and
+                      abs(full_photo["y"] - boxes["hero"]["y"]) < 2 and
+                      abs(full_photo["height"] - boxes["hero"]["height"]) < 2,
+                      "Real photograph covers the full hero height AND width")
+                if width >= 1120:
+                    check(boxes["hero"]["height"] >= height - 2,
+                          "Desktop hero photograph reaches the viewport bottom")
             if width >= 1120:
                 photo = page.locator('.fhero-photo').bounding_box()
                 check(abs(photo["x"] - boxes["hero"]["x"]) < 2 and
@@ -206,6 +216,16 @@ try:
             raw = OUT / f"hero-{width}x{height}.png"
             page.screenshot(path=str(raw), full_page=False, animations="disabled")
             with Image.open(raw).convert("RGB") as img:
+                if width >= 1120:
+                    # A photo covering the box is not enough if a solid overlay
+                    # hides the entire lower viewport. Verify image detail there.
+                    w, h = img.size
+                    region = img.crop((int(w*.50), int(h*.85),
+                                       int(w*.75), int(h*.97)))
+                    texture = ImageStat.Stat(region).stddev
+                    layout["spaces"]["bottomPhotoTexture"] = round(min(texture), 2)
+                    check(min(texture) >= 12,
+                          "Photo remains visually present at the bottom, no flat band")
                 draw = ImageDraw.Draw(img)
                 palette = {"intro": "#eace9f", "features": "#9df0ac", "watch": "#8ce2f5",
                            "handwritten": "#e2aafc", "scroll": "#f9bd7f", "stats": "#c5cfef"}
@@ -217,9 +237,23 @@ try:
                     draw.rectangle(xy, outline=color, width=2)
                     draw.text((b["x"]+3, max(0, b["y"]-14)), key, fill=color)
                 img.save(OUT / f"annotated-{width}x{height}.png")
-            if width in (974, 1536):
+            if width in (974, 1280, 1440, 1536, 1920):
                 page.evaluate("document.documentElement.dataset.theme='light'")
                 page.screenshot(path=str(OUT / f"hero-{width}x{height}-light.png"),full_page=False,animations="disabled")
+                if width >= 1120:
+                    light_scroll = page.locator('.fhero-scroll').evaluate(
+                        """el => ({color:getComputedStyle(el).color,
+                                    shadow:getComputedStyle(el).textShadow,
+                                    arrow:getComputedStyle(el.querySelector('.fhero-scroll-arrow')).display,
+                                    mouse:getComputedStyle(el.querySelector('.fhero-scroll-mouse')).borderColor})"""
+                    )
+                    check(light_scroll["color"] == "rgb(255, 255, 255)",
+                          "LIGHT theme scroll cue is visibly white on dark photo")
+                    check(light_scroll["shadow"] != "none",
+                          "LIGHT theme scroll retains optical contrast shadow")
+                    check(light_scroll["arrow"] != "none" and
+                          "255, 255, 255" in light_scroll["mouse"],
+                          "LIGHT theme downward arrow and mouse affordance visible")
                 if width == 974:
                     note_rgb = page.locator(".fhero-handwrite").evaluate(
                         "(el) => getComputedStyle(el).color"
