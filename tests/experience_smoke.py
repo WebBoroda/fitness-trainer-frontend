@@ -107,9 +107,10 @@ try:
                     devtools.detach()
                     page.wait_for_function("""() => {
                       const el = document.querySelector('.yf-gallery-mobile-track');
-                      return el && getComputedStyle(el).transform &&
-                        !document.querySelector('.yf-gallery-modal').matches(':not([open])') &&
-                        el.style.transform === 'translate3d(-100%, 0, 0)';
+                      if (!el || el.style.transition !== 'none') return false;
+                      const width = el.getBoundingClientRect().width;
+                      const x = new DOMMatrixReadOnly(getComputedStyle(el).transform).m41;
+                      return Math.abs(x + width) < 2;
                     }""",timeout=2400)
 
                 if not is_mobile:
