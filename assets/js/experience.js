@@ -79,28 +79,52 @@
     update();
   });
 
-  // Make the three approved gym photographs fully browsable, without a library.
+  // Browse all five gym photographs with a touch-first slider and keyboard controls.
   const studioImages = $$('#studio .studio-gallery img');
   if (studioImages.length) {
     const dialog = document.createElement('dialog');
     dialog.className = 'yf-gallery-modal';
     dialog.setAttribute('aria-label', 'Перегляд фотографій спортивного простору');
     dialog.innerHTML = '<button class="yf-gallery-close" type="button" aria-label="Закрити галерею">×</button>'
-      + '<figure><img alt="" loading="eager"><figcaption></figcaption></figure>'
+      + '<figure><img alt="" loading="eager"><div class="yf-gallery-mobile-viewport" aria-hidden="true">'
+      + '<div class="yf-gallery-mobile-track"><img alt=""><img alt=""><img alt=""></div></div>'
+      + '<figcaption aria-live="polite"></figcaption></figure>'
       + '<div class="yf-gallery-controls"><button type="button" aria-label="Попереднє фото">' + arrowIcon(-1)
       + '</button><button type="button" aria-label="Наступне фото">' + arrowIcon(1) + '</button></div>';
     document.body.append(dialog);
     const photo = $('figure img', dialog), caption = $('figcaption', dialog);
     const [prev, next] = $$('.yf-gallery-controls button', dialog);
     const close = $('.yf-gallery-close', dialog);
+    const viewport = $('.yf-gallery-mobile-viewport', dialog);
+    const track = $('.yf-gallery-mobile-track', dialog);
+    const slides = $('img', track);
+    const mobileQuery = matchMedia('(max-width: 47.99rem)');
+    const isMobile = () => mobileQuery.matches;
+    const wrap = index => (index + studioImages.length) % studioImages.length;
     let selected = 0, priorFocus = null, renderVersion = 0;
+    let drag = null, settling = false, settleTimeout = null;
+    let finishSettlement = null;
+    let preload = [];
+
+    const resetTrack = () => {
+      track.style.transition = 'none';
+      track.style.transform = 'translate3d(-100%, 0, 0)';
+    };
     const render = () => {
       const version = ++renderVersion;
       const source = studioImages[selected];
       photo.src = source.currentSrc || source.src;
       photo.alt = source.alt || '';
+      // Three real slides: previous/current/next. Only their order resets
+      // after the sliding transition has completed, creating a seamless loop.
+      [wrap(selected - 1), selected, wrap(selected + 1)].forEach((index, slot) => {
+        const image = studioImages[index];
+        slides[slot].src = image.currentSrc || image.src;
+        slides[slot].alt = '';
+      });
+      resetTrack();
       caption.textContent = (source.alt || 'Фотографія зали') + ' · ' + (selected + 1) + ' / ' + studioImages.length;
-      if (dialog.open && !prefersReduced.matches) {
+      if (dialog.open && !prefersReduced.matches && !isMobile()) {
         photo.decode().then(() => {
           if (version !== renderVersion || !dialog.open) return;
           photo.animate([{ opacity: .65 }, { opacity: 1 }], {
@@ -109,14 +133,60 @@
         }).catch(() => {});
       }
     };
+    const stopSettlement = () => {
+      if (settleTimeout !== null) clearTimeout(settleTimeout);
+      settleTimeout = null;
+      finishSettlement = null;
+      settling = false;
+      resetTrack();
+    };
     const open = index => {
       priorFocus = document.activeElement;
       selected = index;
+      // Start loading each gallery photo before it becomes a neighbouring slide.
+      preload = studioImages.map(img => {
+        const image = new Image();
+        image.src = img.currentSrc || img.src;
+        return image;
+      });
       render();
       dialog.showModal();
       close.focus();
     };
-    const step = direction => { selected = (selected + direction + studioImages.length) % studioImages.length; render(); };
+    const settle = direction => {
+      if (settling) return;
+      settling = true;
+      let completed = false;
+      const complete = () => {
+        if (completed) return;
+        completed = true;
+        if (settleTimeout !== null) clearTimeout(settleTimeout);
+        settleTimeout = null;
+        track.removeEventListener('transitionend', onEnd);
+        finishSettlement = null;
+        settling = false;
+        if (direction) selected = wrap(selected + direction);
+        render();
+      };
+      const onEnd = event => {
+        if (event.target === track && event.propertyName === 'transform') complete();
+      };
+      finishSettlement = complete;
+      if (prefersReduced.matches) { complete(); return; }
+      track.addEventListener('transitionend', onEnd);
+      track.style.transition = 'transform 380ms cubic-bezier(.22, 1, .36, 1)';
+      track.style.transform = 'translate3d(' + (direction > 0 ? '-200%' : direction < 0 ? '0%' : '-100%') + ', 0, 0)';
+      // A backgrounded tab may not emit transitionend; never leave controls stuck.
+      settleTimeout = setTimeout(complete, 500);
+    };
+    const step = direction => {
+      if (isMobile()) {
+        settle(direction);
+      } else {
+        selected = wrap(selected + direction);
+        render();
+      }
+    };
     studioImages.forEach((img, index) => {
       const btn = document.createElement('button');
       btn.className = 'gallery-photo';
@@ -130,34 +200,59 @@
     studioCta?.addEventListener('click', event => { event.preventDefault(); open(0); });
     prev.addEventListener('click', () => step(-1));
     next.addEventListener('click', () => step(1));
-    // Horizontal gestures only: vertical finger movement must not change photos.
-    const imageArea = $('figure', dialog);
-    let touchStart = null;
-    imageArea.addEventListener('touchstart', event => {
-      if (event.touches.length !== 1) { touchStart = null; return; }
-      const touch = event.touches[0];
-      touchStart = { x: touch.clientX, y: touch.clientY };
-    }, { passive: true });
-    imageArea.addEventListener('touchend', event => {
-      if (!touchStart || event.changedTouches.length !== 1) {
-        touchStart = null;
+    // touch-action:pan-y leaves vertical page gestures to the browser.
+    // Horizontal drags move the same strip that will animate into place.
+    viewport.addEventListener('touchstart', event => {
+      if (!isMobile() || settling || event.touches.length !== 1) {
+        drag = null;
         return;
       }
-      const touch = event.changedTouches[0];
-      const deltaX = touch.clientX - touchStart.x;
-      const deltaY = touch.clientY - touchStart.y;
-      touchStart = null;
-      if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.4) return;
-      step(deltaX < 0 ? 1 : -1);
+      const touch = event.touches[0];
+      drag = { x: touch.clientX, y: touch.clientY, time: event.timeStamp, axis: null, dx: 0 };
     }, { passive: true });
-    imageArea.addEventListener('touchcancel', () => { touchStart = null; }, { passive: true });
+    viewport.addEventListener('touchmove', event => {
+      if (!drag || event.touches.length !== 1) return;
+      const touch = event.touches[0];
+      const dx = touch.clientX - drag.x;
+      const dy = touch.clientY - drag.y;
+      if (!drag.axis) {
+        if (Math.abs(dx) < 9 && Math.abs(dy) < 9) return;
+        drag.axis = Math.abs(dx) > Math.abs(dy) * 1.25 ? 'horizontal' : 'vertical';
+      }
+      if (drag.axis !== 'horizontal') return;
+      drag.dx = Math.max(-viewport.clientWidth, Math.min(viewport.clientWidth, dx));
+      track.style.transition = 'none';
+      track.style.transform = 'translate3d(calc(-100% + ' + drag.dx + 'px), 0, 0)';
+    }, { passive: true });
+    viewport.addEventListener('touchend', event => {
+      if (!drag || event.changedTouches.length !== 1) { drag = null; return; }
+      const last = drag;
+      drag = null;
+      if (last.axis !== 'horizontal') return;
+      const elapsed = Math.max(1, event.timeStamp - last.time);
+      const threshold = Math.max(40, viewport.clientWidth * .15);
+      const fling = Math.abs(last.dx) > 20 && Math.abs(last.dx) / elapsed > .5;
+      settle(Math.abs(last.dx) >= threshold || fling ? (last.dx < 0 ? 1 : -1) : 0);
+    }, { passive: true });
+    viewport.addEventListener('touchcancel', () => {
+      if (!drag) return;
+      const wasHorizontal = drag.axis === 'horizontal';
+      drag = null;
+      if (wasHorizontal) settle(0);
+    }, { passive: true });
     close.addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
     dialog.addEventListener('keydown', event => {
       if (event.key === 'ArrowLeft') { event.preventDefault(); step(-1); }
       if (event.key === 'ArrowRight') { event.preventDefault(); step(1); }
     });
-    dialog.addEventListener('close', () => priorFocus?.focus?.());
+    dialog.addEventListener('close', () => {
+      drag = null;
+      if (finishSettlement) finishSettlement();
+      stopSettlement();
+      preload = [];
+      priorFocus?.focus?.();
+    });
   }
 
   // The source layout has no verified booking endpoint. Provide a real, local

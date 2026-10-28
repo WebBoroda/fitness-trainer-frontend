@@ -226,9 +226,27 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 .yf-gallery-controls{position:fixed;inset-inline:clamp(.75rem,3.5vw,3.5rem);top:50%;z-index:3;
   transform:translateY(-50%);display:flex;justify-content:space-between;pointer-events:none}
 .yf-gallery-controls button{pointer-events:auto;background:#181818aa;touch-action:manipulation}
-.yf-gallery-modal figure{touch-action:pan-y}
+/* The slider exists only on touch-sized screens; desktop image stays intact. */
+.yf-gallery-mobile-viewport{display:none}
 @media(max-width:47.99rem){
   .yf-gallery-controls{display:none}
+  .yf-gallery-modal{width:min(94vw,36rem);overflow:hidden}
+  .yf-gallery-modal figure>img{display:none}
+  .yf-gallery-mobile-viewport{
+    display:block;width:100%;height:min(65svh,34rem);
+    overflow:hidden;touch-action:pan-y;user-select:none;
+  }
+  .yf-gallery-mobile-track{
+    display:flex;width:100%;height:100%;
+    transform:translate3d(-100%,0,0);will-change:transform;
+  }
+  .yf-gallery-modal .yf-gallery-mobile-track img{
+    display:block;flex:0 0 100%;min-width:0;
+    width:100%;height:100%;max-width:none;max-height:none;
+    object-fit:contain;pointer-events:none;user-select:none;
+    -webkit-user-drag:none;
+  }
+  .yf-gallery-modal figcaption{min-height:3.8rem}
 }
 .yf-scroll-progress{position:fixed;left:0;top:0;z-index:200;width:0;height:3px;pointer-events:none;
   background:linear-gradient(90deg,#ebbe9f,#f7dfcc);transition:width .12s linear}
