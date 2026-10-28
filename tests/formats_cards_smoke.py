@@ -38,9 +38,7 @@ try:
                       mask:getComputedStyle(img).maskImage,
                       duration:getComputedStyle(img).transitionDuration,
                       backing:getComputedStyle(el).backgroundImage,
-                      ambient:getComputedStyle(el,'::before').backgroundImage,
-                      ambientBlur:getComputedStyle(el,'::before').filter,
-                      ambientLayer:getComputedStyle(el,'::before').zIndex,
+                      beforeContent:getComputedStyle(el,'::before').content,
                       photoLayer:getComputedStyle(img).zIndex,
                       shadeLayer:getComputedStyle(el,'::after').zIndex,
                       position:getComputedStyle(img).objectPosition,
@@ -65,20 +63,20 @@ try:
                     assert x['link'][1]>=x['card'][1]-42,(w,theme,i,'link not at bottom')
                     assert x['link'][0]-x['desc'][1]<=32,(w,theme,i,'excess gap above details')
                     assert x['filter']=='none',(w,theme,i,'unwanted photo filter')
-                    assert x['fit']==('contain' if i<3 else 'cover'),(w,theme,i,'photo fitting')
-                    assert x['backing']=='none',(w,theme,i,'duplicated photo backdrop')
-                    if i<3:
-                        assert 'linear-gradient' in x['mask'],(w,theme,i,'photo fade is abrupt')
-                        assert 'formats-' in x['ambient'],(w,theme,i,'missing soft photo continuation')
-                        assert 'blur(' in x['ambientBlur'],(w,theme,i,'background must be diffuse')
-                        assert (x['ambientLayer'],x['photoLayer'],x['shadeLayer'])==('-2','-1','0'),(w,theme,i,'photo blend hidden behind card',x)
-                        assert x['position']=='50% 0%',(w,theme,i,'approved photo position changed',x['position'])
-                    else:
-                        assert x['mask']=='none',(w,theme,i,'nutrition framing changed')
-                        assert x['position']=='64% 10%',(w,theme,i,'nutrition framing changed')
+                    assert x['fit']=='cover',(w,theme,i,'photo must fill the card')
+                    assert x['mask']=='none',(w,theme,i,'image mask forbidden')
+                    assert x['backing']=='none',(w,theme,i,'extra photo backdrop forbidden')
+                    assert x['beforeContent']=='none',(w,theme,i,'extra pseudo photo forbidden')
+                    assert (x['photoLayer'],x['shadeLayer'])==('-1','0'),(w,theme,i,'photo/shade layering')
+                    assert x['position']==('64% 10%' if i==3 else '50% 0%'),(w,theme,i,'photo focal point')
                     assert max(float(t.strip().removesuffix('s')) for t in x['duration'].split(',')) < .05,(w,theme,i,'reduced-motion animation not minimized',x['duration'])
                     assert 'linear-gradient' in x['overlay'],(w,theme,i,'missing CSS overlay')
                     assert x['ink']=='rgb(255, 255, 255)',(w,theme,i,'wrong ink',x['ink'])
+                assert len({x['overlay'] for x in data})==1,(w,theme,'gradient differs among cards')
+                if theme=='light':
+                    light_overlay=data[0]['overlay']
+                else:
+                    assert data[0]['overlay']==light_overlay,(w,'Light/Dark gradient differs')
                 for i,x in enumerate(data):
                     row=[y for y in data if abs(y['card'][0]-x['card'][0])<=2]
                     if len(row)<2: continue
@@ -98,7 +96,7 @@ try:
         card.scroll_into_view_if_needed()
         card.evaluate("(el)=>el.classList.add('visible')")
         normal=card.locator('img').evaluate("(el)=>({fit:getComputedStyle(el).objectFit,position:getComputedStyle(el).objectPosition,duration:getComputedStyle(el).transitionDuration})")
-        assert normal['fit']=='contain' and normal['position']=='50% 0%',normal
+        assert normal['fit']=='cover' and normal['position']=='50% 0%',normal
         assert any(float(s.strip().removesuffix('s'))>1 for s in normal['duration'].split(',')),normal
         card.hover()
         hover.wait_for_timeout(1700)
@@ -109,4 +107,4 @@ try:
 finally:
     server.shutdown()
     server.server_close()
-print('PASS formats cards: semantic photos, lower aligned content, CSS overlay, light/dark, 320–1920px')
+print('PASS formats cards: unified studio overlay, full-bleed photos, hover, light/dark, 320–1920px')
