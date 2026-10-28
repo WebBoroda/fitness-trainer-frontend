@@ -20,13 +20,14 @@ SECTIONS = [
     "#mission", "#formats", "#studio", "#about", "#nutrition",
     "#results", "#reviews", "#pricing", "#faq", ".final-section", ".yf-footer",
 ]
+# Photo-backed program cards intentionally retain a dark CSS shade for white
+# labels; these are photographs, not dark section surfaces.
 LIGHT_CARDS = [
-    "#formats .program-card", "#pricing .price", "#reviews .review",
-    "#mission .benefit",
+    "#pricing .price", "#reviews .review", "#mission .benefit",
 ]
 INK = ["#formats .heading", "#results .heading", "#pricing .heading",
        ".final-section .heading", ".yf-footer-info h2",
-       "#formats .program-card h3", "#pricing .price h3"]
+       "#pricing .price h3"]
 PHOTO_AREA = ["#formats .program-card", ".final-section"]
 class Quiet(SimpleHTTPRequestHandler):
     def log_message(self, *_):
