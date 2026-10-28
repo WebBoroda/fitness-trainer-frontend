@@ -308,11 +308,11 @@ html[data-theme=dark] #faq .faq-list details[open]{border-color:#d4ad8f}
  #reviews .review,#pricing .price{flex-basis:82vw}
  #faq .faq-list summary{font-size:.87rem}
 }
-/* Narrow phones: a single centered card with the approved desktop card width.
+/* Narrow phones: a single centered 230px-wide card, with the rest unchanged.
    The strict 499.98px cutoff leaves the two-column 500px layout intact. */
 @media(max-width:499.98px){
   #formats .program-cards{
-    grid-template-columns:minmax(0,13.125rem);
+    grid-template-columns:minmax(0,14.375rem);
     justify-content:center;
   }
   #formats .program-card{min-height:24.75rem}

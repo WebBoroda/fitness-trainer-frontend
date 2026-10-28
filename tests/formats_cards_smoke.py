@@ -75,13 +75,13 @@ try:
                 assert len({x['overlay'] for x in data})==1,(w,theme,'gradient differs among cards')
                 assert 'rgba(12, 12, 14, 0.94)' in data[0]['overlay'],(w,theme,'expected darker gradient',data[0]['overlay'])
                 # At <500 CSS pixels cards are centered, retain the approved
-                # ~210px desktop width and form one vertical column.
+                # a 230px-wide card and form one vertical column.
                 rects=cards.evaluate_all("""els=>els.map(el=>{
                     const r=el.getBoundingClientRect();
                     return {x:r.x,y:r.y,width:r.width,height:r.height};
                 })""")
                 if w<500:
-                    assert all(abs(r['width']-210)<=1 for r in rects),(w,theme,'desktop-width card',rects)
+                    assert all(abs(r['width']-230)<=1 for r in rects),(w,theme,'230px centered card',rects)
                     assert all(abs(r['x']+r['width']/2-w/2)<=2 for r in rects),(w,theme,'card not centered',rects)
                     assert all(rects[i+1]['y']>=rects[i]['y']+rects[i]['height']-1 for i in range(3)),(w,theme,'cards not stacked',rects)
                 elif w in (500,501):
@@ -122,4 +122,4 @@ try:
 finally:
     server.shutdown()
     server.server_close()
-print('PASS formats: unified darker shade, single centered 210px column below 500px, 500px boundary, Light/Dark')
+print('PASS formats: unified darker shade, single centered 230px column below 500px, 500px boundary, Light/Dark')
