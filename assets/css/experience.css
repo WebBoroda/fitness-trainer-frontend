@@ -68,11 +68,11 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 /* Keep the approved food-photo focal point. */
 #formats .program-card:nth-child(4)>img{object-position:64% 10%}
 #formats .program-card::after{z-index:0;pointer-events:none;background:linear-gradient(to top,
-  rgba(12,12,14,.88) 0%,
-  rgba(14,14,16,.74) 19%,
-  rgba(17,17,19,.60) 37%,
-  rgba(18,18,20,.38) 52%,
-  rgba(19,19,21,.16) 65%,
+  rgba(12,12,14,.94) 0%,
+  rgba(14,14,16,.84) 19%,
+  rgba(17,17,19,.70) 37%,
+  rgba(18,18,20,.50) 52%,
+  rgba(19,19,21,.25) 65%,
   transparent 79%)}
 #formats .program-card:hover,#formats .program-card:focus-within{transform:translateY(-.35rem);border-color:#efd8c6a0;box-shadow:0 1.35rem 2.2rem #0004}
 #formats .program-card:hover>img,#formats .program-card:focus-within>img{transform:scale(1.045)}
@@ -307,6 +307,15 @@ html[data-theme=dark] #faq .faq-list details[open]{border-color:#d4ad8f}
  #results .result-strip img{flex-basis:38vw;width:38vw;height:58vw}
  #reviews .review,#pricing .price{flex-basis:82vw}
  #faq .faq-list summary{font-size:.87rem}
+}
+/* Narrow phones: a single centered card with the approved desktop card width.
+   The strict 499.98px cutoff leaves the two-column 500px layout intact. */
+@media(max-width:499.98px){
+  #formats .program-cards{
+    grid-template-columns:minmax(0,13.125rem);
+    justify-content:center;
+  }
+  #formats .program-card{min-height:24.75rem}
 }
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}

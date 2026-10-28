@@ -16,7 +16,7 @@ try:
     with sync_playwright() as p:
         chrome=shutil.which('google-chrome') or shutil.which('chromium')
         b=p.chromium.launch(headless=True,executable_path=chrome) if chrome else p.chromium.launch(headless=True)
-        for w,h in [(320,740),(375,812),(480,900),(768,1024),(1024,768),(1440,900),(1920,1080)]:
+        for w,h in [(320,740),(375,812),(480,900),(499,900),(500,900),(501,900),(768,1024),(1024,768),(1440,900),(1920,1080)]:
             for theme in ('light','dark'):
                 page=b.new_page(viewport={'width':w,'height':h},reduced_motion='reduce')
                 page.add_init_script(f"localStorage.setItem('fitness-theme','{theme}');localStorage.setItem('yuliia-language','uk')")
@@ -73,6 +73,21 @@ try:
                     assert 'linear-gradient' in x['overlay'],(w,theme,i,'missing CSS overlay')
                     assert x['ink']=='rgb(255, 255, 255)',(w,theme,i,'wrong ink',x['ink'])
                 assert len({x['overlay'] for x in data})==1,(w,theme,'gradient differs among cards')
+                assert 'rgba(12, 12, 14, 0.94)' in data[0]['overlay'],(w,theme,'expected darker gradient',data[0]['overlay'])
+                # At <500 CSS pixels cards are centered, retain the approved
+                # ~210px desktop width and form one vertical column.
+                rects=cards.evaluate_all("""els=>els.map(el=>{
+                    const r=el.getBoundingClientRect();
+                    return {x:r.x,y:r.y,width:r.width,height:r.height};
+                })""")
+                if w<500:
+                    assert all(abs(r['width']-210)<=1 for r in rects),(w,theme,'desktop-width card',rects)
+                    assert all(abs(r['x']+r['width']/2-w/2)<=2 for r in rects),(w,theme,'card not centered',rects)
+                    assert all(rects[i+1]['y']>=rects[i]['y']+rects[i]['height']-1 for i in range(3)),(w,theme,'cards not stacked',rects)
+                elif w in (500,501):
+                    assert abs(rects[0]['y']-rects[1]['y'])<=2,(w,theme,'500px must remain two columns',rects)
+                    assert rects[2]['y']>rects[0]['y'],(w,theme,'expect second row',rects)
+                
                 if theme=='light':
                     light_overlay=data[0]['overlay']
                 else:
@@ -84,7 +99,7 @@ try:
                         ys=[y[key][index] for y in row]
                         assert max(ys)-min(ys)<=2,(w,theme,key,ys)
                 assert page.evaluate('document.documentElement.scrollWidth-innerWidth')<=2,(w,theme,'horizontal overflow')
-                if w in (375,768,1440):
+                if w in (375,480,499,500,501,768,1440):
                     page.locator('#formats').screenshot(path=str(SHOTS/f'{theme}-{w}.png'),animations='disabled')
                 page.close()
         # Independently verify that the hover zoom runs in normal motion mode,
@@ -107,4 +122,4 @@ try:
 finally:
     server.shutdown()
     server.server_close()
-print('PASS formats cards: unified studio overlay, full-bleed photos, hover, light/dark, 320–1920px')
+print('PASS formats: unified darker shade, single centered 210px column below 500px, 500px boundary, Light/Dark')
