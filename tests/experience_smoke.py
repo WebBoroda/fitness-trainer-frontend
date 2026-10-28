@@ -121,7 +121,7 @@ try:
                         assert abs((box["y"]+box["height"]/2)-height/2)<=2, ("arrows must be viewport-fixed vertically",width,box)
                     assert fixed_boxes[0]["x"] < width * .12 and fixed_boxes[1]["x"] > width * .80, (width,fixed_boxes)
 
-                photo_first = page.locator(".yf-gallery-modal img").get_attribute("src")
+                photo_first = page.locator(".yf-gallery-modal figure > img").get_attribute("src")
                 assert photo_first.endswith("gym-01-main.webp"), (width,photo_first)
                 viewport = page.locator(".yf-gallery-mobile-viewport")
                 if is_mobile:
@@ -136,7 +136,7 @@ try:
                               int(fig_box["y"]+fig_box["height"]*.5))
                     else:
                         buttons.nth(1).click()
-                    current = page.locator(".yf-gallery-modal img").get_attribute("src")
+                    current = page.locator(".yf-gallery-modal figure > img").get_attribute("src")
                     assert current.endswith(expected[photo_index]), (width,photo_index,current)
                     assert f"{photo_index+1} / 5" in page.locator(".yf-gallery-modal figcaption").inner_text()
                     if not is_mobile:
@@ -144,22 +144,22 @@ try:
                             assert abs(original["x"]-current_box["x"])<1 and abs(original["y"]-current_box["y"])<1, (width,"arrows moved with image",original,current_box)
                 if is_mobile:
                     # A largely vertical gesture must never change the selected photo.
-                    before_vertical = page.locator(".yf-gallery-modal img").get_attribute("src")
+                    before_vertical = page.locator(".yf-gallery-modal figure > img").get_attribute("src")
                     swipe(int(fig_box["x"]+fig_box["width"]*.5),
                           int(fig_box["y"]+fig_box["height"]*.25),
                           int(fig_box["x"]+fig_box["width"]*.53),
                           int(fig_box["y"]+fig_box["height"]*.75))
-                    assert page.locator(".yf-gallery-modal img").get_attribute("src") == before_vertical, (width,"vertical gesture incorrectly changed photo")
+                    assert page.locator(".yf-gallery-modal figure > img").get_attribute("src") == before_vertical, (width,"vertical gesture incorrectly changed photo")
                     swipe(int(fig_box["x"]+fig_box["width"]*.25),
                           int(fig_box["y"]+fig_box["height"]*.5),
                           int(fig_box["x"]+fig_box["width"]*.70),
                           int(fig_box["y"]+fig_box["height"]*.5))
-                    assert page.locator(".yf-gallery-modal img").get_attribute("src").endswith(expected[3]), (width,"right swipe should go back")
+                    assert page.locator(".yf-gallery-modal figure > img").get_attribute("src").endswith(expected[3]), (width,"right swipe should go back")
                     swipe(int(fig_box["x"]+fig_box["width"]*.70),
                           int(fig_box["y"]+fig_box["height"]*.5),
                           int(fig_box["x"]+fig_box["width"]*.25),
                           int(fig_box["y"]+fig_box["height"]*.5))
-                    assert page.locator(".yf-gallery-modal img").get_attribute("src").endswith(expected[4]), (width,"forward swipe should restore fifth photo")
+                    assert page.locator(".yf-gallery-modal figure > img").get_attribute("src").endswith(expected[4]), (width,"forward swipe should restore fifth photo")
                     # Moving forward once more wraps the last photo to the first.
                     swipe(int(fig_box["x"]+fig_box["width"]*.70),
                           int(fig_box["y"]+fig_box["height"]*.5),
@@ -167,7 +167,7 @@ try:
                           int(fig_box["y"]+fig_box["height"]*.5))
                 else:
                     buttons.nth(1).click()
-                assert page.locator(".yf-gallery-modal img").get_attribute("src") == photo_first, (width,"gallery navigation wrap")
+                assert page.locator(".yf-gallery-modal figure > img").get_attribute("src") == photo_first, (width,"gallery navigation wrap")
                 if width in (375, 768, 1440):
                     page.locator(".yf-gallery-modal").screenshot(path=str(SHOTS / f"gallery-controls-{width}-{scheme}.png"), animations="disabled")
                 page.keyboard.press("Escape")
