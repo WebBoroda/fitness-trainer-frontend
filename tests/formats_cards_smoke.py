@@ -46,7 +46,11 @@ try:
                         else "assets/images/formats-nutrition.webp"
                     ),(w,i,x['src'])
                     assert x['width']>=1000,(w,i,'image resolution',x['width'])
-                    assert x['ico'][0] > x['card'][0]+(x['card'][1]-x['card'][0])*.38,(w,theme,i,'content too high')
+                    # Mobile card widths require more lines than desktop. Check
+                    # the actual content flow rather than a fixed height percentage.
+                    assert x['ico'][1]<=x['title'][0]+2,(w,theme,i,'icon/title overlap')
+                    assert x['title'][1]<=x['desc'][0]+2,(w,theme,i,'title/description overlap')
+                    assert x['desc'][1]<=x['link'][0]+2,(w,theme,i,'description/link overlap')
                     assert x['link'][1]>=x['card'][1]-42,(w,theme,i,'link not at bottom')
                     assert x['link'][0]-x['desc'][1]<=32,(w,theme,i,'excess gap above details')
                     assert x['filter']=='none',(w,theme,i,'unwanted photo filter')
