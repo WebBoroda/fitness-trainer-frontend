@@ -65,14 +65,14 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 #formats .program-card:nth-child(2){--formats-ambient:url("../images/formats-group-v2.webp")}
 #formats .program-card:nth-child(3){--formats-ambient:url("../images/formats-online-v2.webp")}
 #formats .program-card:nth-child(-n+3)::before{
-  content:"";position:absolute;inset:-1.75rem;z-index:-3;pointer-events:none;
+  content:"";position:absolute;inset:-1.75rem;z-index:-2;pointer-events:none;
   background:var(--formats-ambient) center/cover no-repeat;
-  filter:blur(1.8rem) brightness(.62) saturate(.84);
+  filter:blur(3.2rem) brightness(.98) saturate(.9);
   -webkit-mask-image:linear-gradient(to bottom,transparent 24%,#000 68%);
   mask-image:linear-gradient(to bottom,transparent 24%,#000 68%);
 }
 #formats .program-card>img{
-  z-index:-2;object-fit:contain;object-position:center top;
+  z-index:-1;object-fit:contain;object-position:center top;
   filter:none;transform:scale(1);
   -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 43%,transparent 69%);
   mask-image:linear-gradient(to bottom,#000 0%,#000 43%,transparent 69%);
@@ -84,7 +84,7 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
   -webkit-mask-image:none;mask-image:none;
 }
 /* As in the photo-studio reference: ONE uninterrupted CSS shade over a clean photo. */
-#formats .program-card::after{z-index:-1;pointer-events:none;background:linear-gradient(to top,
+#formats .program-card::after{z-index:0;pointer-events:none;background:linear-gradient(to top,
   rgba(12,12,14,.84) 0%,rgba(14,14,16,.71) 19%,
   rgba(17,17,19,.56) 37%,rgba(18,18,20,.35) 52%,
   rgba(19,19,21,.14) 65%,transparent 79%)}

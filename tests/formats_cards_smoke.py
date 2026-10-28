@@ -40,6 +40,9 @@ try:
                       backing:getComputedStyle(el).backgroundImage,
                       ambient:getComputedStyle(el,'::before').backgroundImage,
                       ambientBlur:getComputedStyle(el,'::before').filter,
+                      ambientLayer:getComputedStyle(el,'::before').zIndex,
+                      photoLayer:getComputedStyle(img).zIndex,
+                      shadeLayer:getComputedStyle(el,'::after').zIndex,
                       position:getComputedStyle(img).objectPosition,
                       ink:getComputedStyle(el).color,
                       overlay:getComputedStyle(el,'::after').backgroundImage,
@@ -68,6 +71,7 @@ try:
                         assert 'linear-gradient' in x['mask'],(w,theme,i,'photo fade is abrupt')
                         assert 'formats-' in x['ambient'],(w,theme,i,'missing soft photo continuation')
                         assert 'blur(' in x['ambientBlur'],(w,theme,i,'background must be diffuse')
+                        assert (x['ambientLayer'],x['photoLayer'],x['shadeLayer'])==('-2','-1','0'),(w,theme,i,'photo blend hidden behind card',x)
                         assert x['position']=='50% 0%',(w,theme,i,'approved photo position changed',x['position'])
                     else:
                         assert x['mask']=='none',(w,theme,i,'nutrition framing changed')
