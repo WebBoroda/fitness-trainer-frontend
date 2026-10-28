@@ -233,7 +233,7 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
   .yf-gallery-modal{width:min(94vw,36rem);overflow:hidden}
   .yf-gallery-modal figure>img{display:none}
   .yf-gallery-mobile-viewport{
-    display:block;width:100%;height:min(65svh,34rem);
+    display:block;width:100%;height:auto;aspect-ratio:16/9;max-height:65svh;
     overflow:hidden;touch-action:pan-y;user-select:none;
   }
   .yf-gallery-mobile-track{

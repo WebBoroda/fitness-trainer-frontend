@@ -127,6 +127,8 @@ try:
                 viewport = page.locator(".yf-gallery-mobile-viewport")
                 if is_mobile:
                     assert viewport.is_visible() and page.locator(".yf-gallery-mobile-track img").count()==3, width
+                    stage = viewport.bounding_box()
+                    assert abs(stage["height"]-min(stage["width"]*9/16,height*.65))<=3,(width,"mobile gallery must remain compact",stage)
                     assert page.locator(".yf-gallery-modal figure>img").is_hidden(), width
                 fig_box = (viewport if is_mobile else page.locator(".yf-gallery-modal figure")).bounding_box()
                 for photo_index in range(1,5):
