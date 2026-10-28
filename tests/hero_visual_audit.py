@@ -8,7 +8,7 @@ from pathlib import Path
 from threading import Thread
 import json
 import shutil
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageStat
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -216,6 +216,16 @@ try:
             raw = OUT / f"hero-{width}x{height}.png"
             page.screenshot(path=str(raw), full_page=False, animations="disabled")
             with Image.open(raw).convert("RGB") as img:
+                if width >= 1120:
+                    # A photo covering the box is not enough if a solid overlay
+                    # hides the entire lower viewport. Verify image detail there.
+                    w, h = img.size
+                    region = img.crop((int(w*.50), int(h*.85),
+                                       int(w*.75), int(h*.97)))
+                    texture = ImageStat.Stat(region).stddev
+                    layout["spaces"]["bottomPhotoTexture"] = round(min(texture), 2)
+                    check(min(texture) >= 12,
+                          "Photo remains visually present at the bottom, no flat band")
                 draw = ImageDraw.Draw(img)
                 palette = {"intro": "#eace9f", "features": "#9df0ac", "watch": "#8ce2f5",
                            "handwritten": "#e2aafc", "scroll": "#f9bd7f", "stats": "#c5cfef"}
