@@ -18,7 +18,7 @@ CASES = [
     (320, 740), (375, 812), (480, 900),
     (768, 1024), (974, 1374), (1024, 768),
     (1280, 720), (1344, 598), (1440, 900), (1536, 1024),
-    (1792, 1000), (1920, 1080)
+    (1792, 862), (1792, 1000), (1920, 1080)
 ]
 SELECTORS = {
     "hero": ".hero.fhero",
@@ -124,11 +124,12 @@ try:
             check(scroll_style["arrow"] != "none" and scroll_style["underline"] != "none",
                   "Scroll cue has partial underline and downward arrow")
             for selector in ('.fhero-header', '.fhero-stats', '.fhero-features',
-                             '.fhero-button-primary'):
+                             '.fhero-button-primary', '.fhero-button-secondary',
+                             '.yf-language-control'):
                 blur = page.locator(selector).first.evaluate(
                     'el => getComputedStyle(el).backdropFilter || getComputedStyle(el).webkitBackdropFilter'
                 )
-                check('blur(' in blur, "Real frosted-glass backdrop for " + selector)
+                check('blur(8px)' in blur, "0.5rem frosted-glass backdrop for " + selector)
             if width >= 672:
                 full_photo = page.locator('.fhero-photo').bounding_box()
                 check(abs(full_photo["x"] - boxes["hero"]["x"]) < 2 and
@@ -146,6 +147,12 @@ try:
                       "Full-bleed hero photograph spans the viewport without side bands")
                 mode = page.locator('.fhero-photo').evaluate('el => getComputedStyle(el).objectFit')
                 check(mode == "cover", "Approved cover image fills the entire hero")
+                if width == 1792 and height == 862:
+                    position = page.locator('.fhero-photo').evaluate(
+                        'el => getComputedStyle(el).objectPosition'
+                    )
+                    check(position.endswith('16px'),
+                          "Large-screen image content is positioned 1rem lower")
 
             # A visible annotation must not paint over the actionable video label.
             if width >= 672 and boxes["handwritten"]:

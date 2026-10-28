@@ -156,7 +156,7 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 #pricing .price-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
 #pricing .price{min-height:17rem;display:flex;flex-direction:column;justify-content:space-between;
   border:1px solid #ffffff40;border-radius:1rem;padding:1.3rem;
-  background:linear-gradient(138deg,#3333336b,#1a1a1a9c);backdrop-filter:blur(.3rem);
+  background:linear-gradient(138deg,#3333336b,#1a1a1a9c);backdrop-filter:blur(.5rem);
   transition:transform .4s var(--yf-ease),background .3s}
 #pricing .price:hover{transform:translateY(-.35rem);background:#ffffff18}
 #pricing .price h3{font:750 clamp(.85rem,1.12vw,1.15rem)/1.3 Manrope,Inter,sans-serif;margin:0 0 .8rem}
@@ -203,7 +203,7 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 .yf-carousel-controls button:hover{background:#ffffff26}
 .yf-carousel-controls button:disabled{opacity:.35;cursor:default}
 .yf-gallery-modal{max-width:min(95vw,65rem);max-height:95vh;padding:0;overflow:hidden;border:1px solid #ffffff5e;border-radius:1rem;background:#161717;color:#fff;box-shadow:0 3rem 7rem #000a}
-.yf-gallery-modal::backdrop{background:#050605dc;backdrop-filter:blur(.3rem)}
+.yf-gallery-modal::backdrop{background:#050605dc;backdrop-filter:blur(.5rem)}
 .yf-gallery-modal figure{margin:0;min-width:0}
 .yf-gallery-modal img{display:block;max-width:min(92vw,63rem);max-height:77vh;object-fit:contain}
 .yf-gallery-modal figcaption{padding:.8rem 1.2rem;color:#e9e3dd;font-size:.9rem}

@@ -93,7 +93,7 @@
     height: 100%;
     max-width: none;
     object-fit: cover;
-    object-position: 52% top;
+    object-position: 52% 1rem;
     transform: none;
     mask-image: none;
     -webkit-mask-image: none;
@@ -122,13 +122,13 @@
 .hero.fhero .fhero-header {
   background: rgba(15,15,15,.29);
   border-bottom-color: rgba(255,255,255,.22);
-  -webkit-backdrop-filter: blur(.3rem) saturate(140%);
-  backdrop-filter: blur(.3rem) saturate(140%);
+  -webkit-backdrop-filter: blur(.5rem) saturate(140%);
+  backdrop-filter: blur(.5rem) saturate(140%);
 }
 .hero.fhero .fhero-header .mobile-menu {
   background: rgba(22,21,21,.75);
-  -webkit-backdrop-filter: blur(.3rem) saturate(135%);
-  backdrop-filter: blur(.3rem) saturate(135%);
+  -webkit-backdrop-filter: blur(.5rem) saturate(135%);
+  backdrop-filter: blur(.5rem) saturate(135%);
 }
 .hero.fhero .fhero-header-cta,
 .hero.fhero .fhero-button-primary {
@@ -136,35 +136,35 @@
   border-color: rgba(255,244,235,.78);
   color: #1d1714;
   box-shadow: inset 0 .07rem 0 rgba(255,255,255,.28), 0 .3rem 1rem rgba(0,0,0,.08);
-  -webkit-backdrop-filter: blur(.3rem) saturate(130%);
-  backdrop-filter: blur(.3rem) saturate(130%);
+  -webkit-backdrop-filter: blur(.5rem) saturate(130%);
+  backdrop-filter: blur(.5rem) saturate(130%);
 }
 .hero.fhero .fhero-header-cta:hover,
 .hero.fhero .fhero-button-primary:hover { background: rgba(247,229,215,.91); }
 .hero.fhero .fhero-cta-circle {
   background: rgba(255,255,255,.92);
-  -webkit-backdrop-filter: blur(.3rem);
-  backdrop-filter: blur(.3rem);
+  -webkit-backdrop-filter: blur(.5rem);
+  backdrop-filter: blur(.5rem);
 }
 .hero.fhero .fhero-button-secondary {
   background: rgba(20,20,20,.18);
-  -webkit-backdrop-filter: blur(.3rem);
-  backdrop-filter: blur(.3rem);
+  -webkit-backdrop-filter: blur(.5rem);
+  backdrop-filter: blur(.5rem);
 }
 .hero.fhero .fhero-eyebrow {
   background: rgba(29,28,27,.4);
-  -webkit-backdrop-filter: blur(.3rem);
-  backdrop-filter: blur(.3rem);
+  -webkit-backdrop-filter: blur(.5rem);
+  backdrop-filter: blur(.5rem);
 }
 .hero.fhero .fhero-stats {
   background: rgba(29,27,27,.48);
-  -webkit-backdrop-filter: blur(.3rem) saturate(135%);
-  backdrop-filter: blur(.3rem) saturate(135%);
+  -webkit-backdrop-filter: blur(.5rem) saturate(135%);
+  backdrop-filter: blur(.5rem) saturate(135%);
 }
 .hero.fhero .fhero-features {
   background: rgba(40,39,37,.54);
-  -webkit-backdrop-filter: blur(.3rem) saturate(130%);
-  backdrop-filter: blur(.3rem) saturate(130%);
+  -webkit-backdrop-filter: blur(.5rem) saturate(130%);
+  backdrop-filter: blur(.5rem) saturate(130%);
 }
 html[data-theme=light] .hero.fhero .fhero-header {
   background: rgba(248,240,233,.64);
@@ -263,7 +263,7 @@ html[data-theme=light] .yf-language-control button[aria-pressed=true] { color: #
   width: clamp(1.45rem, 1.7vw, 1.85rem);
   height: clamp(1.45rem, 1.7vw, 1.85rem);
   background: rgba(255,255,255,.89);
-  backdrop-filter: blur(.3rem);
+  backdrop-filter: blur(.5rem);
   box-shadow: 0 .08rem .35rem rgba(0,0,0,.2);
 }
 .hero.fhero .fhero-watch-label {
@@ -428,7 +428,7 @@ a.yf-social-link:hover { background: #efd8c6; border-color: #efd8c6; color: #191
   width: fit-content; max-width: calc(100% - 2 * var(--yf-space-3));
   border-radius: var(--yf-pill-radius); padding: var(--yf-space-2) var(--yf-space-3);
   background: rgba(18,21,19,.9); color: #f6f1ed;
-  font-size: .76rem; line-height: 1.35; backdrop-filter: blur(.3rem);
+  font-size: .76rem; line-height: 1.35; backdrop-filter: blur(.5rem);
 }
 .yf-map-bottom { display: flex; align-items: center; flex-wrap: wrap; gap: var(--yf-space-3); margin-top: var(--yf-space-3); }
 .yf-map-bottom .yf-demo-caption { margin: 0; }
@@ -464,8 +464,8 @@ a.yf-social-link:hover { background: #efd8c6; border-color: #efd8c6; color: #191
   padding:0; overflow:hidden; border:1px solid rgba(255,255,255,.7);
   border-radius:100rem; background:rgba(255,255,255,.1);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 .2rem .8rem #0002;
-  -webkit-backdrop-filter:blur(.3rem) saturate(145%);
-  backdrop-filter:blur(.3rem) saturate(145%);
+  -webkit-backdrop-filter:blur(.5rem) saturate(145%);
+  backdrop-filter:blur(.5rem) saturate(145%);
 }
 .yf-language-control .yf-language-toggle {
   display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:stretch;
@@ -496,8 +496,8 @@ html[data-theme=light] .yf-language-control .yf-language-toggle {color:#241d1a}
   background:linear-gradient(155deg,#ffffff28,#1f1b192f 45%,#10101043);
   border-bottom:1px solid #ffffff58;
   box-shadow:inset 0 1px 0 #ffffff38,0 8px 25px #0002;
-  -webkit-backdrop-filter:blur(.3rem) saturate(150%);
-  backdrop-filter:blur(.3rem) saturate(150%);
+  -webkit-backdrop-filter:blur(.5rem) saturate(150%);
+  backdrop-filter:blur(.5rem) saturate(150%);
 }
 .hero.fhero .fhero-features,
 .hero.fhero .fhero-stats,
@@ -505,8 +505,8 @@ html[data-theme=light] .yf-language-control .yf-language-toggle {color:#241d1a}
   background:linear-gradient(135deg,#ffffff30,#ffffff17 45%,#11101030);
   border-color:#ffffff63;
   box-shadow:inset 0 1px 0 #ffffff40,inset 0 -1px 0 #ffffff09,0 1rem 2.5rem #0002;
-  -webkit-backdrop-filter:blur(.3rem) saturate(155%);
-  backdrop-filter:blur(.3rem) saturate(155%);
+  -webkit-backdrop-filter:blur(.5rem) saturate(155%);
+  backdrop-filter:blur(.5rem) saturate(155%);
 }
 .hero.fhero .fhero-features{border-radius:clamp(1rem,1.35vw,1.45rem)}
 .hero.fhero .fhero-features .fhero-feature:hover,
@@ -516,15 +516,15 @@ html[data-theme=light] .yf-language-control .yf-language-toggle {color:#241d1a}
   background:linear-gradient(135deg,#fff8f1d1,#efd2be99);
   border:1px solid #ffffffc0;
   box-shadow:inset 0 1px 0 #ffffffa8,inset 0 -1px 0 #644a361f,0 .6rem 1.5rem #0002;
-  -webkit-backdrop-filter:blur(.3rem) saturate(150%);
-  backdrop-filter:blur(.3rem) saturate(150%);
+  -webkit-backdrop-filter:blur(.5rem) saturate(150%);
+  backdrop-filter:blur(.5rem) saturate(150%);
 }
 .hero.fhero .fhero-button-secondary,
 .hero.fhero .fhero-theme-trigger {
   background:linear-gradient(135deg,#ffffff26,#19171624);
   box-shadow:inset 0 1px 0 #ffffff2e;
-  -webkit-backdrop-filter:blur(.3rem) saturate(145%);
-  backdrop-filter:blur(.3rem) saturate(145%);
+  -webkit-backdrop-filter:blur(.5rem) saturate(145%);
+  backdrop-filter:blur(.5rem) saturate(145%);
 }
 html[data-theme=light] .hero.fhero .fhero-header{
   background:linear-gradient(135deg,#ffffff94,#f5e3d854);
@@ -550,13 +550,13 @@ html[data-theme=light] .hero.fhero .fhero-eyebrow{background:#f8e6d8ab}
 }
 .hero.fhero .fhero-play-mark{
   background:#ffffffb8;border:1px solid #ffffffcc;
-  -webkit-backdrop-filter:blur(.3rem);backdrop-filter:blur(.3rem);
+  -webkit-backdrop-filter:blur(.5rem);backdrop-filter:blur(.5rem);
 }
 /* Light-reference cards and picture crops, dark theme remains selectable. */
 #mission .benefit{
   background:#ffffff8f;border-color:#ffffffc2;
   box-shadow:inset 0 1px 0 #ffffffe8,0 .6rem 1.5rem #2b1b1309;
-  -webkit-backdrop-filter:blur(.3rem);backdrop-filter:blur(.3rem);
+  -webkit-backdrop-filter:blur(.5rem);backdrop-filter:blur(.5rem);
 }
 html[data-theme=dark] #mission .benefit{background:#ffffff16;border-color:#ffffff29}
 #studio .studio-gallery{grid-template-columns:3.5fr .9fr .9fr}
@@ -626,7 +626,7 @@ html[data-theme=dark] #faq .faq-note{color:#e5c2a9}
 .final-section .final-benefits span{
   display:grid;place-items:center;flex:0 0 2.5rem;width:2.5rem;height:2.5rem;
   border:1px solid #ffffffb3;border-radius:50%;background:#ffffff1a;font-size:1.3rem;
-  -webkit-backdrop-filter:blur(.3rem);backdrop-filter:blur(.3rem);
+  -webkit-backdrop-filter:blur(.5rem);backdrop-filter:blur(.5rem);
 }
 @media(max-width:69.999rem){
   #nutrition .nutrition-note{grid-column:1/-1;grid-row:auto;margin:.1rem auto 0}
@@ -725,8 +725,8 @@ html[data-theme=dark] #faq .faq-note{color:#e5c2a9}
   background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(25,21,19,.10) 65%, rgba(12,12,12,.17));
   border-bottom-color: rgba(255,255,255,.32);
   box-shadow: inset 0 1px rgba(255,255,255,.20), 0 .25rem 1.3rem rgba(0,0,0,.08);
-  -webkit-backdrop-filter: blur(.3rem) saturate(145%);
-  backdrop-filter: blur(.3rem) saturate(145%);
+  -webkit-backdrop-filter: blur(.5rem) saturate(145%);
+  backdrop-filter: blur(.5rem) saturate(145%);
 }
 .hero.fhero .fhero-features,
 .hero.fhero .fhero-stats,
@@ -734,16 +734,16 @@ html[data-theme=dark] #faq .faq-note{color:#e5c2a9}
   background: linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.065) 50%,rgba(15,14,14,.15));
   border-color: rgba(255,255,255,.38);
   box-shadow: inset 0 1px rgba(255,255,255,.23), 0 .65rem 2rem rgba(0,0,0,.10);
-  -webkit-backdrop-filter: blur(.3rem) saturate(145%);
-  backdrop-filter: blur(.3rem) saturate(145%);
+  -webkit-backdrop-filter: blur(.5rem) saturate(145%);
+  backdrop-filter: blur(.5rem) saturate(145%);
 }
 .hero.fhero .fhero-header-cta,
 .hero.fhero .fhero-button-primary {
   background: linear-gradient(125deg,rgba(250,236,223,.72),rgba(241,210,186,.59));
   border-color: rgba(255,255,255,.63);
   box-shadow: inset 0 1px rgba(255,255,255,.55), 0 .4rem 1rem rgba(0,0,0,.11);
-  -webkit-backdrop-filter: blur(.3rem) saturate(150%);
-  backdrop-filter: blur(.3rem) saturate(150%);
+  -webkit-backdrop-filter: blur(.5rem) saturate(150%);
+  backdrop-filter: blur(.5rem) saturate(150%);
 }
 .hero.fhero .fhero-header-cta:hover,
 .hero.fhero .fhero-button-primary:hover {
@@ -754,8 +754,8 @@ html[data-theme=dark] #faq .faq-note{color:#e5c2a9}
 .hero.fhero .yf-language-control {
   background: linear-gradient(135deg,rgba(255,255,255,.11),rgba(21,18,17,.12));
   border-color: rgba(255,255,255,.52);
-  -webkit-backdrop-filter: blur(.3rem) saturate(140%);
-  backdrop-filter: blur(.3rem) saturate(140%);
+  -webkit-backdrop-filter: blur(.5rem) saturate(140%);
+  backdrop-filter: blur(.5rem) saturate(140%);
 }
 html[data-theme=light] .hero.fhero .fhero-header {
   background: linear-gradient(145deg,rgba(255,255,255,.53),rgba(247,235,226,.28));
@@ -789,8 +789,8 @@ html[data-theme=light] .hero.fhero .fhero-scroll {
 html[data-theme=light] .hero.fhero .fhero-scroll-mouse {
   background: rgba(12,12,12,.22);
   border-color: rgba(255,255,255,.96);
-  -webkit-backdrop-filter: blur(.3rem);
-  backdrop-filter: blur(.3rem);
+  -webkit-backdrop-filter: blur(.5rem);
+  backdrop-filter: blur(.5rem);
 }
 html[data-theme=light] .hero.fhero .fhero-scroll > span:nth-child(2)::after {
   border-color: #fff;
