@@ -144,6 +144,12 @@ try:
                           int(fig_box["y"]+fig_box["height"]*.5),
                           int(fig_box["x"]+fig_box["width"]*.25),
                           int(fig_box["y"]+fig_box["height"]*.5))
+                    assert page.locator(".yf-gallery-modal img").get_attribute("src").endswith(expected[4]), (width,"forward swipe should restore fifth photo")
+                    # Moving forward once more wraps the last photo to the first.
+                    swipe(int(fig_box["x"]+fig_box["width"]*.70),
+                          int(fig_box["y"]+fig_box["height"]*.5),
+                          int(fig_box["x"]+fig_box["width"]*.25),
+                          int(fig_box["y"]+fig_box["height"]*.5))
                 else:
                     buttons.nth(1).click()
                 assert page.locator(".yf-gallery-modal img").get_attribute("src") == photo_first, (width,"gallery navigation wrap")
