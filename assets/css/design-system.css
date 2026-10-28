@@ -691,12 +691,12 @@ html[data-theme=dark] #faq .faq-note{color:#e5c2a9}
    as a hard horizontal image edge above the headline. */
 @media(max-width:41.99rem){
   .hero.fhero {
-    background:#121210 url('../images/hero-trainer.webp') 52% 38%/cover no-repeat;
+    background:#121210 url('../images/hero-background-generated.webp') 52% 38%/cover no-repeat;
   }
   .hero.fhero .fhero-photo{
     top:var(--hero-header-height);left:0;width:100%;
     height:min(68svh,42rem);max-width:none;
-    object-fit:cover;object-position:55% 22%;
+    object-fit:cover;object-position:65% 22%;
     -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 50%,transparent 100%);
     mask-image:linear-gradient(to bottom,#000 0%,#000 50%,transparent 100%);
   }
@@ -704,7 +704,7 @@ html[data-theme=dark] #faq .faq-note{color:#e5c2a9}
     background:linear-gradient(to bottom,#0d0d0d36 0%,#0d0d0d9c 31%,#0d0d0dbd 62%,#0d0d0de2 100%);
   }
   html[data-theme=light] .hero.fhero{
-    background:#f6f0ea url('../images/hero-trainer.webp') 52% 38%/cover no-repeat;
+    background:#f6f0ea url('../images/hero-background-generated.webp') 52% 38%/cover no-repeat;
   }
   html[data-theme=light] .hero.fhero .fhero-overlay{
     background:linear-gradient(to bottom,#f6f0ea17,#f6f0eab7 44%,#f6f0eade 100%);
@@ -818,7 +818,7 @@ html[data-theme=light] .hero.fhero .fhero-scroll > span:nth-child(2)::after {
   box-shadow:none;
   font-size:inherit;
 }
-.hero.fhero .yf-language-control .yf-language-half.is-active { display:grid; }
+.hero.fhero .yf-language-control .yf-language-half.is-active { display:grid; place-items:center; }
 html[data-theme=light] .hero.fhero .yf-language-control .yf-language-half.is-active {
   background:transparent; color:#241d1a;
 }
