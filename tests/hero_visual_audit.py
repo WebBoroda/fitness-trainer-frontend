@@ -93,6 +93,17 @@ try:
                 if not condition:
                     errors.append(f"{width}x{height}: {message}")
             check(overflow <= 2, "No horizontal overflow")
+            for language in ("uk", "en"):
+                page.evaluate("language => window.YF_I18N.setLanguage(language)", language)
+                toggle = page.locator(".yf-language-toggle").bounding_box()
+                label = page.locator(".yf-language-half.is-active").bounding_box()
+                check(abs((toggle["x"] + toggle["width"] / 2) -
+                          (label["x"] + label["width"] / 2)) <= 1 and
+                      abs(center_y(toggle) - center_y(label)) <= 1,
+                      "Language label is centered on both axes: " + language)
+            page.reload(wait_until="networkidle")
+            page.locator(".fhero-photo").evaluate("img => img.decode()")
+
             check(boxes["features"] is not None and boxes["watch"] is not None, "Benefits and video visible")
             check(boxes["scroll"] is not None, "Scroll control visible")
             curve = page.locator('.fhero-curve')
@@ -131,11 +142,12 @@ try:
                 check('blur(' in blur, "Real frosted-glass backdrop for " + selector)
             if width >= 672:
                 full_photo = page.locator('.fhero-photo').bounding_box()
+                header_height = page.locator(".fhero-header").bounding_box()["height"] if width >= 1120 else 0
                 check(abs(full_photo["x"] - boxes["hero"]["x"]) < 2 and
                       abs(full_photo["width"] - boxes["hero"]["width"]) < 2 and
-                      abs(full_photo["y"] - boxes["hero"]["y"]) < 2 and
-                      abs(full_photo["height"] - boxes["hero"]["height"]) < 2,
-                      "Real photograph covers the full hero height AND width")
+                      abs(full_photo["y"] - boxes["hero"]["y"] - header_height) < 2 and
+                      abs(full_photo["height"] + header_height - boxes["hero"]["height"]) < 2,
+                      "Photograph fills the hero below the desktop header without side bands")
                 if width >= 1120:
                     check(boxes["hero"]["height"] >= height - 2,
                           "Desktop hero photograph reaches the viewport bottom")
@@ -146,6 +158,19 @@ try:
                       "Full-bleed hero photograph spans the viewport without side bands")
                 mode = page.locator('.fhero-photo').evaluate('el => getComputedStyle(el).objectFit')
                 check(mode == "cover", "Approved cover image fills the entire hero")
+                image = page.locator('.fhero-photo').evaluate("""el => ({
+                    src: el.currentSrc, width: el.naturalWidth, height: el.naturalHeight
+                })""")
+                check(image["src"].endswith("hero-trainer-wide.webp"),
+                      "Desktop uses the panoramic photograph")
+                scale = max(photo["width"] / image["width"],
+                            photo["height"] / image["height"])
+                # Landmarks in the panoramic asset: crown at 6%, shoe at 92%.
+                cropped_y = (image["height"] * scale - photo["height"]) / 2
+                check(image["height"] * .06 * scale - cropped_y >= 0 and
+                      image["height"] * .92 * scale - cropped_y <= photo["height"],
+                      "Photograph keeps both the head and raised sneaker in frame")
+
 
             # A visible annotation must not paint over the actionable video label.
             if width >= 672 and boxes["handwritten"]:
