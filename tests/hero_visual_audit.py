@@ -101,7 +101,8 @@ try:
                           (label["x"] + label["width"] / 2)) <= 1 and
                       abs(center_y(toggle) - center_y(label)) <= 1,
                       "Language label is centered on both axes: " + language)
-            page.evaluate("window.YF_I18N.setLanguage('uk')")
+            page.reload(wait_until="networkidle")
+            page.locator(".fhero-photo").evaluate("img => img.decode()")
 
             check(boxes["features"] is not None and boxes["watch"] is not None, "Benefits and video visible")
             check(boxes["scroll"] is not None, "Scroll control visible")
@@ -141,11 +142,12 @@ try:
                 check('blur(' in blur, "Real frosted-glass backdrop for " + selector)
             if width >= 672:
                 full_photo = page.locator('.fhero-photo').bounding_box()
+                header_height = page.locator(".fhero-header").bounding_box()["height"] if width >= 1120 else 0
                 check(abs(full_photo["x"] - boxes["hero"]["x"]) < 2 and
                       abs(full_photo["width"] - boxes["hero"]["width"]) < 2 and
-                      abs(full_photo["y"] - boxes["hero"]["y"]) < 2 and
-                      abs(full_photo["height"] - boxes["hero"]["height"]) < 2,
-                      "Real photograph covers the full hero height AND width")
+                      abs(full_photo["y"] - boxes["hero"]["y"] - header_height) < 2 and
+                      abs(full_photo["height"] + header_height - boxes["hero"]["height"]) < 2,
+                      "Photograph fills the hero below the desktop header without side bands")
                 if width >= 1120:
                     check(boxes["hero"]["height"] >= height - 2,
                           "Desktop hero photograph reaches the viewport bottom")

@@ -80,17 +80,16 @@
 .section .faq-list summary { padding-block: var(--yf-space-4); }
 .section .price { padding: var(--yf-space-4); }
 
-/* The hero photograph covers the COMPLETE hero stage, not only the compact
-   content's intrinsic height. The viewport background therefore cannot end
-   above the bottom edge on tall / ultra-wide displays. */
+/* Keep the panoramic portrait below the header so neither the crown nor
+   the raised sneaker is hidden, while filling the full available width. */
 @media (min-width: 70rem) {
   .hero.fhero {
     min-height: 100svh;
   }
   .hero.fhero .fhero-photo {
-    inset: 0;
+    inset: var(--hero-header-height) 0 0;
     width: 100%;
-    height: 100%;
+    height: calc(100% - var(--hero-header-height));
     max-width: none;
     object-fit: cover;
     object-position: 65% center;
