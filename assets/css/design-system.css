@@ -825,7 +825,7 @@ html[data-theme=light] .hero.fhero .yf-language-control .yf-language-half.is-act
 /* The approved editorial layout has natural rhythm instead of stretching
    every right-column gap to the complete monitor height. */
 @media (min-width:88rem) and (min-height:52rem) {
-  .hero.fhero { min-height:0; }
+  .hero.fhero { min-height:100svh; }
   .hero.fhero .fhero-stage {
     min-height:0;
     grid-template-rows:auto auto;
@@ -866,7 +866,7 @@ html[data-theme=light] .hero.fhero .yf-language-control .yf-language-half.is-act
    but preserve the special <= 593px short-laptop geometry. */
 @media (min-width:70rem) and (max-width:87.999rem) and (min-height:42rem),
        (min-width:88rem) and (min-height:42rem) and (max-height:51.999rem) {
-  .hero.fhero { min-height:0; }
+  .hero.fhero { min-height:100svh; }
   .hero.fhero .fhero-stage {
     min-height:0;
     grid-template-rows:auto auto;
