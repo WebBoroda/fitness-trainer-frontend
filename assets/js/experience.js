@@ -97,7 +97,7 @@
     const close = $('.yf-gallery-close', dialog);
     const viewport = $('.yf-gallery-mobile-viewport', dialog);
     const track = $('.yf-gallery-mobile-track', dialog);
-    const slides = $('img', track);
+    const slides = Array.from(track.querySelectorAll('img'));
     const mobileQuery = matchMedia('(max-width: 47.99rem)');
     const isMobile = () => mobileQuery.matches;
     const wrap = index => (index + studioImages.length) % studioImages.length;
