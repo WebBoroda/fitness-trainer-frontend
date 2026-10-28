@@ -912,3 +912,147 @@ html[data-theme=light] .hero.fhero .yf-language-control .yf-language-half.is-act
     align-self:flex-end;
   }
 }
+/* Light theme: neutral surfaces and legible ink for non-photographic sections.
+   Hero and the other two themes deliberately remain untouched. */
+html[data-theme="light"] {
+  --yf-light-surface: #f8f5f1;
+  --yf-light-card: #fffdfb;
+  --yf-light-ink: #1b1715;
+  --yf-light-muted: #60574f;
+  --yf-light-border: #dfd2c8;
+}
+html[data-theme="light"] :is(#formats, #results, #pricing, .final-section, .yf-footer) {
+  background: var(--yf-light-surface);
+  color: var(--yf-light-ink);
+  color-scheme: light;
+}
+html[data-theme="light"] :is(#formats, #results, #pricing, .final-section) .heading span {
+  color: #514139;
+}
+html[data-theme="light"] :is(#formats, #results, #pricing, .final-section, .yf-footer) .eyebrow.dark-pill {
+  background: #f0e5dd;
+  border-color: #e2d2c6;
+  color: #514039;
+}
+html[data-theme="light"] :is(#formats, #results, #pricing, .final-section) .btn.outline {
+  color: var(--yf-light-ink);
+  border-color: #746559;
+}
+html[data-theme="light"] :is(#formats, #results, #pricing, .final-section) .btn.outline:hover {
+  background: rgba(239,216,198,.45);
+}
+
+/* Programs: photographic cards remain photographic, not black panels.
+   A cream scrim supports dark text in the same approved card geometry. */
+html[data-theme="light"] #formats::before,
+html[data-theme="light"] #formats::after {
+  background: none;
+}
+html[data-theme="light"] #formats .program-card {
+  background: var(--yf-light-card);
+  border-color: var(--yf-light-border);
+  color: var(--yf-light-ink);
+}
+html[data-theme="light"] #formats .program-card > img {
+  filter: brightness(1.04) saturate(.94);
+}
+html[data-theme="light"] #formats .program-card::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(250,247,243,.05) 5%,
+    rgba(250,247,243,.30) 30%,
+    rgba(250,247,243,.91) 59%,
+    rgba(250,247,243,.99) 85%
+  );
+}
+html[data-theme="light"] #formats .program-card .ico {
+  background: rgba(255,252,249,.85);
+  border-color: #86776c;
+  color: #211c18;
+}
+html[data-theme="light"] #formats .program-card p {
+  color: #443b34;
+}
+html[data-theme="light"] #formats .program-card a:hover {
+  color: #805238;
+}
+html[data-theme="light"] #formats .program-card:hover > img,
+html[data-theme="light"] #formats .program-card:focus-within > img {
+  filter: brightness(1.09) saturate(.94);
+}
+
+/* Results and pricing: light canvases and translucent pale price cards. */
+html[data-theme="light"] #results p,
+html[data-theme="light"] #pricing > .wrap p {
+  color: var(--yf-light-muted);
+}
+html[data-theme="light"] #results .result-strip img {
+  border-color: var(--yf-light-border);
+}
+html[data-theme="light"] #pricing .price {
+  background: rgba(255,253,251,.94);
+  border-color: var(--yf-light-border);
+  color: var(--yf-light-ink);
+}
+html[data-theme="light"] #pricing .price:hover {
+  background: #fffaf6;
+}
+html[data-theme="light"] #pricing .price p {
+  color: var(--yf-light-muted);
+}
+html[data-theme="light"] #pricing .price strong {
+  color: #75513e;
+}
+html[data-theme="light"] #pricing .price .price-action {
+  background: #efd8c6;
+  color: var(--yf-light-ink);
+}
+
+/* Closing photo remains a photo; the text-bearing side uses a cream fade. */
+html[data-theme="light"] .final-section::before {
+  background: linear-gradient(to bottom,rgba(248,245,241,.95),transparent 24%);
+}
+html[data-theme="light"] .final-section::after {
+  background: linear-gradient(90deg,
+    #f8f5f1 10%, rgba(248,245,241,.97) 32%,
+    rgba(248,245,241,.77) 59%, rgba(248,245,241,.2) 100%);
+}
+html[data-theme="light"] .final-section p {
+  color: var(--yf-light-muted);
+}
+html[data-theme="light"] .final-section .final-benefits li {
+  color: var(--yf-light-ink);
+}
+html[data-theme="light"] .final-section .final-benefits span {
+  color: var(--yf-light-ink);
+  border-color: #9f8f83;
+  background: rgba(255,252,249,.75);
+}
+
+/* Footer: remove dark backgrounds on its panels and map placeholder. */
+html[data-theme="light"] .yf-footer {
+  --footer-border: rgba(68,53,42,.23);
+  border-top-color: var(--yf-light-border);
+}
+html[data-theme="light"] .yf-footer .yf-social-link {
+  background: rgba(255,255,255,.72);
+}
+html[data-theme="light"] .yf-footer .yf-map-frame {
+  background:
+    linear-gradient(25deg,transparent 49.3%,#c8cfc3 49.5% 50.5%,transparent 50.7%),
+    repeating-linear-gradient(90deg,transparent 0 2.7rem,#e3e5df 2.75rem 2.83rem),
+    repeating-linear-gradient(0deg,#f0f0e9 0 2.3rem,#e8ebe3 2.35rem 2.4rem);
+}
+html[data-theme="light"] .yf-footer .yf-map-badge {
+  background: rgba(255,253,250,.94);
+  color: var(--yf-light-ink);
+  border: 1px solid var(--yf-light-border);
+}
+html[data-theme="light"] .yf-footer .footer-links a:hover {
+  color: #805238;
+}
+html[data-theme="light"] .yf-footer .btn.outline {
+  color: var(--yf-light-ink);
+  border-color: #746559;
+}
+
