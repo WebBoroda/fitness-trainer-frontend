@@ -79,20 +79,76 @@ try:
                 gallery = page.locator('a[href="#studio-gallery"]')
                 gallery.click()
                 assert page.locator(".yf-gallery-modal").evaluate("(el)=>el.open"), width
-                for control in page.locator(".yf-gallery-controls button").all():
-                    outer = control.bounding_box()
-                    vector = control.locator(".yf-arrow-svg").bounding_box()
-                    assert outer and vector and abs((outer["x"]+outer["width"]/2)-(vector["x"]+vector["width"]/2))<=1, ("gallery arrow x center",width)
-                    assert abs((outer["y"]+outer["height"]/2)-(vector["y"]+vector["height"]/2))<=1, ("gallery arrow y center",width)
+                buttons = page.locator(".yf-gallery-controls button")
+                def bounds():
+                    return [button.bounding_box() for button in buttons.all()]
+                is_mobile = width < 768
+                assert all(button.is_visible() != is_mobile for button in buttons.all()), (width, "gallery arrow visibility")
+
+                def swipe(start_x, start_y, end_x, end_y):
+                    # Real Chromium touch input, not synthetic JS events.
+                    devtools = page.context.new_cdp_session(page)
+                    devtools.send("Emulation.setTouchEmulationEnabled", {"enabled": True, "maxTouchPoints": 1})
+                    devtools.send("Input.dispatchTouchEvent", {
+                        "type": "touchStart",
+                        "touchPoints": [{"x": start_x, "y": start_y, "id": 1}]
+                    })
+                    devtools.send("Input.dispatchTouchEvent", {
+                        "type": "touchMove",
+                        "touchPoints": [{"x": end_x, "y": end_y, "id": 1}]
+                    })
+                    devtools.send("Input.dispatchTouchEvent", {"type": "touchEnd", "touchPoints": []})
+                    devtools.detach()
+
+                if not is_mobile:
+                    fixed_boxes = bounds()
+                    for control, box in zip(buttons.all(), fixed_boxes):
+                        vector = control.locator(".yf-arrow-svg").bounding_box()
+                        assert box and vector and abs((box["x"]+box["width"]/2)-(vector["x"]+vector["width"]/2))<=1, ("arrow x centered",width)
+                        assert abs((box["y"]+box["height"]/2)-(vector["y"]+vector["height"]/2))<=1, ("arrow y centered",width)
+                        assert abs((box["y"]+box["height"]/2)-height/2)<=2, ("arrows must be viewport-fixed vertically",width,box)
+                    assert fixed_boxes[0]["x"] < width * .12 and fixed_boxes[1]["x"] > width * .80, (width,fixed_boxes)
+
                 photo_first = page.locator(".yf-gallery-modal img").get_attribute("src")
                 assert photo_first.endswith("gym-01-main.webp"), (width,photo_first)
+                figure = page.locator(".yf-gallery-modal figure")
+                fig_box = figure.bounding_box()
                 for photo_index in range(1,5):
-                    page.locator('.yf-gallery-controls button[aria-label="Наступне фото"]').click()
+                    if is_mobile:
+                        swipe(int(fig_box["x"]+fig_box["width"]*.70),
+                              int(fig_box["y"]+fig_box["height"]*.5),
+                              int(fig_box["x"]+fig_box["width"]*.25),
+                              int(fig_box["y"]+fig_box["height"]*.5))
+                    else:
+                        buttons.nth(1).click()
                     current = page.locator(".yf-gallery-modal img").get_attribute("src")
                     assert current.endswith(expected[photo_index]), (width,photo_index,current)
                     assert f"{photo_index+1} / 5" in page.locator(".yf-gallery-modal figcaption").inner_text()
-                page.locator('.yf-gallery-controls button[aria-label="Наступне фото"]').click()
+                    if not is_mobile:
+                        for original, current_box in zip(fixed_boxes, bounds()):
+                            assert abs(original["x"]-current_box["x"])<1 and abs(original["y"]-current_box["y"])<1, (width,"arrows moved with image",original,current_box)
+                if is_mobile:
+                    # A largely vertical gesture must never change the selected photo.
+                    before_vertical = page.locator(".yf-gallery-modal img").get_attribute("src")
+                    swipe(int(fig_box["x"]+fig_box["width"]*.5),
+                          int(fig_box["y"]+fig_box["height"]*.25),
+                          int(fig_box["x"]+fig_box["width"]*.53),
+                          int(fig_box["y"]+fig_box["height"]*.75))
+                    assert page.locator(".yf-gallery-modal img").get_attribute("src") == before_vertical, (width,"vertical gesture incorrectly changed photo")
+                    swipe(int(fig_box["x"]+fig_box["width"]*.25),
+                          int(fig_box["y"]+fig_box["height"]*.5),
+                          int(fig_box["x"]+fig_box["width"]*.70),
+                          int(fig_box["y"]+fig_box["height"]*.5))
+                    assert page.locator(".yf-gallery-modal img").get_attribute("src").endswith(expected[3]), (width,"right swipe should go back")
+                    swipe(int(fig_box["x"]+fig_box["width"]*.70),
+                          int(fig_box["y"]+fig_box["height"]*.5),
+                          int(fig_box["x"]+fig_box["width"]*.25),
+                          int(fig_box["y"]+fig_box["height"]*.5))
+                else:
+                    buttons.nth(1).click()
                 assert page.locator(".yf-gallery-modal img").get_attribute("src") == photo_first, (width,"gallery navigation wrap")
+                if width in (375, 768, 1440):
+                    page.locator(".yf-gallery-modal").screenshot(path=str(SHOTS / f"gallery-controls-{width}-{scheme}.png"), animations="disabled")
                 page.keyboard.press("Escape")
                 assert not page.locator(".yf-gallery-modal").evaluate("(el)=>el.open")
 

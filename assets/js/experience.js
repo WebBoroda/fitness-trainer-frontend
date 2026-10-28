@@ -93,12 +93,21 @@
     const photo = $('figure img', dialog), caption = $('figcaption', dialog);
     const [prev, next] = $$('.yf-gallery-controls button', dialog);
     const close = $('.yf-gallery-close', dialog);
-    let selected = 0, priorFocus = null;
+    let selected = 0, priorFocus = null, renderVersion = 0;
     const render = () => {
+      const version = ++renderVersion;
       const source = studioImages[selected];
       photo.src = source.currentSrc || source.src;
       photo.alt = source.alt || '';
       caption.textContent = (source.alt || 'Фотографія зали') + ' · ' + (selected + 1) + ' / ' + studioImages.length;
+      if (dialog.open && !prefersReduced.matches) {
+        photo.decode().then(() => {
+          if (version !== renderVersion || !dialog.open) return;
+          photo.animate([{ opacity: .65 }, { opacity: 1 }], {
+            duration: 280, easing: 'ease-out'
+          });
+        }).catch(() => {});
+      }
     };
     const open = index => {
       priorFocus = document.activeElement;
@@ -121,6 +130,27 @@
     studioCta?.addEventListener('click', event => { event.preventDefault(); open(0); });
     prev.addEventListener('click', () => step(-1));
     next.addEventListener('click', () => step(1));
+    // Horizontal gestures only: vertical finger movement must not change photos.
+    const imageArea = $('figure', dialog);
+    let touchStart = null;
+    imageArea.addEventListener('touchstart', event => {
+      if (event.touches.length !== 1) { touchStart = null; return; }
+      const touch = event.touches[0];
+      touchStart = { x: touch.clientX, y: touch.clientY };
+    }, { passive: true });
+    imageArea.addEventListener('touchend', event => {
+      if (!touchStart || event.changedTouches.length !== 1) {
+        touchStart = null;
+        return;
+      }
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - touchStart.x;
+      const deltaY = touch.clientY - touchStart.y;
+      touchStart = null;
+      if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.4) return;
+      step(deltaX < 0 ? 1 : -1);
+    }, { passive: true });
+    imageArea.addEventListener('touchcancel', () => { touchStart = null; }, { passive: true });
     close.addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
     dialog.addEventListener('keydown', event => {

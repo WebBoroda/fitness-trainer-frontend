@@ -215,15 +215,21 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
   border-radius:50%;background:transparent;color:inherit;cursor:pointer;font-size:1.25rem;transition:background .2s}
 .yf-carousel-controls button:hover{background:#ffffff26}
 .yf-carousel-controls button:disabled{opacity:.35;cursor:default}
-.yf-gallery-modal{max-width:min(95vw,65rem);max-height:95vh;padding:0;overflow:hidden;border:1px solid #ffffff5e;border-radius:1rem;background:#161717;color:#fff;box-shadow:0 3rem 7rem #000a}
+.yf-gallery-modal{max-width:min(95vw,65rem);max-height:95vh;padding:0;overflow:visible;border:1px solid #ffffff5e;border-radius:1rem;background:#161717;color:#fff;box-shadow:0 3rem 7rem #000a}
 .yf-gallery-modal::backdrop{background:#050605dc;backdrop-filter:blur(.5rem)}
 .yf-gallery-modal figure{margin:0;min-width:0}
 .yf-gallery-modal img{display:block;max-width:min(92vw,63rem);max-height:77vh;object-fit:contain}
 .yf-gallery-modal figcaption{padding:.8rem 1.2rem;color:#e9e3dd;font-size:.9rem}
 .yf-gallery-close{position:absolute;top:1rem;right:1rem;z-index:2;display:grid;place-items:center;
   width:2.75rem;height:2.75rem;background:white;color:#111;border:0;border-radius:50%;font-size:1.7rem;cursor:pointer}
-.yf-gallery-controls{position:absolute;left:1rem;right:1rem;top:50%;display:flex;justify-content:space-between;pointer-events:none}
-.yf-gallery-controls button{pointer-events:auto;background:#181818aa}
+/* Desktop navigation is locked to the viewport, not the image dimensions. */
+.yf-gallery-controls{position:fixed;inset-inline:clamp(.75rem,3.5vw,3.5rem);top:50%;z-index:3;
+  transform:translateY(-50%);display:flex;justify-content:space-between;pointer-events:none}
+.yf-gallery-controls button{pointer-events:auto;background:#181818aa;touch-action:manipulation}
+.yf-gallery-modal figure{touch-action:pan-y}
+@media(max-width:47.99rem){
+  .yf-gallery-controls{display:none}
+}
 .yf-scroll-progress{position:fixed;left:0;top:0;z-index:200;width:0;height:3px;pointer-events:none;
   background:linear-gradient(90deg,#ebbe9f,#f7dfcc);transition:width .12s linear}
 .yf-demo-notice{display:block;max-width:var(--yf-wide);margin:0 auto;
