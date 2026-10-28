@@ -35,10 +35,16 @@ try:
                 assert page.locator('[data-language-indicator].is-active').get_attribute('data-language-indicator')==expected,(locale,width,"active language half")
                 assert "Записатися на тренування" in page.locator(".fhero-button-primary").inner_text()
                 assert "Обрати програму" in page.locator(".fhero-button-secondary").inner_text()
-                toggle = page.locator(".yf-language-toggle").bounding_box()
-                indicator = page.locator(".yf-language-half.is-active").bounding_box()
-                assert abs((toggle["x"] + toggle["width"]/2) - (indicator["x"] + indicator["width"]/2)) < 1
-                assert abs((toggle["y"] + toggle["height"]/2) - (indicator["y"] + indicator["height"]/2)) < 1
+                # Measure both boxes in the same layout frame so reveal/
+                # header movement cannot introduce inter-call coordinate drift.
+                centering = page.locator(".yf-language-toggle").evaluate("""el => {
+                    const text = el.querySelector('.yf-language-half.is-active');
+                    if (!text) return null;
+                    const a=el.getBoundingClientRect(), b=text.getBoundingClientRect();
+                    return [a.left+a.width/2-b.left-b.width/2,
+                            a.top+a.height/2-b.top-b.height/2];
+                }""")
+                assert centering and abs(centering[0]) < 1 and abs(centering[1]) < 1, (locale,width,centering)
                 nav = page.locator(".fhero-navigation a").first.inner_text()
                 assert nav==("About" if expected=="en" else "Про мене"),(locale,width,nav)
                 assert page.locator("main > section").count()==11,(locale,width,"missing sections")
