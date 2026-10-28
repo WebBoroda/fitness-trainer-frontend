@@ -68,8 +68,8 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 #formats .program-card>img{
   z-index:-2;object-fit:contain;object-position:center 22%;
   filter:none;transform:scale(1);
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 58%,transparent 88%);
-  mask-image:linear-gradient(to bottom,#000 0%,#000 58%,transparent 88%);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 16%,#000 58%,transparent 88%);
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 16%,#000 58%,transparent 88%);
   transition:transform 1.45s cubic-bezier(.22,1,.36,1);
 }
 /* As in the photo-studio reference: ONE uninterrupted CSS shade over a clean photo. */
