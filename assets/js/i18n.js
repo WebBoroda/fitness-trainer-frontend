@@ -44,7 +44,10 @@
     if (!normalize(value)) return;
     let source = originals.get(node);
     // External scripts can change existing nodes (carousel counters/statuses).
-    if (source === undefined || (value !== source && value !== translate(source))) {
+    // Preserve the Ukrainian original when the translation only changes
+    // surrounding whitespace (e.g. the space before a CTA icon).
+    if (source === undefined || (normalize(value) !== normalize(source) &&
+        normalize(value) !== normalize(translate(source)))) {
       source = value;
       originals.set(node, source);
     }
