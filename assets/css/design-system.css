@@ -949,7 +949,7 @@ html[data-theme="light"] #formats::after {
   background: none;
 }
 html[data-theme="light"] #formats .program-card {
-  background: #282626;
+  background-color: #282626;
   border-color: rgba(58,49,43,.30);
   color: #fff;
 }
