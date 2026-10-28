@@ -33,7 +33,12 @@ try:
                     const img=el.querySelector('img');
                     const box=x=>{const r=x.getBoundingClientRect();return [r.top,r.bottom]};
                     return {src:img.getAttribute('src'),width:img.naturalWidth,
-                      filter:getComputedStyle(img).filter,ink:getComputedStyle(el).color,
+                      filter:getComputedStyle(img).filter,
+                      fit:getComputedStyle(img).objectFit,
+                      mask:getComputedStyle(img).maskImage,
+                      duration:getComputedStyle(img).transitionDuration,
+                      backing:getComputedStyle(el).backgroundImage,
+                      ink:getComputedStyle(el).color,
                       overlay:getComputedStyle(el,'::after').backgroundImage,
                       card:box(el),ico:box(el.querySelector('.ico')),
                       title:box(el.querySelector('h3')),
@@ -54,6 +59,10 @@ try:
                     assert x['link'][1]>=x['card'][1]-42,(w,theme,i,'link not at bottom')
                     assert x['link'][0]-x['desc'][1]<=32,(w,theme,i,'excess gap above details')
                     assert x['filter']=='none',(w,theme,i,'unwanted photo filter')
+                    assert x['fit']=='contain',(w,theme,i,'photo still tightly cropped')
+                    assert 'formats-' in x['backing'],(w,theme,i,'missing seamless image backing')
+                    assert 'linear-gradient' in x['mask'],(w,theme,i,'photo edge is abrupt')
+                    assert x['duration']=='0.01s',(w,theme,i,'reduced-motion animation not minimized',x['duration'])
                     assert 'linear-gradient' in x['overlay'],(w,theme,i,'missing CSS overlay')
                     assert x['ink']=='rgb(255, 255, 255)',(w,theme,i,'wrong ink',x['ink'])
                 for i,x in enumerate(data):

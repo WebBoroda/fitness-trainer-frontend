@@ -54,28 +54,37 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
 #formats .program-top .copy p{max-width:35ch;margin:0 0 1.5rem}
 #formats .program-top .btn{margin-top:.2rem}
 #formats .program-cards{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(.5rem,1vw,.85rem);min-width:0}
-#formats .program-card{min-width:0;min-height:clamp(19rem,30vw,29rem);padding:1.15rem;
+#formats .program-card{min-width:0;min-height:clamp(19rem,30vw,29rem);padding:1.15rem 1.15rem .55rem;
   border:1px solid #ffffff3b;border-radius:.85rem;
-  background:#1a1c1b;overflow:hidden;isolation:isolate;
-  transition:transform .5s var(--yf-ease),border-color .35s,box-shadow .5s}
-#formats .program-card>img{z-index:-2;transition:transform .9s var(--yf-ease);filter:none;object-position:center}
-#formats .program-card:nth-child(1)>img{object-position:50% center}
-#formats .program-card:nth-child(2)>img{object-position:62% center}
-#formats .program-card:nth-child(3)>img{object-position:36% center}
-#formats .program-card:nth-child(4)>img{object-position:64% 10%}
+  background:#1a1c1b var(--formats-photo) center / cover no-repeat;
+  overflow:hidden;isolation:isolate;
+  transition:transform .8s cubic-bezier(.22,1,.36,1),border-color .55s ease,box-shadow .8s ease}
+#formats .program-card:nth-child(1){--formats-photo:url("../images/formats-personal-v2.webp")}
+#formats .program-card:nth-child(2){--formats-photo:url("../images/formats-group-v2.webp")}
+#formats .program-card:nth-child(3){--formats-photo:url("../images/formats-online-v2.webp")}
+#formats .program-card:nth-child(4){--formats-photo:url("../images/formats-nutrition.webp")}
+/* The original photo stays clean: contain reveals its full width, while the
+   same image behind it fills the remaining frame without a contrasting band. */
+#formats .program-card>img{
+  z-index:-2;object-fit:contain;object-position:center 22%;
+  filter:none;transform:scale(1);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 58%,transparent 88%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 58%,transparent 88%);
+  transition:transform 1.45s cubic-bezier(.22,1,.36,1);
+}
 /* As in the photo-studio reference: ONE uninterrupted CSS shade over a clean photo. */
 #formats .program-card::after{z-index:-1;pointer-events:none;background:linear-gradient(to top,
   rgba(12,12,14,.88) 0%,rgba(14,14,16,.74) 19%,
   rgba(17,17,19,.60) 37%,rgba(18,18,20,.38) 52%,
   rgba(19,19,21,.16) 65%,transparent 79%)}
-#formats .program-card:hover,#formats .program-card:focus-within{transform:translateY(-.5rem);border-color:#efd8c6a0;box-shadow:0 1.6rem 2.3rem #0006}
-#formats .program-card:hover>img,#formats .program-card:focus-within>img{transform:scale(1.055)}
-#formats .program-card .ico{display:grid;place-items:center;margin:auto 0 .85rem;width:2.5rem;height:2.5rem;
+#formats .program-card:hover,#formats .program-card:focus-within{transform:translateY(-.28rem);border-color:#efd8c6a0;box-shadow:0 1.25rem 2rem #0004}
+#formats .program-card:hover>img,#formats .program-card:focus-within>img{transform:scale(1.025)}
+#formats .program-card .ico{display:grid;place-items:center;margin:auto 0 .5rem;width:2.5rem;height:2.5rem;
   border:1px solid #ffffffb8;border-radius:50%;background:#15161655}
 #formats .program-card .ico svg{width:1.35rem;height:1.35rem;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-#formats .program-card h3{max-width:14ch;min-height:2.46em;margin-bottom:.55rem;font:750 clamp(.83rem,1vw,1.05rem)/1.23 Manrope,Inter,sans-serif}
+#formats .program-card h3{max-width:14ch;min-height:2.46em;margin-bottom:.4rem;font:750 clamp(.83rem,1vw,1.05rem)/1.23 Manrope,Inter,sans-serif}
 #formats .program-card p{max-width:24ch;min-height:5.8em;margin:0;color:#e4dfdc;font:400 clamp(.72rem,.84vw,.89rem)/1.45 Manrope,Inter,sans-serif}
-#formats .program-card a{margin-top:.85rem;padding-top:0;font-weight:600;border-bottom:0;display:inline-flex;align-items:center;gap:.5rem}
+#formats .program-card a{margin-top:.45rem;padding-top:0;font-weight:600;border-bottom:0;display:inline-flex;align-items:center;gap:.5rem}
 #formats .program-card a:hover{color:var(--yf-sand)}
 
 /* Studio: asymmetrical gallery with a generous landscape lead image. */
@@ -242,7 +251,7 @@ html[data-theme=dark] #faq .faq-list details[open]{border-color:#d4ad8f}
  #about .about-visual .quote{min-height:clamp(25rem,35vw,34rem)}
 }
 @media(max-width:79rem){
- #formats .program-card{padding:1rem}
+ #formats .program-card{padding:1rem 1rem .5rem}
  #formats .program-card h3{font-size:.95rem}
  #formats .program-card p{font-size:.78rem;min-height:6.3em}
  #results .results-layout,#reviews .reviews-layout,#pricing .pricing-layout,#faq .faq-layout{grid-template-columns:minmax(13rem,.85fr) minmax(0,1.7fr)}
@@ -289,7 +298,7 @@ html[data-theme=dark] #faq .faq-list details[open]{border-color:#d4ad8f}
  .footer-links{flex-wrap:wrap;gap:.9rem 1.3rem}
 }
 @media(max-width:31.5rem){
- #formats .program-card{padding:.75rem;min-height:clamp(17rem,80vw,22rem)}
+ #formats .program-card{padding:.75rem .75rem .4rem;min-height:clamp(17rem,80vw,22rem)}
  #formats .program-card .ico{width:2.1rem;height:2.1rem}
  #formats .program-card h3{font-size:.88rem}
  #formats .program-card p{font-size:.72rem;min-height:8.7em}
@@ -306,6 +315,7 @@ html[data-theme=dark] #faq .faq-list details[open]{border-color:#d4ad8f}
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
  .reveal{opacity:1!important;transform:none!important}
  #formats .program-card:hover,#mission .benefit:hover,#reviews .review:hover{transform:none!important}
+ #formats .program-card:hover>img,#formats .program-card:focus-within>img{transform:none!important}
 }
 
 /* Layout and fallback details added after interactive review. */
