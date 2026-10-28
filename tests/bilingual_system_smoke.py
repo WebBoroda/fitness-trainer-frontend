@@ -58,13 +58,22 @@ try:
                 circles = page.locator('.section .btn .arrow, .yf-footer .btn .arrow, #pricing .price-action, .yf-carousel-controls:not([hidden]) button')
                 assert circles.count() >= 15, (locale,width,"missing shared arrow circles")
                 for circle in circles.all():
-                    outer = circle.bounding_box()
-                    icon = circle.locator('svg.yf-arrow-svg')
-                    assert icon.count() == 1, (locale,width,"arrow missing vector icon")
-                    inner = icon.bounding_box()
-                    assert outer is not None and inner is not None
-                    assert abs((outer["x"] + outer["width"]/2) - (inner["x"] + inner["width"]/2)) <= 1, (locale,width,"horizontal arrow center",outer,inner)
-                    assert abs((outer["y"] + outer["height"]/2) - (inner["y"] + inner["height"]/2)) <= 1, (locale,width,"vertical arrow center",outer,inner)
+                    # Measure both rectangles within one animation frame.
+                    # Separate browser round-trips can sample a moving reveal
+                    # at two different times and report false displacement.
+                    centers = circle.evaluate("""el => {
+                      const icon = el.querySelector('svg.yf-arrow-svg');
+                      if (!icon) return null;
+                      const outer = el.getBoundingClientRect();
+                      const inner = icon.getBoundingClientRect();
+                      return {
+                        dx: (outer.left + outer.width / 2) - (inner.left + inner.width / 2),
+                        dy: (outer.top + outer.height / 2) - (inner.top + inner.height / 2)
+                      };
+                    }""")
+                    assert centers is not None, (locale,width,"arrow missing vector icon")
+                    assert abs(centers["dx"]) <= 1, (locale,width,"horizontal arrow center",centers)
+                    assert abs(centers["dy"]) <= 1, (locale,width,"vertical arrow center",centers)
                 for button in buttons.all():
                     child=button.bounding_box()
                     parent=button.locator("xpath=..").bounding_box()
