@@ -144,7 +144,9 @@ try:
                 assert result_track.get_attribute("tabindex") == "0", (width, "gallery keyboard navigation")
                 assert result_track.evaluate("(el)=>el.scrollWidth > el.clientWidth"), (width, "gallery has no overflow")
                 result_track.evaluate("(el)=>{el.style.scrollBehavior='auto';el.scrollLeft=0}")
-                results_section.locator(".yf-results-next").click()
+                carousel_buttons = results_section.locator(".yf-carousel-controls button")
+                assert carousel_buttons.count() == 2, (width, "existing carousel arrows missing")
+                carousel_buttons.nth(1).click()
                 page.wait_for_function("document.getElementById('results-track').scrollLeft > 0", timeout=3000)
                 result_track.evaluate("(el)=>el.scrollLeft=0")
                 assert page.locator(".yf-consultation-modal").count() == 1
