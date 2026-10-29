@@ -39,19 +39,25 @@ try:
                 assert page.locator("main section").count() == 11, width
                 assert page.locator("#formats .program-card").count() == 4
                 assert page.locator("#formats .program-card .ico svg").count() == 4
-                assert page.locator("#about .quote blockquote").count() == 1
+                assert page.locator("#about .yf-about-heading").count() == 1
+                assert page.locator("#about .yf-about-benefits li").count() == 3
+                assert page.locator("#about .yf-about-quote blockquote").count() == 0
+                assert page.locator("#about blockquote.yf-about-quote").count() == 1
                 about_image = page.locator('#about img[data-media-field="about.portrait"]')
-                quote_box = page.locator('#about .about-visual .quote')
-                assert about_image.count() == 1, (width,"missing replaceable portrait")
+                about_frame = page.locator('#about .yf-about-media')
+                quote_box = page.locator('#about .yf-about-quote')
+                assert about_image.count() == 1, (width, "missing replaceable portrait")
                 assert about_image.get_attribute('src') == "assets/images/about-trainer-editorial.webp", width
                 assert about_image.get_attribute('alt'), width
-                assert float(quote_box.evaluate("(el)=>getComputedStyle(el).borderTopLeftRadius.replace('px','')")) >= 10, (width,"unrounded photo frame")
-                quote_text = page.locator('#about .quote blockquote').inner_text()
-                assert "Твоє тіло" in quote_text and "Yuliia Zagorodnia" in quote_text, width
+                assert float(about_frame.evaluate("(el)=>getComputedStyle(el).borderTopLeftRadius.replace('px','')")) >= 10, (width, "unrounded photo frame")
+                assert quote_box.count() == 1 and quote_box.locator('cite').inner_text() == 'Юлія', width
+                quote_text = quote_box.inner_text()
+                assert "правильну підтримку" in quote_text, width
+                assert not quote_box.evaluate('(el)=>el.closest(".yf-about-media") !== null'), (width, "quote must be beside photo, not over it")
                 original_src = about_image.get_attribute('src')
                 about_image.evaluate("(el)=>el.setAttribute('src','assets/images/gym-01-main.webp')")
-                assert page.locator('#about .quote blockquote').inner_text() == quote_text, (width,"quote changed on photo replacement")
-                assert float(quote_box.evaluate("(el)=>getComputedStyle(el).borderTopLeftRadius.replace('px','')")) >= 10, (width,"radius changed on photo replacement")
+                assert quote_box.inner_text() == quote_text, (width, "quote changed on photo replacement")
+                assert float(about_frame.evaluate("(el)=>getComputedStyle(el).borderTopLeftRadius.replace('px','')")) >= 10, (width, "radius changed on photo replacement")
                 about_image.evaluate("(el,src)=>el.setAttribute('src',src)",original_src)
                 assert page.locator("#mission .quote").count() == 0
                 assert page.locator("#pricing .price-action").count() == 3
