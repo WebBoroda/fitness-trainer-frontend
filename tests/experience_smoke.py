@@ -95,11 +95,20 @@ try:
                 assert final_image.evaluate("(img)=>img.naturalWidth===1600 && img.naturalHeight===900"), (width, "new hero photo failed to decode")
                 style = final_image.evaluate("(img)=>({mask:getComputedStyle(img).maskImage,transform:getComputedStyle(img).transform})")
                 assert style["mask"] == "none" and style["transform"] == "none", (width, "legacy photo crop effect remains",style)
-                # Reference CTA: first action is filled, program choice outlined.
-                for href, variant in (("#consultation","fill"),("#formats","outline")):
+                # Closing actions reuse first-screen hero button styling.
+                for href, variant in (("#consultation","fhero-button-primary"),("#formats","fhero-button-secondary")):
                     action = closing.locator(f'.actions a[href="{href}"]')
                     assert action.count()==1 and action.is_visible(), (width, "closing CTA missing",href)
+                    assert "fhero-button" in (action.get_attribute("class") or "").split(), (width,scheme,"missing hero CTA component",href)
                     assert variant in (action.get_attribute("class") or "").split(), (width,scheme,"closing CTA reference variant",href)
+                    assert action.locator(".fhero-cta-circle .fhero-svg").count()==1, (width,scheme,"hero CTA arrow missing",href)
+                closing_theme = closing.evaluate("""(el)=>({bg:getComputedStyle(el).backgroundColor,fg:getComputedStyle(el).color,
+                    gradient:getComputedStyle(el,"::after").backgroundImage,
+                    heroGradient:getComputedStyle(document.querySelector(".fhero-overlay")).backgroundImage})""")
+                assert closing_theme["bg"] == "rgb(18, 18, 16)", (width,scheme,"closing has wrong dark background",closing_theme)
+                assert closing_theme["fg"] == "rgb(255, 255, 255)", (width,scheme,"closing text must stay white",closing_theme)
+                if width >= 1120 and scheme == "dark":
+                    assert closing_theme["gradient"] == closing_theme["heroGradient"], (width,scheme,"gradient differs from first screen",closing_theme)
                 assert closing.locator(".final-benefits li").count() == 3, (width, "closing advantages")
                 assert closing.locator(".final-benefit-icon svg").count() == 3, (width, "missing vector feature icons")
                 assert "Персональний план" in closing.locator(".final-content > p").inner_text(), (width,"closing reference copy")
@@ -116,7 +125,7 @@ try:
                 if width >= 1120:
                     assert geometry["section"]["height"] <= height + 2, (width,scheme,"closing exceeds viewport",geometry)
                     assert geometry["items"][0]["left"] < geometry["items"][1]["left"] < geometry["items"][2]["left"], (width,scheme,"closing benefits must run horizontally",geometry)
-                    assert geometry["photoWidth"] <= width*.78, (width,scheme,"photo too zoomed",geometry)
+                    assert abs(geometry["photoWidth"]-width) <= 2, (width,scheme,"final photo must fill section as first hero",geometry)
                 elif width <= 670:
                     assert geometry["items"][0]["top"] < geometry["items"][1]["top"] < geometry["items"][2]["top"], (width,scheme,"mobile closing benefits must stack",geometry)
                 if width in (375,768,1024,1440,1536,1920):
