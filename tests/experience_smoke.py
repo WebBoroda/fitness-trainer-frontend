@@ -120,7 +120,7 @@ try:
                 assert closing_theme["label"] == expected_foreground, (width,scheme,"closing feature contrast",closing_theme)
                 assert closing_theme["photoOpacity"] == "1", (width,scheme,"closing photograph dimmed",closing_theme)
                 curve=closing_theme["gradient"]
-                assert "linear-gradient(" in curve and "transparent" in curve, (width,scheme,"closing gradient absent",curve)
+                assert "linear-gradient(" in curve and ("transparent" in curve or "rgba(0,0,0,0)" in curve), (width,scheme,"closing gradient absent",curve)
                 if width > 670:
                     expected_tint = "rgba(246,240,234,0.3)" if scheme=="light" else "rgba(18,18,16,0.77)"
                     expected_end = "65%" if scheme=="light" else "75%"
