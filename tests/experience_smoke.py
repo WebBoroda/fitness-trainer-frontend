@@ -120,7 +120,9 @@ try:
                 assert closing_theme["label"] == expected_foreground, (width,scheme,"closing feature contrast",closing_theme)
                 assert closing_theme["photoOpacity"] == "1", (width,scheme,"closing photograph dimmed",closing_theme)
                 curve=closing_theme["gradient"]
-                assert "linear-gradient(" in curve and ("transparent" in curve or "rgba(0,0,0,0)" in curve), (width,scheme,"closing gradient absent",curve)
+                assert "linear-gradient(" in curve, (width,scheme,"closing gradient absent",curve)
+                if width > 670 or scheme == "dark":
+                    assert "transparent" in curve or "rgba(0,0,0,0)" in curve, (width,scheme,"photo gradient must fade out",curve)
                 if width > 670:
                     expected_tint = "rgba(246,240,234,0.92)" if scheme=="light" else "rgba(18,18,16,0.77)"
                     expected_end = "85%" if scheme=="light" else "75%"
@@ -129,6 +131,8 @@ try:
                 else:
                     expected_tint = "rgba(246,240,234,0.94)" if scheme=="light" else "rgba(18,18,16,0.91)"
                     assert expected_tint in curve and "90deg" not in curve, (width,scheme,"mobile gradient strength or direction",curve)
+                    if scheme == "light":
+                        assert "rgba(246,240,234,0.78)100%" in curve, (width,scheme,"mobile feature text loses light backdrop",curve)
                 # No opaque matte over the image in any theme.
                 assert "rgb(18,18,16)49%" not in curve and "#121210" not in curve, (width,scheme,"legacy solid veil remains",curve)
                 assert closing.locator(".final-benefits li").count() == 3, (width, "closing advantages")
