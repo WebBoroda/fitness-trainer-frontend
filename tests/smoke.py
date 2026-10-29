@@ -257,7 +257,7 @@ try:
                 assert mission.locator('.quote blockquote').count()==0
                 about=page.locator('#about')
                 assert about.locator('.quote blockquote').count()==1
-                photo=about.locator('img[src$="mission-quote.jpg"]')
+                photo=about.locator('img[data-media-field="about.portrait"][src$="about-trainer-editorial.webp"]')
                 assert photo.count()==1
                 photo.scroll_into_view_if_needed()
                 photo.evaluate("(img)=>img.decode()")
