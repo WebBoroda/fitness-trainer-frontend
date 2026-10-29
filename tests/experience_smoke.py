@@ -84,6 +84,22 @@ try:
                 about_image.evaluate("(el,src)=>el.setAttribute('src',src)",original_src)
                 assert page.locator("#mission .quote").count() == 0
                 assert page.locator("#pricing .price-action").count() == 3
+                # Closing hero: generated photographic asset, without old FAQ pixels, crop masks or transforms.
+                closing = page.locator(".final-section")
+                final_image = closing.locator("img.final-photo")
+                assert final_image.count() == 1, (width, "closing photo absent")
+                assert final_image.get_attribute("src") == "assets/images/final-cta-trainer.webp", (width, "old screenshot crop remains")
+                assert final_image.get_attribute("loading") == "lazy", width
+                final_image.scroll_into_view_if_needed()
+                final_image.evaluate("(img)=>img.decode()")
+                assert final_image.evaluate("(img)=>img.naturalWidth===1600 && img.naturalHeight===900"), (width, "new hero photo failed to decode")
+                style = final_image.evaluate("(img)=>({mask:getComputedStyle(img).maskImage,transform:getComputedStyle(img).transform})")
+                assert style["mask"] == "none" and style["transform"] == "none", (width, "legacy photo crop effect remains",style)
+                for href in ("#consultation","#formats"):
+                    action = closing.locator(f'.actions a[href="{href}"]')
+                    assert action.count()==1 and action.is_visible(), (width, "closing CTA missing",href)
+                    assert "fill" in (action.get_attribute("class") or "").split(), (width, "conversion CTA not accent",href)
+
                 # Secondary actions explain more content, not conversion.
                 for selector in ("#results .btn", "#reviews .btn", "#faq .btn"):
                     cta = page.locator(selector)
