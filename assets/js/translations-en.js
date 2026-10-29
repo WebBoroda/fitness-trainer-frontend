@@ -187,6 +187,8 @@ window.YF_ENGLISH = {
   "Спортсменка збирає волосся після тренування": "Athlete tying her hair after training",
   "Підхід до роботи": "My coaching approach",
   "Збалансована страва": "Balanced meal",
+  "Збалансований боул із куркою, кіноа, авокадо та свіжими овочами": "Balanced bowl with chicken, quinoa, avocado and fresh vegetables",
+  "Переваги програми харчування": "Nutrition program benefits",
   "Демонстраційне фото результату": "Illustrative progress photo",
   "Скласти заявку на консультацію": "Prepare a consultation request",
   "Скласти заявку: Онлайн-програма": "Prepare a request: Online program",
