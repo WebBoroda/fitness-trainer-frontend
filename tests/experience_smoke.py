@@ -108,6 +108,10 @@ try:
                   const rect=q=>{const r=el.querySelector(q).getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
                   return {section:el.getBoundingClientRect().toJSON(),copy:rect('.nutrition-copy'),photo:rect('.nutrition-visual'),aside:rect('.nutrition-aside'),note:rect('.nutrition-note')};
                 }""")
+                if 672 <= width < 1024:
+                    assert nutrition_boxes["copy"]["y"] <= nutrition_boxes["photo"]["y"] + 3, (width, "tablet heading must precede image and checklist", nutrition_boxes)
+                    assert nutrition_boxes["copy"]["right"] <= nutrition_boxes["photo"]["x"] + 3, (width, "tablet columns overlap", nutrition_boxes)
+                    assert nutrition_boxes["aside"]["y"] >= max(nutrition_boxes["copy"]["bottom"],nutrition_boxes["photo"]["bottom"]) - 3, (width, "tablet benefits must follow first row", nutrition_boxes)
                 if width >= 1024:
                     assert nutrition_boxes["section"]["height"] <= height + 2, (width,height,"nutrition exceeds one desktop viewport",nutrition_boxes)
                     assert nutrition_boxes["copy"]["right"] < nutrition_boxes["photo"]["x"] + 2, (width,"nutrition columns collide",nutrition_boxes)
@@ -270,6 +274,7 @@ try:
 
                 assert not errors, (width, errors)
                 if width in (375, 768, 1024, 1366, 1440) and scheme in ("light", "dark"):
+                    page.evaluate("document.activeElement?.blur()")
                     nutrition.scroll_into_view_if_needed()
                     nutrition.locator('.reveal').evaluate_all("(els)=>els.forEach(el=>{el.style.transition='none';el.classList.add('visible')})")
                     nutrition.screenshot(path=str(SHOTS / f"nutrition-{width}-{scheme}.png"), animations="disabled", timeout=30000)
