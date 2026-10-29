@@ -45,7 +45,7 @@
   gap:clamp(1.5rem,3vh,3rem);
   width:min(calc(100% - 2 * clamp(1.25rem,5.2vw,6rem)),90rem);
   min-height:100svh;
-  padding-block:clamp(3rem,9vh,7rem);
+  padding-block:clamp(4.5rem,19vh,11.5rem);
   position:relative;
   z-index:1;
 }
