@@ -26,7 +26,7 @@ LIGHT_CARDS = [
     "#pricing .price", "#reviews .review", "#mission .benefit",
 ]
 INK = ["#formats .heading", "#results .heading", "#pricing .heading",
-       ".final-section .heading", ".yf-footer-info h2",
+       ".yf-footer-info h2",
        "#pricing .price h3"]
 PHOTO_AREA = ["#formats .program-card", ".final-section"]
 class Quiet(SimpleHTTPRequestHandler):
@@ -59,9 +59,12 @@ try:
                 for selector in SECTIONS:
                     element = page.locator(selector).first
                     bg = components(element.evaluate("el=>getComputedStyle(el).backgroundColor"))
-                    if theme == "light":
+                    if selector == ".final-section":
+                        # Photo-first closing section intentionally matches the dark first screen in all themes.
+                        assert max(bg) < 75, (width, selector, "closing hero dark palette lost", bg)
+                    elif theme == "light":
                         assert min(bg) > 223, (width, selector, "light surface remains dark", bg)
-                    elif selector in ("#formats", "#results", "#pricing", ".final-section", ".yf-footer"):
+                    elif selector in ("#formats", "#results", "#pricing", ".yf-footer"):
                         assert max(bg) < 75, (width, selector, "dark theme regressed", bg)
                 if theme == "light":
                     for selector in LIGHT_CARDS:
@@ -71,9 +74,12 @@ try:
                         el = page.locator(selector).first
                         color = components(el.evaluate("el=>getComputedStyle(el).color"))
                         assert luminance(color) < .17, (width, selector, "low ink contrast", color)
-                    for selector in ("#pricing .price p", "#results p", ".final-section p"):
+                    for selector in ("#pricing .price p", "#results p"):
                         rgb = components(page.locator(selector).first.evaluate("el=>getComputedStyle(el).color"))
                         assert luminance(rgb) < .25, (width, selector, "muted text too pale", rgb)
+                    for selector in (".final-section .heading", ".final-section p"):
+                        rgb = components(page.locator(selector).first.evaluate("el=>getComputedStyle(el).color"))
+                        assert luminance(rgb) > .7, (width, selector, "closing photographic text must remain bright", rgb)
                     for selector in ("#formats .program-card::after", ".final-section::after"):
                         element, pseudo = selector.split("::")
                         gradient = page.locator(element).first.evaluate(
