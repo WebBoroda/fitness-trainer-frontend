@@ -1,0 +1,85 @@
+/* About: photo-first editorial composition. Scoped to the fifth section. */
+#about.yf-about{
+  --about-ink:#171514;
+  --about-muted:#716d69;
+  --about-sand:#baa084;
+  --about-glass:rgba(238,232,225,.56);
+  --about-glass-edge:rgba(255,255,255,.72);
+  background:var(--yf-cream);
+  color:var(--about-ink);
+}
+#about .yf-about-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.75rem,4vw,4.4rem);align-items:stretch}
+#about .yf-about-media{position:relative;min-width:0;overflow:hidden;border-radius:clamp(1rem,2.5vw,2.2rem);margin:0;aspect-ratio:1/1.1;background:#4c433d;isolation:isolate}
+#about .yf-about-media img{width:100%;height:100%;object-fit:cover;object-position:center 31%;transition:transform .85s cubic-bezier(.22,1,.36,1)}
+#about .yf-about-content{min-width:0;display:flex;flex-direction:column;justify-content:space-between;gap:clamp(1.4rem,2.3vw,2.6rem)}
+#about .yf-about-intro{min-width:0}
+#about .yf-about-kicker{display:flex;align-items:center;gap:.95rem;margin:0 0 clamp(1.05rem,1.8vw,1.75rem);font:700 clamp(.75rem,.95vw,.94rem)/1.2 Manrope,Inter,sans-serif;letter-spacing:.035em;color:var(--about-sand)}
+#about .yf-about-kicker:before{content:"";display:block;flex:0 0 1.45rem;height:1px;background:currentColor}
+#about .yf-about-heading{margin:0 0 clamp(1.2rem,1.9vw,2rem);font-family:Manrope,Inter,sans-serif;font-size:clamp(1.9rem,3.2vw,3.55rem);line-height:1.09;letter-spacing:-.058em;font-weight:800;text-transform:uppercase}
+#about .yf-about-heading span{display:block}
+#about .yf-about-heading .yf-about-accent{color:var(--about-sand)}
+#about .yf-about-lead{max-width:63ch;margin:0;color:var(--about-muted);font-size:clamp(.94rem,1.12vw,1.18rem);font-weight:400;line-height:1.6}
+#about .yf-about-benefits{display:grid;grid-template-columns:1fr;gap:1.25rem;margin:0;padding:0;list-style:none}
+#about .yf-about-benefits li{display:flex;align-items:flex-start;gap:.85rem;min-width:0}
+#about .yf-about-benefits .yf-about-icon{flex:0 0 clamp(2.8rem,3.5vw,3.65rem);width:clamp(2.8rem,3.5vw,3.65rem);aspect-ratio:1;display:grid;place-items:center;border-radius:38%;background:linear-gradient(145deg,#f4ede6,#eae0d5);border:1px solid #ffffffb0;color:#221f1d}
+#about .yf-about-icon svg{display:block;width:52%;height:52%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#about .yf-about-benefits li>div{min-width:0}
+#about .yf-about-benefits strong{display:block;margin:.13rem 0 .35rem;font-size:clamp(.9rem,1vw,1.04rem);line-height:1.33;font-weight:750}
+#about .yf-about-benefits li>div>span{display:block;color:var(--about-muted);font-size:clamp(.8rem,.93vw,.94rem);line-height:1.52}
+#about .yf-about-quote{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:clamp(.7rem,1.3vw,1.4rem);min-width:0;margin:0;padding:clamp(1.3rem,2.15vw,2.25rem);border:1px solid var(--about-glass-edge);border-radius:clamp(1.2rem,2.5vw,2.2rem);background:var(--about-glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:inset 0 1px 0 #ffffff8c,0 12px 32px #382d2108}
+#about .yf-about-quote-mark{font-family:Georgia,serif;font-size:clamp(3.7rem,6vw,6.1rem);line-height:.72;align-self:start;color:var(--about-sand)}
+#about .yf-about-quote p{max-width:43ch;margin:0;font-size:clamp(.9rem,1.1vw,1.15rem);font-weight:440;font-style:italic;line-height:1.65;color:var(--about-ink)}
+#about .yf-about-quote cite{justify-self:end;white-space:nowrap;color:var(--about-sand);font:500 clamp(1.9rem,3vw,3.2rem)/1 Caveat,"Segoe Script",cursive;transform:rotate(-10deg);padding-inline:.45rem}
+html[data-theme="dark"] #about.yf-about{
+  --about-ink:#f7f2ed;
+  --about-muted:#cbc1b9;
+  --about-sand:#d8b89c;
+  --about-glass:rgba(255,255,255,.065);
+  --about-glass-edge:rgba(255,255,255,.15);
+  background:#191b1b;color:var(--about-ink)
+}
+html[data-theme="dark"] #about .yf-about-icon{background:linear-gradient(145deg,#38332f,#292827);border-color:#ffffff22;color:#f7eee5}
+html[data-theme="dark"] #about .yf-about-quote{box-shadow:inset 0 1px 0 #ffffff15,0 12px 32px #0002}
+html[data-theme="mixed"] #about.yf-about,html[data-theme="light"] #about.yf-about{color:var(--about-ink);color-scheme:light}
+@media(min-width:38rem){
+  #about .yf-about-benefits{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.8rem,1.4vw,1.6rem)}
+  #about .yf-about-quote{grid-template-columns:auto 1fr auto}
+}
+@media(min-width:62rem){
+  #about .yf-about-layout{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)}
+  #about .yf-about-media{min-height:clamp(34rem,44vw,44rem);aspect-ratio:auto}
+  #about .yf-about-content{padding-block:clamp(.2rem,1.5vw,1.2rem)}
+}
+@media(min-width:75rem){
+  #about .yf-about-benefits li{gap:.9rem}
+}
+@media(max-width:74.99rem) and (min-width:62rem){
+  #about .yf-about-benefits{gap:.6rem}
+  #about .yf-about-benefits li{gap:.55rem}
+  #about .yf-about-icon{flex-basis:2.55rem;width:2.55rem}
+  #about .yf-about-heading{font-size:clamp(2.05rem,3.05vw,2.65rem)}
+  #about .yf-about-quote{grid-template-columns:auto minmax(0,1fr)}
+  #about .yf-about-quote cite{grid-column:2;justify-self:end;margin-top:.3rem}
+}
+@media(max-width:61.99rem){
+  #about .yf-about-media{aspect-ratio:1.15/1;max-height:36rem}
+  #about .yf-about-content{gap:2.2rem}
+  #about .yf-about-heading{max-width:21ch}
+}
+@media(max-width:37.99rem){
+  #about .yf-about-media{aspect-ratio:1/1.04}
+  #about .yf-about-content{gap:1.65rem}
+  #about .yf-about-heading{font-size:clamp(1.75rem,7.8vw,2.7rem)}
+  #about .yf-about-benefits{gap:1rem}
+  #about .yf-about-quote{grid-template-columns:auto minmax(0,1fr);gap:.5rem .75rem}
+  #about .yf-about-quote-mark{font-size:3.5rem}
+  #about .yf-about-quote cite{grid-column:2;justify-self:end;margin:.2rem .5rem 0 0}
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  #about .yf-about-media:hover img{transform:scale(1.035)}
+  #about .yf-about-icon{transition:transform .42s cubic-bezier(.22,1,.36,1)}
+  #about .yf-about-benefits li:hover .yf-about-icon{transform:translateY(-3px)}
+}
+@media(prefers-reduced-motion:reduce){
+  #about .yf-about-media img,#about .yf-about-icon{transition:none;transform:none}
+}
