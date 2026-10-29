@@ -256,7 +256,8 @@ try:
                     assert first and second and second['x']>first['x']+first['width']-2,('mission side-by-side',width,first,second)
                 assert mission.locator('.quote blockquote').count()==0
                 about=page.locator('#about')
-                assert about.locator('.quote blockquote').count()==1
+                assert about.locator('blockquote.yf-about-quote').count()==1
+                assert about.locator('.yf-about-benefits li').count()==3
                 photo=about.locator('img[data-media-field="about.portrait"][src$="about-trainer-editorial.webp"]')
                 assert photo.count()==1
                 photo.scroll_into_view_if_needed()
