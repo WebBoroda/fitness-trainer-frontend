@@ -131,7 +131,7 @@ try:
                 results_section = page.locator("#results")
                 demo_cards = results_section.locator(".yf-result-card")
                 assert demo_cards.count() == 6, (width, "six demo before/after images required")
-                assert "Не є фотографіями" in results_section.locator(".yf-results-disclaimer").inner_text(), (width, "AI disclosure required")
+                assert results_section.locator(".yf-results-disclaimer").count() == 0, (width, "duplicate disclaimer remains")
                 for j, card in enumerate(demo_cards.all(), 1):
                     photo = card.locator("img")
                     assert photo.get_attribute("src") == f"assets/images/result-demo-{j:02d}.webp", (width, j, "missing generated image")
@@ -140,6 +140,8 @@ try:
                     assert photo.evaluate("(el)=>el.naturalWidth === 900 && el.naturalHeight === 1200"), (width,j,"wrong image dimensions")
                     assert "ШІ-візуалізація" in photo.get_attribute("alt"), (width,j,"missing illustrative alt")
                     assert card.locator("figcaption span").count() == 2, (width,j,"before/after labels")
+                    assert card.locator(".yf-result-ai").count() == 1, (width,j,"on-photo AI badge missing")
+                    assert card.locator(".yf-result-ai").inner_text().strip() == "AI-демо", (width,j,"incorrect AI label")
                 result_track = results_section.locator("#results-track")
                 assert result_track.get_attribute("tabindex") == "0", (width, "gallery keyboard navigation")
                 assert result_track.evaluate("(el)=>el.scrollWidth > el.clientWidth"), (width, "gallery has no overflow")
