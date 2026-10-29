@@ -91,6 +91,30 @@ try:
                 expected = ["gym-01-main.webp","gym-02-dumbbells.webp","gym-03-cardio.webp","gym-04-strength.webp","gym-05-stretching.webp"]
                 paths = page.locator("#studio .studio-gallery img").evaluate_all("(items)=>items.map(img=>img.getAttribute('src').split('/').pop())")
                 assert paths == expected, (width,paths)
+                nutrition = page.locator("#nutrition")
+                assert nutrition.locator(".nutrition-copy .eyebrow").inner_text() == "ХАРЧУВАННЯ", (width, "nutrition eyebrow")
+                assert nutrition.locator(".nutrition-aside li").count() == 5, (width, "nutrition checklist")
+                assert nutrition.locator(".nutrition-note").count() == 1, width
+                nutrition_photo = nutrition.locator("img.nutrition-photo")
+                assert nutrition_photo.get_attribute("src") == "assets/images/formats-nutrition.webp", (width, "low-res source remains")
+                assert nutrition_photo.get_attribute("width") == "1086", width
+                assert nutrition_photo.get_attribute("alt"), width
+                nutrition_photo.scroll_into_view_if_needed()
+                nutrition_photo.evaluate("(el)=>el.decode()")
+                assert nutrition_photo.evaluate("(el)=>el.naturalWidth === 1086 && el.naturalHeight === 1448"), (width, "high-res nutrition photo not loaded")
+                assert nutrition.locator('.btn[href="#consultation"]').count() == 1, (width, "nutrition CTA")
+                assert nutrition.evaluate('(el)=>el.scrollWidth <= el.clientWidth + 2'), (width, "nutrition horizontal overflow")
+                nutrition_boxes = nutrition.evaluate("""el=>{
+                  const rect=q=>{const r=el.querySelector(q).getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
+                  return {section:el.getBoundingClientRect().toJSON(),copy:rect('.nutrition-copy'),photo:rect('.nutrition-visual'),aside:rect('.nutrition-aside'),note:rect('.nutrition-note')};
+                }""")
+                if width >= 1024:
+                    assert nutrition_boxes["section"]["height"] <= height + 2, (width,height,"nutrition exceeds one desktop viewport",nutrition_boxes)
+                    assert nutrition_boxes["copy"]["right"] < nutrition_boxes["photo"]["x"] + 2, (width,"nutrition columns collide",nutrition_boxes)
+                    assert nutrition_boxes["photo"]["right"] < nutrition_boxes["aside"]["x"] + 2, (width,"nutrition column order",nutrition_boxes)
+                elif width <= 670:
+                    assert nutrition_boxes["photo"]["y"] >= nutrition_boxes["copy"]["bottom"] - 2, (width,"mobile photo overlaps description",nutrition_boxes)
+                    assert nutrition_boxes["aside"]["y"] >= nutrition_boxes["photo"]["bottom"] - 2, (width,"mobile benefits overlap photo",nutrition_boxes)
                 assert page.locator(".yf-consultation-modal").count() == 1
 
                 for img in page.locator("main img:visible").all():
@@ -245,6 +269,10 @@ try:
                     assert menu.get_attribute("aria-expanded") == "false"
 
                 assert not errors, (width, errors)
+                if width in (375, 768, 1024, 1366, 1440) and scheme in ("light", "dark"):
+                    nutrition.scroll_into_view_if_needed()
+                    nutrition.locator('.reveal').evaluate_all("(els)=>els.forEach(el=>{el.style.transition='none';el.classList.add('visible')})")
+                    nutrition.screenshot(path=str(SHOTS / f"nutrition-{width}-{scheme}.png"), animations="disabled", timeout=30000)
                 if width in (375, 768, 1440) and scheme in ("light", "dark"):
                     about_section = page.locator('#about')
                     about_section.scroll_into_view_if_needed()
