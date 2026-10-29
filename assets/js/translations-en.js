@@ -98,6 +98,7 @@ window.YF_ENGLISH = {
   "Зрозумілий прогрес": "Visible progress",
   "Турбота про здоров’я": "Health-first coaching",
   "Більше про мене": "More about me",
+  "Закрити інформацію про тренерку": "Close coach information",
   "ХАРЧУВАННЯ": "NUTRITION",
   "СМАЧНО, КОРИСНО,": "TASTY, HEALTHY,",
   "БЕЗ КРАЙНОЩІВ": "NO EXTREMES",
