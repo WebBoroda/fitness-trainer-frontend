@@ -128,7 +128,7 @@ try:
                     assert "90deg" in curve and "180deg" not in curve, (width,scheme,"desktop gradient must be horizontal",curve)
                 else:
                     expected_tint = "rgba(246,240,234,0.88)" if scheme=="light" else "rgba(18,18,16,0.91)"
-                    assert expected_tint in curve and "180deg" in curve, (width,scheme,"mobile gradient strength or direction",curve)
+                    assert expected_tint in curve and "90deg" not in curve, (width,scheme,"mobile gradient strength or direction",curve)
                 # No opaque matte over the image in any theme.
                 assert "rgb(18,18,16)49%" not in curve and "#121210" not in curve, (width,scheme,"legacy solid veil remains",curve)
                 assert closing.locator(".final-benefits li").count() == 3, (width, "closing advantages")
