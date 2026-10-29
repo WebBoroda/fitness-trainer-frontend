@@ -122,12 +122,12 @@ try:
                 curve=closing_theme["gradient"]
                 assert "linear-gradient(" in curve and ("transparent" in curve or "rgba(0,0,0,0)" in curve), (width,scheme,"closing gradient absent",curve)
                 if width > 670:
-                    expected_tint = "rgba(246,240,234,0.3)" if scheme=="light" else "rgba(18,18,16,0.77)"
-                    expected_end = "65%" if scheme=="light" else "75%"
+                    expected_tint = "rgba(246,240,234,0.92)" if scheme=="light" else "rgba(18,18,16,0.77)"
+                    expected_end = "85%" if scheme=="light" else "75%"
                     assert expected_tint in curve and expected_end in curve, (width,scheme,"wrong photo-studio reference gradient strength",curve)
                     assert "90deg" in curve and "180deg" not in curve, (width,scheme,"desktop gradient must be horizontal",curve)
                 else:
-                    expected_tint = "rgba(246,240,234,0.88)" if scheme=="light" else "rgba(18,18,16,0.91)"
+                    expected_tint = "rgba(246,240,234,0.94)" if scheme=="light" else "rgba(18,18,16,0.91)"
                     assert expected_tint in curve and "90deg" not in curve, (width,scheme,"mobile gradient strength or direction",curve)
                 # No opaque matte over the image in any theme.
                 assert "rgb(18,18,16)49%" not in curve and "#121210" not in curve, (width,scheme,"legacy solid veil remains",curve)
