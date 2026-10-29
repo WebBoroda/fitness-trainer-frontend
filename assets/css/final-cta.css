@@ -29,19 +29,17 @@
   mask-image:none;
 }
 #final-cta::before{background:none;}
-/* The site's global Light theme has ID-weighted selectors; this photo-first
-   closing panel deliberately keeps the first-screen dark palette in every mode. */
-html[data-theme="light"] #final-cta {background:#121210;color:#fff;}
-html[data-theme="light"] #final-cta .eyebrow.dark-pill {
-  color:#fff;
-  background:rgba(41,40,38,.5);
-  border-color:#ffffff33;
-}
-html[data-theme="light"] #final-cta .heading span {color:var(--hero-accent);}
-/* Exactly the first-screen photographic shading, without a Light-mode white veil. */
+/* The photo-studio reference supplies ONLY the opacity curve; fitness-site
+   neutral colors supply the hue. The image stays separate and replaceable.
+   Dark and Mixed: 77% at the text edge, transparent by 75% of the width. */
 #final-cta::after {
   z-index:-1;
-  background:linear-gradient(to bottom,rgba(0,0,0,.38) 0%,rgba(12,12,12,.22) 20%,#121210 49%,#121210 100%);
+  pointer-events:none;
+  background:linear-gradient(90deg,
+    rgba(18,18,16,.77) 0%,
+    rgba(18,18,16,.61) 29%,
+    rgba(18,18,16,.18) 62%,
+    transparent 75%);
 }
 #final-cta .wrap {
   position:relative;
@@ -210,9 +208,6 @@ html[data-theme="light"] #final-cta .heading span {color:var(--hero-accent);}
   font-weight:400;
 }
 @media (min-width:42rem) {
-  #final-cta::after {
-    background:linear-gradient(90deg,rgba(10,10,10,.72),rgba(10,10,10,.26) 51%,rgba(10,10,10,.08)),linear-gradient(to bottom,rgba(10,10,10,.08) 0%,rgba(14,14,14,.3) 29%,#121210 62%,#121210 100%);
-  }
   #final-cta .heading{font-size:clamp(3.2rem,6.2vw,5rem);}
   #final-cta .final-content>p{max-width:45ch;}
   #final-cta .actions{margin-top:clamp(1.25rem,2.6vw,1.8rem);}
@@ -222,9 +217,6 @@ html[data-theme="light"] #final-cta .heading span {color:var(--hero-accent);}
   #final-cta .wrap {
     gap:clamp(1.25rem,2.65vw,2rem);
     padding:clamp(1.25rem,3vh,2.8rem) var(--hero-gutter) clamp(6rem,18vh,10rem);
-  }
-  #final-cta::after {
-    background:linear-gradient(90deg,#090909a8,#09090944 33%,transparent 63%,#0c0c0c30),linear-gradient(to bottom,transparent 68%,#12121034);
   }
   #final-cta .heading {
     font-size:clamp(3.3rem,4.9vw,5.3rem);
@@ -240,9 +232,6 @@ html[data-theme="light"] #final-cta .heading span {color:var(--hero-accent);}
     padding:clamp(3.5rem,7svh,6.75rem) var(--hero-gutter) clamp(2.6rem,6svh,4.5rem);
   }
   #final-cta .final-photo{object-position:60% center;}
-  #final-cta::after {
-    background:linear-gradient(to bottom,#0d0d0d36 0%,#0d0d0d9c 31%,#0d0d0dbd 62%,#0d0d0de2 100%);
-  }
   #final-cta .heading{font-size:clamp(2.45rem,10.5vw,4.2rem);white-space:normal;}
   #final-cta .actions{flex-direction:column;align-items:stretch;width:min(100%,22rem);}
   #final-cta .actions .yf-final-button{width:100%;min-width:0;min-height:3.15rem;}
@@ -257,4 +246,65 @@ html[data-theme="light"] #final-cta .heading span {color:var(--hero-accent);}
 }
 @media (prefers-reduced-motion:reduce) {
   #final-cta .yf-final-button{transition:none;}
+}
+
+/* Mobile uses the reference's stronger VERTICAL fade so text stays readable.
+   Both themes transition to a transparent photo, never a solid ending. */
+@media (max-width:41.99rem) {
+  #final-cta::after {
+    background:linear-gradient(180deg,
+      rgba(18,18,16,.91) 5%,
+      rgba(18,18,16,.80) 42%,
+      rgba(18,18,16,.24) 72%,
+      transparent 90%);
+  }
+}
+
+/* Light: use the fitness cream, not the photo-studio tint or a dark matte.
+   30% / 11% / 0% follows the reference desktop intensity exactly. */
+html[data-theme="light"] #final-cta {
+  --hero-subtle:#49413a;
+  background:#f6f0ea;
+  color:#1b1715;
+}
+html[data-theme="light"] #final-cta::after {
+  background:linear-gradient(90deg,
+    rgba(246,240,234,.30) 0%,
+    rgba(246,240,234,.11) 37%,
+    transparent 65%);
+}
+html[data-theme="light"] #final-cta .heading {color:#1b1715;}
+html[data-theme="light"] #final-cta .heading span {color:#514139;}
+html[data-theme="light"] #final-cta .eyebrow.dark-pill {
+  color:#241d18;
+  background:rgba(249,236,225,.78);
+  border-color:rgba(87,69,58,.25);
+}
+html[data-theme="light"] #final-cta .final-content>p {color:var(--hero-subtle);}
+html[data-theme="light"] #final-cta .final-benefits li,
+html[data-theme="light"] #final-cta .final-benefits strong {color:#1b1715;}
+html[data-theme="light"] #final-cta .final-benefits small {color:var(--hero-subtle);}
+html[data-theme="light"] #final-cta .final-benefit-icon {
+  color:#241d18;
+  border-color:rgba(87,69,58,.36);
+  background:linear-gradient(135deg,rgba(255,255,255,.42),rgba(250,238,225,.32));
+}
+html[data-theme="light"] #final-cta .yf-final-button-secondary {
+  color:#1b1816;
+  border-color:#5d5149;
+  background:linear-gradient(135deg,rgba(255,255,255,.42),rgba(247,235,226,.24));
+}
+html[data-theme="light"] #final-cta .yf-final-button-secondary .yf-final-circle {
+  color:#1b1816;
+  border-color:rgba(72,56,47,.45);
+  background:rgba(255,255,255,.5);
+}
+@media (max-width:41.99rem) {
+  html[data-theme="light"] #final-cta::after {
+    background:linear-gradient(180deg,
+      rgba(246,240,234,.88) 5%,
+      rgba(246,240,234,.76) 38%,
+      rgba(246,240,234,.25) 72%,
+      transparent 90%);
+  }
 }
