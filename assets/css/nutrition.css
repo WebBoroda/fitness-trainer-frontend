@@ -123,7 +123,7 @@ html[data-theme="mixed"] #nutrition.yf-nutrition,html[data-theme="light"] #nutri
 
 @media(min-width:42rem){
   #nutrition .nutrition-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(1.25rem,2.7vw,3rem)}
-  #nutrition .nutrition-copy{grid-column:1;grid-row:1}
+  #nutrition.yf-nutrition .nutrition-layout>.nutrition-copy{grid-column:1;grid-row:1}
   #nutrition .nutrition-copy .heading{font-size:clamp(2rem,4.4vw,3.15rem)}
   #nutrition .nutrition-visual{grid-column:2;grid-row:1;max-width:25rem;width:100%}
   #nutrition .nutrition-aside{grid-column:1/-1;grid-row:2}
