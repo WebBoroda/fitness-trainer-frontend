@@ -59,12 +59,9 @@ try:
                 for selector in SECTIONS:
                     element = page.locator(selector).first
                     bg = components(element.evaluate("el=>getComputedStyle(el).backgroundColor"))
-                    if selector == ".final-section":
-                        # Photo-first closing section intentionally matches the dark first screen in all themes.
-                        assert max(bg) < 75, (width, selector, "closing hero dark palette lost", bg)
-                    elif theme == "light":
+                    if theme == "light":
                         assert min(bg) > 223, (width, selector, "light surface remains dark", bg)
-                    elif selector in ("#formats", "#results", "#pricing", ".yf-footer"):
+                    elif selector in ("#formats", "#results", "#pricing", ".final-section", ".yf-footer"):
                         assert max(bg) < 75, (width, selector, "dark theme regressed", bg)
                 if theme == "light":
                     for selector in LIGHT_CARDS:
@@ -77,9 +74,9 @@ try:
                     for selector in ("#pricing .price p", "#results p"):
                         rgb = components(page.locator(selector).first.evaluate("el=>getComputedStyle(el).color"))
                         assert luminance(rgb) < .25, (width, selector, "muted text too pale", rgb)
-                    for selector in (".final-section .heading", ".final-section p"):
+                    for selector in (".final-section .heading", ".final-section p", ".final-section .final-benefits strong"):
                         rgb = components(page.locator(selector).first.evaluate("el=>getComputedStyle(el).color"))
-                        assert luminance(rgb) > .7, (width, selector, "closing photographic text must remain bright", rgb)
+                        assert luminance(rgb) < .17, (width, selector, "closing light-theme text must use dark ink", rgb)
                     for selector in ("#formats .program-card::after", ".final-section::after"):
                         element, pseudo = selector.split("::")
                         gradient = page.locator(element).first.evaluate(
