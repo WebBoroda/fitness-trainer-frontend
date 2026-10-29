@@ -104,7 +104,7 @@ try:
                 assert closing.locator(".final-benefit-icon svg").count() == 3, (width, "missing vector feature icons")
                 assert "Персональний план" in closing.locator(".final-content > p").inner_text(), (width,"closing reference copy")
                 geometry = closing.evaluate("""(el)=>{
-                    const rect=(q)=>{const r=el.querySelector(q).getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}};
+                    const rect=(q)=>{const r=(q===':scope'?el:el.querySelector(q)).getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}};
                     const photo=el.querySelector('.final-photo');
                     const css=getComputedStyle(photo);
                     return {section:rect(':scope'),content:rect('.final-content'),features:rect('.final-benefits'),
