@@ -574,7 +574,8 @@ html[data-theme=light] .hero.fhero .fhero-eyebrow{background:#f8e6d8ab}
 html[data-theme=dark] #mission .benefit{background:#ffffff16;border-color:#ffffff29}
 #studio .studio-gallery{grid-template-columns:3.5fr .9fr .9fr}
 #studio .studio-gallery .gallery-photo{border-radius:.6rem}
-#about .about-visual .quote{border-radius:.2rem}
+/* The radius is on the permanent frame, not the replaceable photograph. */
+#about .about-visual .quote{border-radius:.75rem}
 #about .about-visual .quote cite{
   font:500 clamp(1.55rem,2.2vw,2.25rem)/1 Caveat,'Segoe Script',cursive;
   letter-spacing:.025em;

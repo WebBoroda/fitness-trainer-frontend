@@ -40,6 +40,19 @@ try:
                 assert page.locator("#formats .program-card").count() == 4
                 assert page.locator("#formats .program-card .ico svg").count() == 4
                 assert page.locator("#about .quote blockquote").count() == 1
+                about_image = page.locator('#about img[data-media-field="about.portrait"]')
+                quote_box = page.locator('#about .about-visual .quote')
+                assert about_image.count() == 1, (width,"missing replaceable portrait")
+                assert about_image.get_attribute('src') == "assets/images/about-trainer-editorial.webp", width
+                assert about_image.get_attribute('alt'), width
+                assert float(quote_box.evaluate("(el)=>getComputedStyle(el).borderTopLeftRadius.replace('px','')")) >= 10, (width,"unrounded photo frame")
+                quote_text = page.locator('#about .quote blockquote').inner_text()
+                assert "Твоє тіло" in quote_text and "Yuliia Zagorodnia" in quote_text, width
+                original_src = about_image.get_attribute('src')
+                about_image.evaluate("(el)=>el.setAttribute('src','assets/images/gym-01-main.webp')")
+                assert page.locator('#about .quote blockquote').inner_text() == quote_text, (width,"quote changed on photo replacement")
+                assert float(quote_box.evaluate("(el)=>getComputedStyle(el).borderTopLeftRadius.replace('px','')")) >= 10, (width,"radius changed on photo replacement")
+                about_image.evaluate("(el,src)=>el.setAttribute('src',src)",original_src)
                 assert page.locator("#mission .quote").count() == 0
                 assert page.locator("#pricing .price-action").count() == 3
                 assert page.locator("img[src^='data:']").count() == 0
@@ -203,6 +216,12 @@ try:
                     assert menu.get_attribute("aria-expanded") == "false"
 
                 assert not errors, (width, errors)
+                if width in (375, 768, 1440) and scheme in ("light", "dark"):
+                    about_section = page.locator('#about')
+                    about_section.scroll_into_view_if_needed()
+                    about_section.locator('.reveal').evaluate_all("(els)=>els.forEach(el=>el.classList.add('visible'))")
+                    about_image.evaluate("(el)=>el.decode().catch(()=>{})")
+                    about_section.screenshot(path=str(SHOTS / f"about-{width}-{scheme}.png"), animations="disabled")
                 if width in (375, 768, 1536) and scheme in ("light", "dark"):
                     # Use actual rendered full-page captures for manual comparison.
                     page.locator(".reveal").evaluate_all(
