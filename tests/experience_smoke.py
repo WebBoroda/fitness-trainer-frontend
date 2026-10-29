@@ -102,13 +102,35 @@ try:
                     assert "yf-final-button" in (action.get_attribute("class") or "").split(), (width,scheme,"missing hero CTA component",href)
                     assert variant in (action.get_attribute("class") or "").split(), (width,scheme,"closing CTA reference variant",href)
                     assert action.locator(".yf-final-circle .yf-final-svg").count()==1, (width,scheme,"hero CTA arrow missing",href)
-                closing_theme = closing.evaluate("""(el)=>({bg:getComputedStyle(el).backgroundColor,fg:getComputedStyle(el).color,
-                    gradient:getComputedStyle(el,"::after").backgroundImage,
-                    heroGradient:getComputedStyle(document.querySelector(".fhero-overlay")).backgroundImage})""")
-                assert closing_theme["bg"] == "rgb(18, 18, 16)", (width,scheme,"closing has wrong dark background",closing_theme)
-                assert closing_theme["fg"] == "rgb(255, 255, 255)", (width,scheme,"closing text must stay white",closing_theme)
-                if width >= 1120 and scheme == "dark":
-                    assert closing_theme["gradient"] == closing_theme["heroGradient"], (width,scheme,"gradient differs from first screen",closing_theme)
+                closing_theme = closing.evaluate("""(el)=>({
+                    bg:getComputedStyle(el).backgroundColor,
+                    fg:getComputedStyle(el).color,
+                    gradient:getComputedStyle(el,"::after").backgroundImage.replace(/\\s/g,""),
+                    photoOpacity:getComputedStyle(el.querySelector(".final-photo")).opacity,
+                    heading:getComputedStyle(el.querySelector(".heading")).color,
+                    label:getComputedStyle(el.querySelector(".final-benefits strong")).color,
+                    subtitle:getComputedStyle(el.querySelector(".final-content>p")).color,
+                    cta:getComputedStyle(el.querySelector(".yf-final-button-secondary")).color
+                })""")
+                expected_background = "rgb(246, 240, 234)" if scheme=="light" else "rgb(18, 18, 16)"
+                expected_foreground = "rgb(27, 23, 21)" if scheme=="light" else "rgb(255, 255, 255)"
+                assert closing_theme["bg"] == expected_background, (width,scheme,"closing theme background",closing_theme)
+                assert closing_theme["fg"] == expected_foreground, (width,scheme,"closing theme foreground",closing_theme)
+                assert closing_theme["heading"] == expected_foreground, (width,scheme,"closing headline contrast",closing_theme)
+                assert closing_theme["label"] == expected_foreground, (width,scheme,"closing feature contrast",closing_theme)
+                assert closing_theme["photoOpacity"] == "1", (width,scheme,"closing photograph dimmed",closing_theme)
+                curve=closing_theme["gradient"]
+                assert "linear-gradient(" in curve and "transparent" in curve, (width,scheme,"closing gradient absent",curve)
+                if width > 670:
+                    expected_tint = "rgba(246,240,234,0.3)" if scheme=="light" else "rgba(18,18,16,0.77)"
+                    expected_end = "65%" if scheme=="light" else "75%"
+                    assert expected_tint in curve and expected_end in curve, (width,scheme,"wrong photo-studio reference gradient strength",curve)
+                    assert "90deg" in curve and "180deg" not in curve, (width,scheme,"desktop gradient must be horizontal",curve)
+                else:
+                    expected_tint = "rgba(246,240,234,0.88)" if scheme=="light" else "rgba(18,18,16,0.91)"
+                    assert expected_tint in curve and "180deg" in curve, (width,scheme,"mobile gradient strength or direction",curve)
+                # No opaque matte over the image in any theme.
+                assert "rgb(18,18,16)49%" not in curve and "#121210" not in curve, (width,scheme,"legacy solid veil remains",curve)
                 assert closing.locator(".final-benefits li").count() == 3, (width, "closing advantages")
                 assert closing.locator(".final-benefit-icon svg").count() == 3, (width, "missing vector feature icons")
                 assert "Персональний план" in closing.locator(".final-content > p").inner_text(), (width,"closing reference copy")
