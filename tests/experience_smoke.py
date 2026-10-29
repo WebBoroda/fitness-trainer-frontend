@@ -62,6 +62,7 @@ try:
                 assert "правильну підтримку" in quote_text, width
                 assert not quote_box.evaluate('(el)=>el.closest(".yf-about-media") !== null'), (width, "quote must be beside photo, not over it")
                 if width >= 1024 and height >= 700:
+                    page.locator('#about .reveal').evaluate_all('(els)=>els.forEach(el=>{el.style.transition="none";el.classList.add("visible")})')
                     geometry = page.evaluate("""() => {
                       const a=document.querySelector('#about').getBoundingClientRect();
                       const im=document.querySelector('#about .yf-about-media').getBoundingClientRect();
