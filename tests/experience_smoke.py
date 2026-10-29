@@ -102,6 +102,15 @@ try:
                 nutrition_photo.scroll_into_view_if_needed()
                 nutrition_photo.evaluate("(el)=>el.decode()")
                 assert nutrition_photo.evaluate("(el)=>el.naturalWidth === 1086 && el.naturalHeight === 1448"), (width, "high-res nutrition photo not loaded")
+                nutrition_frame_style = nutrition.locator('.nutrition-visual').evaluate("""el=>{
+                    const cs=getComputedStyle(el),box=el.getBoundingClientRect();
+                    return {radii:[cs.borderTopLeftRadius,cs.borderTopRightRadius,cs.borderBottomRightRadius,cs.borderBottomLeftRadius].map(v=>parseFloat(v)),
+                            ratio:box.width/box.height,overflow:cs.overflow};
+                }""")
+                assert all(abs(r - nutrition_frame_style['radii'][0]) < .1 for r in nutrition_frame_style['radii']), (width, "nutrition corners must have equal radius", nutrition_frame_style)
+                assert 8 <= nutrition_frame_style['radii'][0] <= 16, (width, "nutrition corner radius differs from site photo cards", nutrition_frame_style)
+                assert abs(nutrition_frame_style['ratio'] - 4/3) <= .025, (width, "nutrition photo must be rectangular 4:3", nutrition_frame_style)
+                assert nutrition_photo.evaluate("(el)=>getComputedStyle(el).clipPath") == 'none', (width, "legacy circle clip still applies")
                 assert nutrition.locator('.btn[href="#consultation"]').count() == 1, (width, "nutrition CTA")
                 assert nutrition.evaluate('(el)=>el.scrollWidth <= el.clientWidth + 2'), (width, "nutrition horizontal overflow")
                 nutrition_boxes = nutrition.evaluate("""el=>{
