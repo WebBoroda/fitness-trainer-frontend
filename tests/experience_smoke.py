@@ -96,12 +96,12 @@ try:
                 style = final_image.evaluate("(img)=>({mask:getComputedStyle(img).maskImage,transform:getComputedStyle(img).transform})")
                 assert style["mask"] == "none" and style["transform"] == "none", (width, "legacy photo crop effect remains",style)
                 # Closing actions reuse first-screen hero button styling.
-                for href, variant in (("#consultation","fhero-button-primary"),("#formats","fhero-button-secondary")):
+                for href, variant in (("#consultation","yf-final-button-primary"),("#formats","yf-final-button-secondary")):
                     action = closing.locator(f'.actions a[href="{href}"]')
                     assert action.count()==1 and action.is_visible(), (width, "closing CTA missing",href)
-                    assert "fhero-button" in (action.get_attribute("class") or "").split(), (width,scheme,"missing hero CTA component",href)
+                    assert "yf-final-button" in (action.get_attribute("class") or "").split(), (width,scheme,"missing hero CTA component",href)
                     assert variant in (action.get_attribute("class") or "").split(), (width,scheme,"closing CTA reference variant",href)
-                    assert action.locator(".fhero-cta-circle .fhero-svg").count()==1, (width,scheme,"hero CTA arrow missing",href)
+                    assert action.locator(".yf-final-circle .yf-final-svg").count()==1, (width,scheme,"hero CTA arrow missing",href)
                 closing_theme = closing.evaluate("""(el)=>({bg:getComputedStyle(el).backgroundColor,fg:getComputedStyle(el).color,
                     gradient:getComputedStyle(el,"::after").backgroundImage,
                     heroGradient:getComputedStyle(document.querySelector(".fhero-overlay")).backgroundImage})""")
