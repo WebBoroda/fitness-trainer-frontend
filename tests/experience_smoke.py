@@ -143,6 +143,7 @@ try:
                 result_track = results_section.locator("#results-track")
                 assert result_track.get_attribute("tabindex") == "0", (width, "gallery keyboard navigation")
                 assert result_track.evaluate("(el)=>el.scrollWidth > el.clientWidth"), (width, "gallery has no overflow")
+                result_track.evaluate("(el)=>{el.style.scrollBehavior='auto';el.scrollLeft=0}")
                 results_section.locator(".yf-results-next").click()
                 page.wait_for_function("document.getElementById('results-track').scrollLeft > 0", timeout=3000)
                 result_track.evaluate("(el)=>el.scrollLeft=0")
