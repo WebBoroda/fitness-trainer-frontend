@@ -95,10 +95,33 @@ try:
                 assert final_image.evaluate("(img)=>img.naturalWidth===1600 && img.naturalHeight===900"), (width, "new hero photo failed to decode")
                 style = final_image.evaluate("(img)=>({mask:getComputedStyle(img).maskImage,transform:getComputedStyle(img).transform})")
                 assert style["mask"] == "none" and style["transform"] == "none", (width, "legacy photo crop effect remains",style)
-                for href in ("#consultation","#formats"):
+                # Reference CTA: first action is filled, program choice outlined.
+                for href, variant in (("#consultation","fill"),("#formats","outline")):
                     action = closing.locator(f'.actions a[href="{href}"]')
                     assert action.count()==1 and action.is_visible(), (width, "closing CTA missing",href)
-                    assert "fill" in (action.get_attribute("class") or "").split(), (width, "conversion CTA not accent",href)
+                    assert variant in (action.get_attribute("class") or "").split(), (width,scheme,"closing CTA reference variant",href)
+                assert closing.locator(".final-benefits li").count() == 3, (width, "closing advantages")
+                assert closing.locator(".final-benefit-icon svg").count() == 3, (width, "missing vector feature icons")
+                assert "Персональний план" in closing.locator(".final-content > p").inner_text(), (width,"closing reference copy")
+                geometry = closing.evaluate("""(el)=>{
+                    const rect=(q)=>{const r=el.querySelector(q).getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}};
+                    const photo=el.querySelector('.final-photo');
+                    const css=getComputedStyle(photo);
+                    return {section:rect(':scope'),content:rect('.final-content'),features:rect('.final-benefits'),
+                      heading:rect('.heading'),photoWidth:parseFloat(css.width),overflow:el.scrollWidth-el.clientWidth,
+                      items:[...el.querySelectorAll('.final-benefits li')].map(li=>{const r=li.getBoundingClientRect();return {left:r.left,top:r.top,bottom:r.bottom}})};
+                }""")
+                assert geometry["overflow"] <= 2, (width,scheme,"closing overflow",geometry)
+                assert geometry["content"]["bottom"] < geometry["features"]["top"]+4, (width,scheme,"closing copy/benefits overlap",geometry)
+                if width >= 1120:
+                    assert geometry["section"]["height"] <= height + 2, (width,scheme,"closing exceeds viewport",geometry)
+                    assert geometry["items"][0]["left"] < geometry["items"][1]["left"] < geometry["items"][2]["left"], (width,scheme,"closing benefits must run horizontally",geometry)
+                    assert geometry["photoWidth"] <= width*.78, (width,scheme,"photo too zoomed",geometry)
+                elif width <= 670:
+                    assert geometry["items"][0]["top"] < geometry["items"][1]["top"] < geometry["items"][2]["top"], (width,scheme,"mobile closing benefits must stack",geometry)
+                if width in (375,768,1024,1440,1536,1920):
+                    closing.locator(".reveal").evaluate("(el)=>{el.style.transition='none';el.classList.add('visible')}")
+                    closing.screenshot(path=str(SHOTS / f"final-cta-{width}-{scheme}.png"), animations="disabled", timeout=30000)
 
                 # Secondary actions explain more content, not conversion.
                 for selector in ("#results .btn", "#reviews .btn", "#faq .btn"):
