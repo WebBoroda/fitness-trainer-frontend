@@ -260,8 +260,9 @@
   }
 }
 
-/* Light: use the fitness cream, not the photo-studio tint or a dark matte.
-   30% / 11% / 0% follows the reference desktop intensity exactly. */
+/* Light: adapt the photo-studio reference's visible brightness and fade to
+   this MUCH darker source image. A 30% overlay made the black text unreadable.
+   The stronger cream fade still becomes fully transparent over the model. */
 html[data-theme="light"] #final-cta {
   --hero-subtle:#49413a;
   background:#f6f0ea;
@@ -269,9 +270,11 @@ html[data-theme="light"] #final-cta {
 }
 html[data-theme="light"] #final-cta::after {
   background:linear-gradient(90deg,
-    rgba(246,240,234,.30) 0%,
-    rgba(246,240,234,.11) 37%,
-    transparent 65%);
+    rgba(246,240,234,.92) 0%,
+    rgba(246,240,234,.88) 28%,
+    rgba(246,240,234,.76) 51%,
+    rgba(246,240,234,.22) 75%,
+    transparent 85%);
 }
 html[data-theme="light"] #final-cta .heading {color:#1b1715;}
 html[data-theme="light"] #final-cta .heading span {color:#514139;}
@@ -302,9 +305,9 @@ html[data-theme="light"] #final-cta .yf-final-button-secondary .yf-final-circle 
 @media (max-width:41.99rem) {
   html[data-theme="light"] #final-cta::after {
     background:linear-gradient(180deg,
-      rgba(246,240,234,.88) 5%,
-      rgba(246,240,234,.76) 38%,
-      rgba(246,240,234,.25) 72%,
-      transparent 90%);
+      rgba(246,240,234,.94) 5%,
+      rgba(246,240,234,.90) 42%,
+      rgba(246,240,234,.65) 72%,
+      transparent 95%);
   }
 }
