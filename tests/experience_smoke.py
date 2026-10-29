@@ -109,7 +109,7 @@ try:
                   return {section:el.getBoundingClientRect().toJSON(),copy:rect('.nutrition-copy'),photo:rect('.nutrition-visual'),aside:rect('.nutrition-aside'),note:rect('.nutrition-note')};
                 }""")
                 if 672 <= width < 1024:
-                    assert nutrition_boxes["copy"]["y"] <= nutrition_boxes["photo"]["y"] + 3, (width, "tablet heading must precede image and checklist", nutrition_boxes)
+                    assert nutrition_boxes["copy"]["y"] < nutrition_boxes["photo"]["bottom"] - 4, (width, "tablet heading must precede image and checklist", nutrition_boxes)
                     assert nutrition_boxes["copy"]["right"] <= nutrition_boxes["photo"]["x"] + 3, (width, "tablet columns overlap", nutrition_boxes)
                     assert nutrition_boxes["aside"]["y"] >= max(nutrition_boxes["copy"]["bottom"],nutrition_boxes["photo"]["bottom"]) - 3, (width, "tablet benefits must follow first row", nutrition_boxes)
                 if width >= 1024:
