@@ -84,6 +84,18 @@ try:
                 about_image.evaluate("(el,src)=>el.setAttribute('src',src)",original_src)
                 assert page.locator("#mission .quote").count() == 0
                 assert page.locator("#pricing .price-action").count() == 3
+                # Secondary actions explain more content, not conversion.
+                for selector in ("#results .btn", "#reviews .btn", "#faq .btn"):
+                    cta = page.locator(selector)
+                    assert cta.count() == 1, (width, scheme, selector, "missing CTA")
+                    assert "outline" in (cta.get_attribute("class") or "").split(), (width, scheme, selector, "secondary CTA must be outlined")
+                    assert "fill" not in (cta.get_attribute("class") or "").split(), (width, scheme, selector, "secondary CTA wrongly accented")
+                    paint = cta.evaluate("(el)=>({bg:getComputedStyle(el).backgroundColor,border:getComputedStyle(el).borderTopWidth})")
+                    assert paint["bg"] in ("rgba(0, 0, 0, 0)", "transparent"), (width, scheme, selector, paint)
+                    assert float(paint["border"].replace("px", "")) >= 1, (width, scheme, selector, paint)
+                for selector in ("#mission .btn.fill", "#nutrition .btn.fill"):
+                    assert page.locator(selector).count() == 1, (width, scheme, selector, "conversion CTA accidentally changed")
+
                 assert page.locator("img[src^='data:']").count() == 0
                 assert page.locator("html").get_attribute("data-theme") == scheme
                 assert page.locator(".studio-gallery .gallery-photo").count() == 5
