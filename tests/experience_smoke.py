@@ -40,6 +40,8 @@ try:
                 assert page.locator("#formats .program-card").count() == 4
                 assert page.locator("#formats .program-card .ico svg").count() == 4
                 assert page.locator("#about .yf-about-heading").count() == 1
+                weights = page.locator('#about .yf-about-heading span').evaluate_all('(els)=>els.map(el=>parseFloat(getComputedStyle(el).fontWeight))')
+                assert len(weights) == 3 and weights[0] >= 700 and weights[1] < 400 and weights[2] < 400, (width, scheme, weights)
                 assert page.locator("#about .yf-about-benefits li").count() == 3
                 assert page.locator("#about .yf-about-quote blockquote").count() == 0
                 assert page.locator("#about blockquote.yf-about-quote").count() == 1
@@ -50,7 +52,7 @@ try:
                 assert about_image.get_attribute('src') == "assets/images/about-trainer-editorial.webp", width
                 assert about_image.get_attribute('alt'), width
                 assert float(about_frame.evaluate("(el)=>getComputedStyle(el).borderTopLeftRadius.replace('px','')")) >= 10, (width, "unrounded photo frame")
-                assert quote_box.count() == 1 and quote_box.locator('cite').inner_text() == 'Юлія', width
+                assert quote_box.count() == 1 and quote_box.locator('cite').count() == 0, (width, 'removed signature must not reappear')
                 quote_text = quote_box.inner_text()
                 assert "правильну підтримку" in quote_text, width
                 assert not quote_box.evaluate('(el)=>el.closest(".yf-about-media") !== null'), (width, "quote must be beside photo, not over it")
