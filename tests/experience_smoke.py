@@ -128,6 +128,24 @@ try:
                 elif width <= 670:
                     assert nutrition_boxes["photo"]["y"] >= nutrition_boxes["copy"]["bottom"] - 2, (width,"mobile photo overlaps description",nutrition_boxes)
                     assert nutrition_boxes["aside"]["y"] >= nutrition_boxes["photo"]["bottom"] - 2, (width,"mobile benefits overlap photo",nutrition_boxes)
+                results_section = page.locator("#results")
+                demo_cards = results_section.locator(".yf-result-card")
+                assert demo_cards.count() == 6, (width, "six demo before/after images required")
+                assert "Не є фотографіями" in results_section.locator(".yf-results-disclaimer").inner_text(), (width, "AI disclosure required")
+                for j, card in enumerate(demo_cards.all(), 1):
+                    photo = card.locator("img")
+                    assert photo.get_attribute("src") == f"assets/images/result-demo-{j:02d}.webp", (width, j, "missing generated image")
+                    photo.scroll_into_view_if_needed()
+                    photo.evaluate("(el)=>el.decode()")
+                    assert photo.evaluate("(el)=>el.naturalWidth === 900 && el.naturalHeight === 1200"), (width,j,"wrong image dimensions")
+                    assert "ШІ-візуалізація" in photo.get_attribute("alt"), (width,j,"missing illustrative alt")
+                    assert card.locator("figcaption span").count() == 2, (width,j,"before/after labels")
+                result_track = results_section.locator("#results-track")
+                assert result_track.get_attribute("tabindex") == "0", (width, "gallery keyboard navigation")
+                assert result_track.evaluate("(el)=>el.scrollWidth > el.clientWidth"), (width, "gallery has no overflow")
+                results_section.locator(".yf-results-next").click()
+                page.wait_for_function("document.getElementById('results-track').scrollLeft > 0", timeout=3000)
+                result_track.evaluate("(el)=>el.scrollLeft=0")
                 assert page.locator(".yf-consultation-modal").count() == 1
 
                 for img in page.locator("main img:visible").all():
@@ -282,6 +300,11 @@ try:
                     assert menu.get_attribute("aria-expanded") == "false"
 
                 assert not errors, (width, errors)
+                if width in (375, 768, 1440) and scheme in ("light", "dark"):
+                    results_section.scroll_into_view_if_needed()
+                    results_section.locator(".reveal").evaluate_all("(els)=>els.forEach(el=>{el.style.transition='none';el.classList.add('visible')})")
+                    result_track.evaluate("(el)=>el.scrollLeft=0")
+                    results_section.screenshot(path=str(SHOTS / f"results-{width}-{scheme}.png"), animations="disabled", timeout=30000)
                 if width in (375, 768, 1024, 1366, 1440) and scheme in ("light", "dark"):
                     page.evaluate("document.activeElement?.blur()")
                     nutrition.scroll_into_view_if_needed()
