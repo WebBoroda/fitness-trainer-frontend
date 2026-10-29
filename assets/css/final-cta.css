@@ -221,7 +221,7 @@ html[data-theme="light"] #final-cta .heading span {color:var(--hero-accent);}
 @media (min-width:70rem) {
   #final-cta .wrap {
     gap:clamp(1.25rem,2.65vw,2rem);
-    padding:clamp(1.25rem,3vh,2.8rem) var(--hero-gutter);
+    padding:clamp(1.25rem,3vh,2.8rem) var(--hero-gutter) clamp(6rem,18vh,10rem);
   }
   #final-cta::after {
     background:linear-gradient(90deg,#090909a8,#09090944 33%,transparent 63%,#0c0c0c30),linear-gradient(to bottom,transparent 68%,#12121034);
