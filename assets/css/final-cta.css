@@ -29,6 +29,15 @@
   mask-image:none;
 }
 #final-cta::before{background:none;}
+/* The site's global Light theme has ID-weighted selectors; this photo-first
+   closing panel deliberately keeps the first-screen dark palette in every mode. */
+html[data-theme="light"] #final-cta {background:#121210;color:#fff;}
+html[data-theme="light"] #final-cta .eyebrow.dark-pill {
+  color:#fff;
+  background:rgba(41,40,38,.5);
+  border-color:#ffffff33;
+}
+html[data-theme="light"] #final-cta .heading span {color:var(--hero-accent);}
 /* Exactly the first-screen photographic shading, without a Light-mode white veil. */
 #final-cta::after {
   z-index:-1;
