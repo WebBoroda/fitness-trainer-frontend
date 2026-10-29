@@ -24,7 +24,7 @@ try:
         chrome = shutil.which('google-chrome') or shutil.which('chromium')
         browser = playwright.chromium.launch(headless=True, executable_path=chrome) if chrome else playwright.chromium.launch(headless=True)
         for width, height in [(320, 740), (375, 812), (480, 850), (768, 1024),
-                              (1024, 768), (1440, 900), (1536, 1024), (1920, 1080)]:
+                              (1024, 768), (1366, 768), (1440, 900), (1536, 1024), (1920, 1080)]:
             for scheme in ("dark", "light"):
                 page = browser.new_page(
                     viewport={"width": width, "height": height},
@@ -40,6 +40,11 @@ try:
                 assert page.locator("#formats .program-card").count() == 4
                 assert page.locator("#formats .program-card .ico svg").count() == 4
                 assert page.locator("#about .yf-about-heading").count() == 1
+                assert page.locator("#about .yf-about-kicker").evaluate('(el)=>getComputedStyle(el,"::before").content') == 'none', (width,"old label line")
+                label_radius = page.locator('#about .yf-about-kicker').evaluate('(el)=>parseFloat(getComputedStyle(el).borderRadius)')
+                assert label_radius > 20, (width,"About label should be pill")
+                about_button = page.locator('#about [data-about-open]')
+                assert about_button.count() == 1 and about_button.is_visible(), (width,"About CTA missing")
                 weights = page.locator('#about .yf-about-heading span').evaluate_all('(els)=>els.map(el=>parseFloat(getComputedStyle(el).fontWeight))')
                 assert len(weights) == 3 and weights[0] >= 700 and weights[1] < 400 and weights[2] < 400, (width, scheme, weights)
                 assert page.locator("#about .yf-about-benefits li").count() == 3
@@ -56,6 +61,21 @@ try:
                 quote_text = quote_box.inner_text()
                 assert "правильну підтримку" in quote_text, width
                 assert not quote_box.evaluate('(el)=>el.closest(".yf-about-media") !== null'), (width, "quote must be beside photo, not over it")
+                if width >= 1024 and height >= 700:
+                    geometry = page.evaluate("""() => {
+                      const a=document.querySelector('#about').getBoundingClientRect();
+                      const im=document.querySelector('#about .yf-about-media').getBoundingClientRect();
+                      const q=document.querySelector('#about .yf-about-quote').getBoundingClientRect();
+                      const btn=document.querySelector('#about .yf-about-action').getBoundingClientRect();
+                      return {sectionHeight:a.height, photoBottom:im.bottom, quoteBottom:q.bottom, buttonBottom:btn.bottom, sectionBottom:a.bottom};
+                    }""")
+                    assert geometry['sectionHeight'] <= height + 2, (width,height,"About exceeds viewport",geometry)
+                    assert max(geometry['photoBottom'],geometry['quoteBottom'],geometry['buttonBottom']) <= geometry['sectionBottom'] - 5, (width,height,"About content clipped",geometry)
+                about_button.click()
+                assert page.locator('#yf-about-details').evaluate('(el)=>el.open'), (width,"About details did not open")
+                assert page.locator('#yf-about-details h2').is_visible(), width
+                page.keyboard.press('Escape')
+                assert not page.locator('#yf-about-details').evaluate('(el)=>el.open'), (width,"Escape close failed")
                 original_src = about_image.get_attribute('src')
                 about_image.evaluate("(el)=>el.setAttribute('src','assets/images/gym-01-main.webp')")
                 assert quote_box.inner_text() == quote_text, (width, "quote changed on photo replacement")
