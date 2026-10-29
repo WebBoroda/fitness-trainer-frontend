@@ -15,7 +15,7 @@
   mask-image:none;
 }
 .final-section::after{
-  background:linear-gradient(90deg,rgba(8,10,9,.97) 0%,rgba(8,10,9,.88) 24%,rgba(8,10,9,.54) 53%,rgba(8,10,9,.19) 100%);
+  background:linear-gradient(90deg,rgba(8,10,9,.97) 0%,rgba(8,10,9,.88) 24%,rgba(8,10,9,.54) 53%,rgba(8,10,9,.53) 100%);
 }
 html[data-theme="light"] .final-section::after{
   background:linear-gradient(90deg,#f8f5f1 0%,rgba(248,245,241,.97) 26%,rgba(248,245,241,.79) 53%,rgba(248,245,241,.12) 100%);
