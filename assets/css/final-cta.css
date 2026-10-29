@@ -1,5 +1,5 @@
 /* Final CTA uses the first-screen geometry and tokens; only its composition is scoped. */
-.final-section.section {
+#final-cta.section {
   --hero-accent:#f1d8c3;
   --hero-subtle:#eee9e5;
   position:relative;
@@ -12,7 +12,7 @@
   color:#fff;
   font-family:Manrope,Inter,sans-serif;
 }
-.final-section .final-photo {
+#final-cta .final-photo {
   position:absolute;
   inset:0;
   z-index:-2;
@@ -28,13 +28,13 @@
   -webkit-mask-image:none;
   mask-image:none;
 }
-.final-section::before{background:none;}
+#final-cta::before{background:none;}
 /* Exactly the first-screen photographic shading, without a Light-mode white veil. */
-.final-section::after {
+#final-cta::after {
   z-index:-1;
   background:linear-gradient(to bottom,rgba(0,0,0,.38) 0%,rgba(12,12,12,.22) 20%,#121210 49%,#121210 100%);
 }
-.final-section .wrap {
+#final-cta .wrap {
   position:relative;
   z-index:1;
   display:flex;
@@ -48,8 +48,8 @@
   margin-inline:auto;
   padding:clamp(3.5rem,7svh,6.75rem) var(--hero-gutter) clamp(2.6rem,6svh,4.5rem);
 }
-.final-section .final-content{width:min(100%,53rem);min-width:0;margin-block:auto;}
-.final-section .eyebrow.dark-pill {
+#final-cta .final-content{width:min(100%,53rem);min-width:0;margin-block:auto;}
+#final-cta .eyebrow.dark-pill {
   display:inline-flex;
   align-items:center;
   min-height:1.85rem;
@@ -63,7 +63,7 @@
   letter-spacing:0;
   text-transform:none;
 }
-.final-section .heading {
+#final-cta .heading {
   max-width:none;
   margin:0 0 .65rem;
   color:#fff;
@@ -74,14 +74,14 @@
   letter-spacing:-.065em;
   white-space:normal;
 }
-.final-section .heading span {
+#final-cta .heading span {
   display:block;
   margin:0;
   color:var(--hero-accent);
   font-weight:250;
   letter-spacing:-.07em;
 }
-.final-section .final-content>p {
+#final-cta .final-content>p {
   max-width:37rem;
   margin:0;
   color:var(--hero-subtle);
@@ -89,14 +89,14 @@
   font-weight:400;
   line-height:1.55;
 }
-.final-section .actions {
+#final-cta .actions {
   display:flex;
   flex-wrap:wrap;
   align-items:center;
   gap:var(--yf-space-3);
   margin-top:1.25rem;
 }
-.final-section .yf-final-button {
+#final-cta .yf-final-button {
   display:inline-flex;
   justify-content:space-between;
   align-items:center;
@@ -111,21 +111,21 @@
   border-radius:99rem;
   transition:background-color .2s var(--hero-ease),border-color .2s var(--hero-ease);
 }
-.final-section .yf-final-button-primary {
+#final-cta .yf-final-button-primary {
   color:#181514;
   background:linear-gradient(125deg,rgba(250,236,223,.72),rgba(241,210,186,.59));
   border:1px solid rgba(255,255,255,.63);
 }
-.final-section .yf-final-button-primary:hover {
+#final-cta .yf-final-button-primary:hover {
   background:linear-gradient(125deg,rgba(250,236,223,.79),rgba(241,210,186,.69));
 }
-.final-section .yf-final-button-secondary {
+#final-cta .yf-final-button-secondary {
   color:#fff;
   border:1px solid rgba(255,255,255,.85);
   background:linear-gradient(135deg,rgba(255,255,255,.11),rgba(21,18,17,.12));
   backdrop-filter:blur(.5rem);
 }
-.final-section .yf-final-circle {
+#final-cta .yf-final-circle {
   display:grid;
   place-items:center;
   flex:0 0 2.25rem;
@@ -136,12 +136,12 @@
   color:#181514;
   backdrop-filter:blur(.5rem);
 }
-.final-section .yf-final-button-secondary .yf-final-circle {
+#final-cta .yf-final-button-secondary .yf-final-circle {
   color:#fff;
   background:rgba(20,20,20,.18);
   border:1px solid rgba(255,255,255,.6);
 }
-.final-section .yf-final-circle .yf-final-svg {
+#final-cta .yf-final-circle .yf-final-svg {
   width:1.15rem;
   height:1.15rem;
   fill:none;
@@ -150,7 +150,7 @@
   stroke-linecap:round;
   stroke-linejoin:round;
 }
-.final-section .final-benefits {
+#final-cta .final-benefits {
   display:grid;
   grid-template-columns:minmax(0,1fr);
   align-items:start;
@@ -161,7 +161,7 @@
   padding:0;
   list-style:none;
 }
-.final-section .final-benefits li {
+#final-cta .final-benefits li {
   display:flex;
   align-items:center;
   gap:.7rem;
@@ -170,7 +170,7 @@
   font-size:.9rem;
   line-height:1.4;
 }
-.final-section .final-benefit-icon {
+#final-cta .final-benefit-icon {
   display:grid;
   place-items:center;
   flex:0 0 2.5rem;
@@ -182,9 +182,9 @@
   color:#fff;
   backdrop-filter:blur(.5rem);
 }
-.final-section .final-benefit-icon svg{width:1.25rem;height:1.25rem;}
-.final-section .final-benefits li>div{min-width:0;padding:0;}
-.final-section .final-benefits strong {
+#final-cta .final-benefit-icon svg{width:1.25rem;height:1.25rem;}
+#final-cta .final-benefits li>div{min-width:0;padding:0;}
+#final-cta .final-benefits strong {
   display:block;
   max-width:14rem;
   color:#fff;
@@ -192,7 +192,7 @@
   font-weight:700;
   line-height:1.4;
 }
-.final-section .final-benefits small {
+#final-cta .final-benefits small {
   display:block;
   margin-top:.2rem;
   color:var(--hero-subtle);
@@ -201,51 +201,51 @@
   font-weight:400;
 }
 @media (min-width:42rem) {
-  .final-section::after {
+  #final-cta::after {
     background:linear-gradient(90deg,rgba(10,10,10,.72),rgba(10,10,10,.26) 51%,rgba(10,10,10,.08)),linear-gradient(to bottom,rgba(10,10,10,.08) 0%,rgba(14,14,14,.3) 29%,#121210 62%,#121210 100%);
   }
-  .final-section .heading{font-size:clamp(3.2rem,6.2vw,5rem);}
-  .final-section .final-content>p{max-width:45ch;}
-  .final-section .actions{margin-top:clamp(1.25rem,2.6vw,1.8rem);}
-  .final-section .final-benefits{grid-template-columns:repeat(3,minmax(0,1fr));}
+  #final-cta .heading{font-size:clamp(3.2rem,6.2vw,5rem);}
+  #final-cta .final-content>p{max-width:45ch;}
+  #final-cta .actions{margin-top:clamp(1.25rem,2.6vw,1.8rem);}
+  #final-cta .final-benefits{grid-template-columns:repeat(3,minmax(0,1fr));}
 }
 @media (min-width:70rem) {
-  .final-section .wrap {
+  #final-cta .wrap {
     gap:clamp(1.25rem,2.65vw,2rem);
     padding:clamp(1.25rem,3vh,2.8rem) var(--hero-gutter);
   }
-  .final-section::after {
+  #final-cta::after {
     background:linear-gradient(90deg,#090909a8,#09090944 33%,transparent 63%,#0c0c0c30),linear-gradient(to bottom,transparent 68%,#12121034);
   }
-  .final-section .heading {
+  #final-cta .heading {
     font-size:clamp(3.3rem,4.9vw,5.3rem);
     white-space:nowrap;
   }
-  .final-section .final-content>p{font-size:clamp(1rem,1.1vw,1.0625rem);}
-  .final-section .actions{margin-top:clamp(1.3rem,1.65vw,1.75rem);}
+  #final-cta .final-content>p{font-size:clamp(1rem,1.1vw,1.0625rem);}
+  #final-cta .actions{margin-top:clamp(1.3rem,1.65vw,1.75rem);}
 }
 @media (max-width:41.99rem) {
-  .final-section.section{min-height:0;}
-  .final-section .wrap {
+  #final-cta.section{min-height:0;}
+  #final-cta .wrap {
     min-height:0;
     padding:clamp(3.5rem,7svh,6.75rem) var(--hero-gutter) clamp(2.6rem,6svh,4.5rem);
   }
-  .final-section .final-photo{object-position:60% center;}
-  .final-section::after {
+  #final-cta .final-photo{object-position:60% center;}
+  #final-cta::after {
     background:linear-gradient(to bottom,#0d0d0d36 0%,#0d0d0d9c 31%,#0d0d0dbd 62%,#0d0d0de2 100%);
   }
-  .final-section .heading{font-size:clamp(2.45rem,10.5vw,4.2rem);white-space:normal;}
-  .final-section .actions{flex-direction:column;align-items:stretch;width:min(100%,22rem);}
-  .final-section .actions .yf-final-button{width:100%;min-width:0;min-height:3.15rem;}
+  #final-cta .heading{font-size:clamp(2.45rem,10.5vw,4.2rem);white-space:normal;}
+  #final-cta .actions{flex-direction:column;align-items:stretch;width:min(100%,22rem);}
+  #final-cta .actions .yf-final-button{width:100%;min-width:0;min-height:3.15rem;}
 }
 @media (max-width:25rem) {
-  .final-section .heading{font-size:clamp(2.2rem,10.1vw,2.65rem);}
+  #final-cta .heading{font-size:clamp(2.2rem,10.1vw,2.65rem);}
 }
 @media (min-width:70rem) and (max-height:47rem) {
-  .final-section .wrap{gap:.3rem;padding-block:1.25rem;}
-  .final-section .heading{font-size:clamp(2.6rem,4vw,3.45rem);line-height:.97;}
-  .final-section .actions{margin-top:1rem;}
+  #final-cta .wrap{gap:.3rem;padding-block:1.25rem;}
+  #final-cta .heading{font-size:clamp(2.6rem,4vw,3.45rem);line-height:.97;}
+  #final-cta .actions{margin-top:1rem;}
 }
 @media (prefers-reduced-motion:reduce) {
-  .final-section .yf-final-button{transition:none;}
+  #final-cta .yf-final-button{transition:none;}
 }
