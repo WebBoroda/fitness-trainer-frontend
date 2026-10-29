@@ -304,10 +304,12 @@ html[data-theme="light"] #final-cta .yf-final-button-secondary .yf-final-circle 
 }
 @media (max-width:41.99rem) {
   html[data-theme="light"] #final-cta::after {
+    /* The three mobile feature labels sit at the bottom of a dark photograph:
+       keep a light, translucent tail behind them instead of fading to black. */
     background:linear-gradient(180deg,
       rgba(246,240,234,.94) 5%,
       rgba(246,240,234,.90) 42%,
-      rgba(246,240,234,.65) 72%,
-      transparent 95%);
+      rgba(246,240,234,.82) 72%,
+      rgba(246,240,234,.78) 100%);
   }
 }
