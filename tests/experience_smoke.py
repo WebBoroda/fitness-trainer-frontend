@@ -124,6 +124,7 @@ try:
                 assert geometry["content"]["bottom"] < geometry["features"]["top"]+4, (width,scheme,"closing copy/benefits overlap",geometry)
                 if width >= 1120:
                     assert geometry["section"]["height"] <= height + 2, (width,scheme,"closing exceeds viewport",geometry)
+                    assert geometry["features"]["bottom"] <= geometry["section"]["bottom"]-max(48,height*.08), (width,scheme,"closing benefits too low or clipped",geometry)
                     assert geometry["items"][0]["left"] < geometry["items"][1]["left"] < geometry["items"][2]["left"], (width,scheme,"closing benefits must run horizontally",geometry)
                     assert abs(geometry["photoWidth"]-width) <= 2, (width,scheme,"final photo must fill section as first hero",geometry)
                 elif width <= 670:
