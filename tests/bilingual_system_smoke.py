@@ -62,6 +62,21 @@ try:
                 contact_pill = page.locator(".yf-footer-info > .eyebrow").bounding_box()
                 brand = page.locator(".yf-footer-brand").bounding_box()
                 assert contact_pill and brand and contact_pill["y"]+contact_pill["height"]<=brand["y"]+2,(locale,width,"contact pill overlaps brand")
+                # On desktop both pills must share the same top edge and height;
+                # when the layout stacks, each pill stays above its content.
+                map_pill = page.locator(".yf-footer-map > .eyebrow").bounding_box()
+                map_box = page.locator(".yf-map-frame").bounding_box()
+                assert map_pill and map_box, (locale,width,"map label or frame missing")
+                assert abs(contact_pill["height"]-map_pill["height"])<=1, (locale,width,"different footer pill heights")
+                assert map_box["y"]>=map_pill["y"]+map_pill["height"],(locale,width,"map overlaps its pill")
+                if width > 1024:
+                    assert abs(contact_pill["y"]-map_pill["y"])<=1,(locale,width,"footer pills not on one horizontal line",contact_pill,map_pill)
+                    assert map_box["height"]<=302,(locale,width,"desktop map not compact",map_box)
+                elif width <= 624:
+                    assert 180<=map_box["height"]<=220,(locale,width,"mobile map proportions",map_box)
+                else:
+                    assert map_box["height"]<=230,(locale,width,"tablet map not compact",map_box)
+                assert map_box["width"]>0 and map_box["height"]>0,(locale,width,"collapsed map")
                 assert page.locator(".fhero-curve").count()==1,(locale,width,"curved video-to-handwriting arrow missing")
                 assert page.locator(".fhero-curve").is_visible(),(locale,width,"curved arrow must remain visible")
                 note = page.locator(".fhero-handwrite")
