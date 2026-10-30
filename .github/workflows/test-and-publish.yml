@@ -31,14 +31,14 @@ jobs:
           else
             python -m playwright install --with-deps chromium
           fi
+      - name: Verify accessibility basics, focus, interactions and text contrast
+        run: python tests/accessibility_smoke.py
       - name: Verify reference geometry and responsive interactions
         run: python tests/smoke.py
       - name: Verify full-page frontend interactions
         run: python tests/experience_smoke.py
       - name: Verify bilingual device detection, persistence, contact footer and CTA geometry
         run: python tests/bilingual_system_smoke.py
-      - name: Verify accessibility basics, focus, interactions and text contrast
-        run: python tests/accessibility_smoke.py
       - name: Verify light-theme surfaces and dark-theme isolation
         run: python tests/light_theme_smoke.py
       - name: Check third-screen card photos and alignment
