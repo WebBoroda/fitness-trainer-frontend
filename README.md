@@ -63,3 +63,10 @@ python tests/experience_smoke.py
 ```
 
 The bilingual test checks first-visit language detection, persistent UA/EN switching, translated dynamic dialogs, working layout of CTA arrows, map/social rendering and captures mobile/tablet/desktop screenshots in both languages. CI gates publishing on these checks; this does not replace pixel-diff validation against a design source.
+
+
+## Premium Motion (2026-10-30)
+
+`assets/css/premium-motion.css` and `assets/js/premium-motion.js` add a quiet 24-second hero-photo zoom, stepped card reveals, bounded desktop portrait parallax, CTA arrow feedback, FAQ entry and accessible dialog entrances. Approved content/layout and existing carousel interactions are unchanged. Effects are opt-in: without JavaScript, with reduced-motion preference or data-saver, content stays visible and usable.
+
+Regression check: `python tests/premium_motion_smoke.py` (in GitHub Actions before Pages deployment).

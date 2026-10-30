@@ -1,0 +1,112 @@
+/* Premium Motion: presentational movement only. No changes to the approved layout.
+   This stylesheet is last so interaction effects are consistent across themes. */
+:root {
+  --yf-motion-ease: cubic-bezier(.22, 1, .36, 1);
+  --yf-motion-distance: 14px;
+  --yf-motion-duration: 660ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The source photo keeps its original position, dimensions and focal point.
+     A tiny, slow scale introduces depth without altering the hero layout. */
+  .hero.fhero .fhero-photo {
+    animation: yf-motion-hero-breathe 24s ease-out both;
+    transform-origin: 50% 40%;
+  }
+  .yf-motion-paused .hero.fhero .fhero-photo { animation-play-state: paused; }
+  @keyframes yf-motion-hero-breathe {
+    from { transform: scale(1); }
+    to { transform: scale(1.018); }
+  }
+
+  /* Hero copy already enters line by line in experience.css. Complete that
+     sequence with its eyebrow and supporting details. Opacity does not move
+     the measured glass panels or their actionable hit areas. */
+  .hero.fhero .fhero-eyebrow {
+    animation: yf-motion-soft-arrive 600ms 80ms var(--yf-motion-ease) both;
+  }
+  .hero.fhero .fhero-audience {
+    animation: yf-motion-soft-arrive 700ms 410ms var(--yf-motion-ease) both;
+  }
+  .hero.fhero .fhero-stats {
+    animation: yf-motion-soft-arrive 700ms 500ms var(--yf-motion-ease) both;
+  }
+  .hero.fhero .fhero-features {
+    animation: yf-motion-soft-arrive 700ms 600ms var(--yf-motion-ease) both;
+  }
+  @keyframes yf-motion-soft-arrive {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* JS applies this opt-in class only after the observer is ready. All
+     elements stay visible with JS disabled or reduced motion enabled. */
+  .yf-motion-item {
+    opacity: 0;
+    translate: 0 var(--yf-motion-distance);
+    transition: opacity var(--yf-motion-duration) var(--yf-motion-ease),
+                translate var(--yf-motion-duration) var(--yf-motion-ease);
+    transition-delay: var(--yf-motion-delay, 0ms);
+  }
+  .yf-motion-item.yf-motion-visible {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  /* Photo parallax stays inside the existing rounded portrait frame.
+     Its amplitude is capped in JS, avoiding revealing unpainted edges. */
+  @media (min-width: 768px) {
+    #about .yf-about-media .yf-motion-portrait {
+      transform: translate3d(0, var(--yf-motion-parallax, 0px), 0) scale(1.055);
+      transition: none;
+    }
+    #about .yf-about-media:hover .yf-motion-portrait {
+      transform: translate3d(0, var(--yf-motion-parallax, 0px), 0) scale(1.07);
+    }
+  }
+
+  /* Refined feedback on existing CTAs, without shifting their clickable box. */
+  .fhero-button .fhero-cta-circle svg,
+  .fhero-header-cta .fhero-cta-circle svg,
+  .section .btn .yf-arrow-svg,
+  .yf-footer .btn .yf-arrow-svg {
+    transition: transform 320ms var(--yf-motion-ease);
+  }
+  .fhero-button:hover .fhero-cta-circle svg,
+  .fhero-button:focus-visible .fhero-cta-circle svg,
+  .fhero-header-cta:hover .fhero-cta-circle svg,
+  .section .btn:hover .yf-arrow-svg,
+  .section .btn:focus-visible .yf-arrow-svg,
+  .yf-footer .btn:hover .yf-arrow-svg {
+    transform: translateX(3px);
+  }
+  .fhero-button:active .fhero-cta-circle,
+  .section .btn:active .arrow { scale: .94; }
+  .fhero-button .fhero-cta-circle,
+  .section .btn .arrow { transition: scale 190ms var(--yf-motion-ease); }
+
+  /* Native details stay native: only their revealed content animates. */
+  #faq .faq-list details[open] > p {
+    animation: yf-motion-answer-in 340ms var(--yf-motion-ease) both;
+  }
+  @keyframes yf-motion-answer-in {
+    from { opacity: .1; translate: 0 -5px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+
+  /* Existing gallery transitions and lightbox keyboard controls remain intact. */
+  .yf-gallery-modal[open],
+  .yf-consultation-modal[open],
+  #yf-about-details[open] {
+    animation: yf-motion-dialog-in 360ms var(--yf-motion-ease) both;
+  }
+  @keyframes yf-motion-dialog-in {
+    from { opacity: .65; scale: .985; }
+    to { opacity: 1; scale: 1; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yf-motion-item { opacity: 1 !important; translate: none !important; transition: none !important; }
+  #about .yf-about-media .yf-motion-portrait { transform: none !important; }
+}
