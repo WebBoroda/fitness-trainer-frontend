@@ -124,15 +124,15 @@ try:
                 if width > 670 or scheme == "dark":
                     assert "transparent" in curve or "rgba(0,0,0,0)" in curve, (width,scheme,"photo gradient must fade out",curve)
                 if width > 670:
-                    expected_tint = "rgba(246,240,234,0.92)" if scheme=="light" else "rgba(18,18,16,0.77)"
-                    expected_end = "85%" if scheme=="light" else "75%"
+                    expected_tint = "rgba(246,240,234,0.7)" if scheme=="light" else "rgba(18,18,16,0.77)"
+                    expected_end = "62%" if scheme=="light" else "75%"
                     assert expected_tint in curve and expected_end in curve, (width,scheme,"wrong photo-studio reference gradient strength",curve)
                     assert "90deg" in curve and "180deg" not in curve, (width,scheme,"desktop gradient must be horizontal",curve)
                 else:
-                    expected_tint = "rgba(246,240,234,0.94)" if scheme=="light" else "rgba(18,18,16,0.91)"
+                    expected_tint = "rgba(246,240,234,0.72)" if scheme=="light" else "rgba(18,18,16,0.91)"
                     assert expected_tint in curve and "90deg" not in curve, (width,scheme,"mobile gradient strength or direction",curve)
                     if scheme == "light":
-                        assert "rgba(246,240,234,0.78)100%" in curve, (width,scheme,"mobile feature text loses light backdrop",curve)
+                        assert "rgba(246,240,234,0.6)100%" in curve, (width,scheme,"mobile feature text loses light backdrop",curve)
                 # No opaque matte over the image in any theme.
                 assert "rgb(18,18,16)49%" not in curve and "#121210" not in curve, (width,scheme,"legacy solid veil remains",curve)
                 assert closing.locator(".final-benefits li").count() == 3, (width, "closing advantages")
