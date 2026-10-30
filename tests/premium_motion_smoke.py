@@ -31,6 +31,7 @@ try:
             page.on('pageerror', lambda error: errors.append(str(error)))
             page.add_init_script("localStorage.setItem('fitness-theme','dark');localStorage.setItem('yuliia-language','uk')")
             page.goto(URL, wait_until='domcontentloaded', timeout=45000)
+            page.locator('.fhero-photo').scroll_into_view_if_needed(timeout=5000)
             page.wait_for_function("document.querySelectorAll('.yf-motion-item').length >= 14")
             assert page.locator('#formats .yf-motion-item').count() == 4, width
             assert page.locator('#reviews .yf-motion-item').count() == 3, width

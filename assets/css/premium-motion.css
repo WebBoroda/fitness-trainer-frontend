@@ -7,16 +7,17 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* The source photo keeps its original position, dimensions and focal point.
-     A tiny, slow scale introduces depth without altering the hero layout. */
+  /* Animate the sampled image crop, not the DOM box: the visual depth is
+     subtle and Playwright/keyboard scrolling still sees stable geometry.
+     object-view-box is an optional enhancement; a brightness shift remains
+     when the property is unavailable. */
   .hero.fhero .fhero-photo {
     animation: yf-motion-hero-breathe 24s ease-out both;
-    transform-origin: 50% 40%;
   }
   .yf-motion-paused .hero.fhero .fhero-photo { animation-play-state: paused; }
   @keyframes yf-motion-hero-breathe {
-    from { transform: scale(1); }
-    to { transform: scale(1.018); }
+    from { object-view-box: inset(0%); filter: brightness(1); }
+    to { object-view-box: inset(1.2%); filter: brightness(1.018); }
   }
 
   /* Hero copy already enters line by line in experience.css. Complete that
