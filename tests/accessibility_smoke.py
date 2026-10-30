@@ -30,7 +30,7 @@ try:
                 page.keyboard.press("Tab")
                 assert page.evaluate("document.activeElement.classList.contains('skip-link')"),(width,theme,"skip link not first focus")
                 page.keyboard.press("Enter")
-                assert page.evaluate("document.activeElement.id == 'main-content' or location.hash == '#main-content'"),(width,theme,"skip link inaccessible")
+                assert page.evaluate("document.activeElement.id === 'main-content' || location.hash === '#main-content'"),(width,theme,"skip link inaccessible")
                 assert page.locator("main h1").count()==1,(width,theme,"main H1")
                 assert page.locator("html").get_attribute("lang")=="uk",(width,theme,"document language")
                 assert page.locator("#reviews .yf-demo-review-note").is_visible(),(width,theme,"demo reviews not disclosed")
