@@ -51,7 +51,7 @@ try:
                 assert all(v["height"]>=24 and v["width"]>=24 for v in sizing),(width,theme,"target below 24px",sizing)
                 contrast=page.evaluate("""() => {
                   const lum=rgb => {
-                    const c=rgb.match(/[\\d.]+/g).slice(0,3).map(Number)
+                    const c=rgb.match(/[0-9.]+/g).slice(0,3).map(Number)
                       .map(v=>{v=v/255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4});
                     return c[0]*.2126+c[1]*.7152+c[2]*.0722;
                   };
