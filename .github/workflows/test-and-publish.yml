@@ -31,6 +31,8 @@ jobs:
           else
             python -m playwright install --with-deps chromium
           fi
+      - name: Verify Premium Motion, parallax and reduced-motion fallback
+        run: python tests/premium_motion_smoke.py
       - name: Verify accessibility basics, focus, interactions and text contrast
         run: python tests/accessibility_smoke.py
       - name: Verify reference geometry and responsive interactions
@@ -45,8 +47,6 @@ jobs:
         run: python tests/formats_cards_smoke.py
       - name: Enforce visual-layout gate before deployment
         run: python tests/hero_visual_audit.py
-      - name: Verify Premium Motion, parallax and reduced-motion fallback
-        run: python tests/premium_motion_smoke.py
       - name: Store test screenshots
         if: always()
         uses: actions/upload-artifact@v4
