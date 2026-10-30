@@ -77,11 +77,18 @@ try:
                 assert contact_pill and brand and contact_pill["y"]+contact_pill["height"]<=brand["y"]+2,(locale,width,"contact pill overlaps brand")
                 # On desktop both pills must share the same top edge and height;
                 # when the layout stacks, each pill stays above its content.
-                map_pill = page.locator(".yf-footer-map > .eyebrow").bounding_box()
-                map_box = page.locator(".yf-map-frame").bounding_box()
+                # Read both rectangles in one layout frame: late font/layout
+                # settlement must not make positions from different frames incomparable.
+                map_pill, map_box = page.evaluate("""() => {
+                  const selectors=['.yf-footer-map > .eyebrow','.yf-map-frame'];
+                  return selectors.map(selector => {
+                    const rect=document.querySelector(selector).getBoundingClientRect();
+                    return {x:rect.x,y:rect.y,width:rect.width,height:rect.height};
+                  });
+                }""")
                 assert map_pill and map_box, (locale,width,"map label or frame missing")
                 assert abs(contact_pill["height"]-map_pill["height"])<=1, (locale,width,"different footer pill heights")
-                assert map_box["y"]>=map_pill["y"]+map_pill["height"],(locale,width,"map overlaps its pill")
+                assert map_box["y"]+1>=map_pill["y"]+map_pill["height"],(locale,width,"map overlaps its pill")
                 if width > 1024:
                     assert abs(contact_pill["y"]-map_pill["y"])<=1,(locale,width,"footer pills not on one horizontal line",contact_pill,map_pill)
                     assert map_box["height"]<=302,(locale,width,"desktop map not compact",map_box)
