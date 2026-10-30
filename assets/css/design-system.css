@@ -1170,3 +1170,33 @@ html[data-theme] :is(
 ):hover {
   background: var(--yf-cta-secondary-hover);
 }
+
+/* Consistent section spacing and typography; cinematic stages are exempt. */
+html[data-theme] :is(#mission,#formats,#studio,#about,#nutrition,#results,#reviews,#pricing,#faq).section {
+  padding-block: var(--yf-section-space);
+}
+/* Fit the editorial About composition within short laptop viewports. */
+@media (min-width: 62rem) and (max-height: 800px) {
+  html[data-theme] #about.yf-about { padding-block: clamp(1.3rem,3vh,2.8rem); }
+}
+html[data-theme] #mission .intro .eyebrow + .heading { margin-top: 0; }
+html[data-theme] :is(#mission,#formats,#studio,#about,#nutrition,#results,#reviews,#pricing,#faq) .eyebrow {
+  margin-bottom: var(--yf-space-3);
+}
+html[data-theme] #about .yf-about-kicker,
+html[data-theme] #nutrition .nutrition-copy .eyebrow { margin-bottom: var(--yf-space-3); }
+html[data-theme] :is(#studio,#nutrition,#about) :is(.heading,.yf-about-heading) {
+  margin-bottom: var(--yf-space-4);
+}
+html[data-theme] #studio .studio-layout > .reveal > p,
+html[data-theme] #nutrition .nutrition-copy > p,
+html[data-theme] #formats .program-top .copy > p,
+html[data-theme] #mission .intro .lead { margin-bottom: var(--yf-space-4); }
+html[data-theme] #mission .intro .btn.fill { margin-top: 0; }
+html[data-theme] #about .yf-about-action { margin-top: var(--yf-space-4); }
+html[data-theme] .section .eyebrow { font-size: clamp(.75rem,.85vw,.8rem); }
+html[data-theme] .section .btn { font-size: clamp(.875rem,1vw,.95rem); }
+html[data-theme] #formats .program-card p,
+html[data-theme] #reviews .review p { font-size: clamp(.8125rem,.95vw,.93rem); }
+html[data-theme] .yf-footer .yf-footer-top { padding-block: var(--yf-section-space); }
+html[data-theme] :is(#faq .faq-list summary,.yf-footer .yf-footer-bottom .btn) { min-height: 2.75rem; }

@@ -35,6 +35,23 @@
     });
   });
 
+  // Explanatory CTAs operate on the relevant content, not unrelated sections.
+  $('[data-results-next]')?.addEventListener('click', event => {
+    event.preventDefault();
+    const track = byId('results-track');
+    const next = $('#results .yf-carousel-controls button:last-child');
+    if (next && !next.disabled) next.click();
+    else track?.scrollIntoView({ behavior: motion(), block: 'center' });
+    track?.focus({ preventScroll: true });
+  });
+  $('[data-faq-open]')?.addEventListener('click', event => {
+    event.preventDefault();
+    const first = faqs[0];
+    if (!first) return;
+    first.open = true;
+    first.querySelector('summary')?.focus({ preventScroll: true });
+    first.scrollIntoView({ behavior: motion(), block: 'start' });
+  });
   // All circular actions share a font-independent vector arrow.
   const arrowIcon = direction => '<svg class="yf-arrow-svg' +
     (direction < 0 ? ' yf-arrow-svg--left' : '') +

@@ -50,6 +50,19 @@ try:
                 assert page.locator("main > section").count()==11,(locale,width,"missing sections")
                 assert page.locator("#yf-socials .yf-social-link").count()==7,(locale,width,"social icons")
                 assert page.locator("#yf-map").count()==1,(locale,width,"map missing")
+                pads = page.evaluate("""() => ['mission','formats','studio','about','nutrition','results','reviews','pricing','faq']
+                  .map(id => {
+                    const st = getComputedStyle(document.getElementById(id));
+                    return {id,top:parseFloat(st.paddingTop),bottom:parseFloat(st.paddingBottom)};
+                  })""")
+                assert all(abs(x['top']-x['bottom']) < 1 for x in pads), (locale,width,"asymmetric section padding",pads)
+                shared = [x for x in pads if x['id'] != 'about' or height > 800 or width < 992]
+                assert max(x['top'] for x in shared)-min(x['top'] for x in shared) < 2, (locale,width,"inconsistent section spacing",pads)
+                assert page.locator('[data-results-next]').get_attribute('href') == '#results-track', (locale,width,"wrong results CTA")
+                assert page.locator('#reviews .btn').get_attribute('href') == '#reviews-list', (locale,width,"wrong reviews CTA")
+                assert page.locator('[data-faq-open]').get_attribute('href') == '#faq-list', (locale,width,"wrong FAQ CTA")
+                assert page.locator('link[rel="canonical"]').count() == 1, (locale,width,"canonical missing")
+                assert page.locator('script[type="application/ld+json"]').count() == 1, (locale,width,"structured data missing")
                 route = page.locator("#yf-directions")
                 assert route.get_attribute("aria-disabled") is None,(locale,width,"route remains disabled")
                 assert "google.com/maps/dir/" in (route.get_attribute("href") or ""),(locale,width,"route URL missing")
