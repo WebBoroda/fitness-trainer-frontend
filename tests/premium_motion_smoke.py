@@ -51,9 +51,10 @@ try:
             if width >= 768:
                 page.locator('#about .yf-about-media').scroll_into_view_if_needed()
                 page.wait_for_function("document.querySelector('#about .yf-about-media img').classList.contains('yf-motion-portrait')")
-                assert page.locator('#about .yf-about-media').evaluate(
-                    "el => !!el.style.getPropertyValue('--yf-motion-parallax')"
-                ), (width, 'portrait parallax not updated')
+                page.wait_for_function(
+                    "!!document.querySelector('#about .yf-about-media')?.style.getPropertyValue('--yf-motion-parallax')",
+                    timeout=5000
+                )
             assert page.evaluate('document.documentElement.scrollWidth - document.documentElement.clientWidth') <= 3, (width, 'overflow')
             assert not errors, (width, errors)
             page.close()
