@@ -15,6 +15,15 @@
   --yf-button-gap: .75rem;
   --yf-heading-tracking-boost: .1rem;
   --yf-pill-radius: 999rem;
+  /* Common CTA finishes; accent is identical in every section and theme. */
+  --yf-cta-primary-fill: linear-gradient(125deg, #faecdf, #f1d2ba);
+  --yf-cta-primary-hover: linear-gradient(125deg, #fff3e9, #f5dcc8);
+  --yf-cta-primary-edge: #d4b294;
+  --yf-cta-primary-ink: #181514;
+  --yf-cta-secondary-fill: linear-gradient(135deg, rgba(255,255,255,.11), rgba(21,18,17,.12));
+  --yf-cta-secondary-hover: linear-gradient(135deg, rgba(255,255,255,.18), rgba(21,18,17,.14));
+  --yf-cta-secondary-edge: rgba(255,255,255,.76);
+  --yf-cta-secondary-ink: #fff;
 }
 .section { padding-block: var(--yf-section-space); }
 .section .heading {
@@ -1057,3 +1066,107 @@ html[data-theme="light"] .yf-footer .btn.outline {
   border-color: #746559;
 }
 
+
+/* Consistent inter-word rhythm without altering the approved letter spacing. */
+html[data-theme] :is(
+  .hero.fhero h1.fhero-title,
+  .section h2.heading,
+  #about h2.yf-about-heading,
+  #final-cta h2.heading,
+  .yf-consultation-form h2,
+  .yf-about-dialog h2
+) {
+  word-spacing: .115em;
+}
+html[data-theme] .section h3 { word-spacing: .05em; }
+
+/* Button type defines the finish; surrounding light/dark surfaces define
+   only the secondary button's contrast, not a different component design. */
+:is(#mission, #studio, #about, #nutrition, #reviews, #faq) {
+  --yf-cta-secondary-fill: linear-gradient(135deg, rgba(255,255,255,.84), rgba(247,235,226,.58));
+  --yf-cta-secondary-hover: linear-gradient(135deg, rgba(255,255,255,.96), rgba(247,235,226,.72));
+  --yf-cta-secondary-edge: #786759;
+  --yf-cta-secondary-ink: #1b1715;
+}
+html[data-theme="dark"] :is(#studio, #about, #nutrition, #reviews, #faq) {
+  --yf-cta-secondary-fill: linear-gradient(135deg, rgba(255,255,255,.11), rgba(21,18,17,.12));
+  --yf-cta-secondary-hover: linear-gradient(135deg, rgba(255,255,255,.18), rgba(21,18,17,.14));
+  --yf-cta-secondary-edge: rgba(255,255,255,.76);
+  --yf-cta-secondary-ink: #fff;
+}
+html[data-theme="light"] :is(#formats, #results, #pricing, #final-cta, .yf-footer, .hero.fhero) {
+  --yf-cta-secondary-fill: linear-gradient(135deg, rgba(255,255,255,.84), rgba(247,235,226,.58));
+  --yf-cta-secondary-hover: linear-gradient(135deg, rgba(255,255,255,.96), rgba(247,235,226,.72));
+  --yf-cta-secondary-edge: #786759;
+  --yf-cta-secondary-ink: #1b1715;
+}
+
+/* Match all primary actions, including modal actions, without modifying their
+   padding or icon geometry. */
+html[data-theme] :is(
+  #mission .btn.fill,
+  .section .btn.fill,
+  .yf-consultation-form .btn.fill,
+  .yf-about-dialog .btn.fill,
+  .yf-footer .btn.fill,
+  .hero.fhero .fhero-header-cta,
+  .hero.fhero .fhero-button-primary,
+  #final-cta .yf-final-button-primary
+) {
+  background: var(--yf-cta-primary-fill);
+  border: 1px solid var(--yf-cta-primary-edge);
+  border-radius: var(--yf-pill-radius);
+  color: var(--yf-cta-primary-ink);
+}
+html[data-theme] :is(
+  #mission .btn.fill,
+  .section .btn.fill,
+  .yf-consultation-form .btn.fill,
+  .yf-about-dialog .btn.fill,
+  .yf-footer .btn.fill,
+  .hero.fhero .fhero-header-cta,
+  .hero.fhero .fhero-button-primary,
+  #final-cta .yf-final-button-primary
+):hover {
+  background: var(--yf-cta-primary-hover);
+}
+html[data-theme] #pricing .price .price-action {
+  background: var(--yf-cta-primary-fill);
+  border: 1px solid var(--yf-cta-primary-edge);
+  color: var(--yf-cta-primary-ink);
+}
+html[data-theme] #pricing .price .price-action:hover {
+  background: var(--yf-cta-primary-hover);
+}
+
+/* All secondary actions share the same edge and fill within the active
+   surface mode; explicit contrast tokens keep light/dark text readable. */
+html[data-theme] :is(
+  #formats .btn.outline,
+  #results .btn.outline,
+  #reviews .btn.outline,
+  #faq .btn.outline,
+  .section .btn.outline,
+  .yf-footer .btn.outline,
+  .hero.fhero .fhero-button-secondary,
+  #final-cta .yf-final-button-secondary
+) {
+  background: var(--yf-cta-secondary-fill);
+  border: 1px solid var(--yf-cta-secondary-edge);
+  border-radius: var(--yf-pill-radius);
+  color: var(--yf-cta-secondary-ink);
+  -webkit-backdrop-filter: blur(.5rem);
+  backdrop-filter: blur(.5rem);
+}
+html[data-theme] :is(
+  #formats .btn.outline,
+  #results .btn.outline,
+  #reviews .btn.outline,
+  #faq .btn.outline,
+  .section .btn.outline,
+  .yf-footer .btn.outline,
+  .hero.fhero .fhero-button-secondary,
+  #final-cta .yf-final-button-secondary
+):hover {
+  background: var(--yf-cta-secondary-hover);
+}

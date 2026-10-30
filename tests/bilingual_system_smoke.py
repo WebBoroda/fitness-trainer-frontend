@@ -92,6 +92,42 @@ try:
                 assert abs(padding["left"]-padding["right"])<=.5,(locale,width,"unequal back-to-top padding",padding)
                 assert padding["left"]>=15 and padding["right"]>=15,(locale,width,"insufficient back-to-top padding",padding)
                 assert padding["height"]>=43,(locale,width,"back-to-top tap target too short",padding)
+                # One inter-word rhythm for all major headings. All primary
+                # buttons have identical fill/edge; secondary variants only
+                # differ between light and dark surfaces for contrast.
+                style_audit = page.evaluate("""() => {
+                    const headings = [...document.querySelectorAll(
+                      '.hero.fhero h1.fhero-title, .section h2.heading, #about h2.yf-about-heading, #final-cta h2.heading'
+                    )];
+                    const primary = [...document.querySelectorAll(
+                      '.section .btn.fill, .yf-consultation-form .btn.fill, .yf-about-dialog .btn.fill, .yf-footer .btn.fill, .fhero-header-cta, .fhero-button-primary, #final-cta .yf-final-button-primary, #pricing .price .price-action'
+                    )];
+                    const secondary = [...document.querySelectorAll(
+                      '.section .btn.outline, .yf-footer .btn.outline, .fhero-button-secondary, #final-cta .yf-final-button-secondary'
+                    )];
+                    const finish = el => {
+                        const s = getComputedStyle(el);
+                        return [s.backgroundImage, s.borderTopColor, s.borderTopWidth, s.borderTopStyle].join('|');
+                    };
+                    return {
+                        headingSpaces: headings.map(el => getComputedStyle(el).wordSpacing),
+                        primaryFinishes: [...new Set(primary.map(finish))],
+                        secondaryFinishes: [...new Set(secondary.map(finish))],
+                        primaryCount: primary.length,
+                        secondaryCount: secondary.length
+                    };
+                }""")
+                assert style_audit["headingSpaces"] and all(
+                    float(v.removesuffix("px")) >= 2 for v in style_audit["headingSpaces"]
+                ), (locale,width,"unclear word spacing in headings",style_audit["headingSpaces"])
+                assert style_audit["primaryCount"]>=12 and len(style_audit["primaryFinishes"])==1,(
+                    locale,width,"primary CTA fills/borders are inconsistent",style_audit)
+                assert "|1px|solid" in style_audit["primaryFinishes"][0],(
+                    locale,width,"primary border missing",style_audit)
+                assert style_audit["secondaryCount"]>=5 and len(style_audit["secondaryFinishes"])<=2,(
+                    locale,width,"secondary CTA finishes inconsistent",style_audit)
+                assert all("|1px|solid" in f for f in style_audit["secondaryFinishes"]),(
+                    locale,width,"secondary border missing",style_audit)
                 assert page.locator(".fhero-curve").count()==1,(locale,width,"curved video-to-handwriting arrow missing")
                 assert page.locator(".fhero-curve").is_visible(),(locale,width,"curved arrow must remain visible")
                 note = page.locator(".fhero-handwrite")
