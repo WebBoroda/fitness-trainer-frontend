@@ -36,10 +36,10 @@
   z-index:-1;
   pointer-events:none;
   background:linear-gradient(90deg,
-    rgba(18,18,16,.77) 0%,
-    rgba(18,18,16,.61) 29%,
-    rgba(18,18,16,.18) 62%,
-    transparent 75%);
+    rgba(18,18,16,.62) 0%,
+    rgba(18,18,16,.48) 22%,
+    rgba(18,18,16,.22) 34%,
+    transparent 45%);
 }
 #final-cta .wrap {
   position:relative;
@@ -253,10 +253,10 @@
 @media (max-width:41.99rem) {
   #final-cta::after {
     background:linear-gradient(180deg,
-      rgba(18,18,16,.91) 5%,
-      rgba(18,18,16,.80) 42%,
-      rgba(18,18,16,.24) 72%,
-      transparent 90%);
+      rgba(18,18,16,.76) 5%,
+      rgba(18,18,16,.62) 35%,
+      rgba(18,18,16,.24) 58%,
+      transparent 74%);
   }
 }
 
