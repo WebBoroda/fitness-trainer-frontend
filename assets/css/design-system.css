@@ -1200,3 +1200,23 @@ html[data-theme] #formats .program-card p,
 html[data-theme] #reviews .review p { font-size: clamp(.8125rem,.95vw,.93rem); }
 html[data-theme] .yf-footer .yf-footer-top { padding-block: var(--yf-section-space); }
 html[data-theme] :is(#faq .faq-list summary,.yf-footer .yf-footer-bottom .btn) { min-height: 2.75rem; }
+
+/* Visible, non-intrusive disclaimers for sample-only social proof. */
+.hero.fhero .fhero-stats { position: relative; }
+.hero.fhero .fhero-stats > .yf-demo-flag {
+  position: absolute;
+  inset-block-start: .22rem;
+  inset-inline-end: .4rem;
+  font-size: .625rem;
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: .03em;
+  opacity: .85;
+  pointer-events: none;
+}
+html[data-theme] #reviews .yf-demo-review-note {
+  margin: 0 0 var(--yf-space-3);
+  font-size: .8125rem;
+  line-height: 1.45;
+  max-width: 42ch;
+}

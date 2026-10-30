@@ -264,6 +264,8 @@ window.YF_ENGLISH = {
   "Демонстраційні відгуки — потребують підтвердження": "Demo reviews — unverified",
   "Демонстраційні ціни — потребують підтвердження": "Demo prices — unverified",
   "Демонстраційні показники — потребують підтвердження": "Demo statistics — unverified",
+  "Демонстраційні відгуки — потребують підтвердження.": "Demo reviews — unverified.",
+  "Демо": "Demo",
   "Демонстраційна локація": "Demonstration location",
   "Тема:": "Theme:",
   "світла": "light",
