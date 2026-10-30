@@ -260,21 +260,25 @@
   }
 }
 
-/* Light: adapt the photo-studio reference's visible brightness and fade to
-   this MUCH darker source image. A 30% overlay made the black text unreadable.
-   The stronger cream fade still becomes fully transparent over the model. */
+/* Light: shorter, more transparent overlay than the previous 92%/85% wash.
+   The actual gym photo is almost black on the left; moderate cream under
+   text is needed for contrast without bleaching the trainer on the right. */
 html[data-theme="light"] #final-cta {
   --hero-subtle:#49413a;
   background:#f6f0ea;
   color:#1b1715;
 }
 html[data-theme="light"] #final-cta::after {
-  background:linear-gradient(90deg,
-    rgba(246,240,234,.92) 0%,
-    rgba(246,240,234,.88) 28%,
-    rgba(246,240,234,.76) 51%,
-    rgba(246,240,234,.22) 75%,
-    transparent 85%);
+  background:
+    linear-gradient(90deg,
+      rgba(246,240,234,.70) 0%,
+      rgba(246,240,234,.65) 29%,
+      rgba(246,240,234,.58) 40%,
+      rgba(246,240,234,.30) 50%,
+      transparent 62%),
+    linear-gradient(0deg,
+      rgba(246,240,234,.56) 0%,
+      transparent 20%);
 }
 html[data-theme="light"] #final-cta .heading {color:#1b1715;}
 html[data-theme="light"] #final-cta .heading span {color:#514139;}
@@ -283,10 +287,10 @@ html[data-theme="light"] #final-cta .eyebrow.dark-pill {
   background:rgba(249,236,225,.78);
   border-color:rgba(87,69,58,.25);
 }
-html[data-theme="light"] #final-cta .final-content>p {color:var(--hero-subtle);}
+html[data-theme="light"] #final-cta .final-content>p {color:#26211e;}
 html[data-theme="light"] #final-cta .final-benefits li,
 html[data-theme="light"] #final-cta .final-benefits strong {color:#1b1715;}
-html[data-theme="light"] #final-cta .final-benefits small {color:var(--hero-subtle);}
+html[data-theme="light"] #final-cta .final-benefits small {color:#29231f;}
 html[data-theme="light"] #final-cta .final-benefit-icon {
   color:#241d18;
   border-color:rgba(87,69,58,.36);
@@ -304,12 +308,12 @@ html[data-theme="light"] #final-cta .yf-final-button-secondary .yf-final-circle 
 }
 @media (max-width:41.99rem) {
   html[data-theme="light"] #final-cta::after {
-    /* The three mobile feature labels sit at the bottom of a dark photograph:
-       keep a light, translucent tail behind them instead of fading to black. */
+    /* Mobile: translucent photo treatment, only a soft light tail under
+       the three feature labels; avoid the former nearly opaque cream veil. */
     background:linear-gradient(180deg,
-      rgba(246,240,234,.94) 5%,
-      rgba(246,240,234,.90) 42%,
-      rgba(246,240,234,.82) 72%,
-      rgba(246,240,234,.78) 100%);
+      rgba(246,240,234,.72) 5%,
+      rgba(246,240,234,.68) 42%,
+      rgba(246,240,234,.55) 72%,
+      rgba(246,240,234,.60) 100%);
   }
 }
