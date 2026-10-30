@@ -463,6 +463,16 @@ a.yf-social-link:hover { background: #efd8c6; border-color: #efd8c6; color: #191
 .yf-footer-bottom .footer-links { display: flex; flex-wrap: wrap; gap: var(--yf-space-2) var(--yf-space-4); }
 .yf-footer-bottom .yf-copyright { margin-inline: auto; opacity: .68; font-size: .78rem; }
 .yf-footer-bottom .btn { margin-inline-start: auto; }
+/* A text-only back-to-top button needs balanced end padding; CTA buttons with
+   icon circles deliberately retain their smaller end padding. */
+.yf-footer .yf-footer-bottom > .btn.outline {
+  padding-inline: var(--yf-button-pad-start);
+}
+@media (max-width: 42rem) {
+  .yf-footer .yf-footer-bottom > .btn.outline {
+    padding-inline: var(--yf-space-3);
+  }
+}
 @media (max-width: 64rem) {
   .yf-footer .yf-footer-top { grid-template-columns: minmax(0,1fr); gap: var(--yf-space-5); }
   .yf-footer .yf-footer-map { max-width: min(100%, 42rem); }

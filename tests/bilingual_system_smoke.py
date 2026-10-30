@@ -77,6 +77,21 @@ try:
                 else:
                     assert map_box["height"]<=230,(locale,width,"tablet map not compact",map_box)
                 assert map_box["width"]>0 and map_box["height"]>0,(locale,width,"collapsed map")
+                # The text-only return-to-top link must not inherit the
+                # compact right padding reserved for CTAs with round icons.
+                back_top = page.locator(".yf-footer-bottom > a.btn.outline")
+                assert back_top.get_attribute("href")=="#top",(locale,width,"back-to-top target changed")
+                padding = back_top.evaluate("""el => {
+                    const css = getComputedStyle(el);
+                    return {
+                        left: parseFloat(css.paddingLeft),
+                        right: parseFloat(css.paddingRight),
+                        height: el.getBoundingClientRect().height
+                    };
+                }""")
+                assert abs(padding["left"]-padding["right"])<=.5,(locale,width,"unequal back-to-top padding",padding)
+                assert padding["left"]>=15 and padding["right"]>=15,(locale,width,"insufficient back-to-top padding",padding)
+                assert padding["height"]>=43,(locale,width,"back-to-top tap target too short",padding)
                 assert page.locator(".fhero-curve").count()==1,(locale,width,"curved video-to-handwriting arrow missing")
                 assert page.locator(".fhero-curve").is_visible(),(locale,width,"curved arrow must remain visible")
                 note = page.locator(".fhero-handwrite")
