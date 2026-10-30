@@ -11,13 +11,8 @@
   if (typeof location.venueName === 'string') name.textContent = location.venueName;
   if (typeof location.address === 'string') address.textContent = location.address;
   const isDemo = location.isDemo !== false;
-  const notice = $('#yf-location-notice');
-  if (!isDemo && notice) notice.hidden = true;
-  const mapDemoBadge = $('.yf-map-badge'), routeNote = $('.yf-map-bottom .yf-demo-caption');
-  if (!isDemo) {
-    if (mapDemoBadge) mapDemoBadge.hidden = true;
-    if (routeNote) routeNote.hidden = true;
-  }
+  const mapDemoBadge = $('.yf-map-badge');
+  if (mapDemoBadge) mapDemoBadge.hidden = !isDemo;
   $('.yf-year').textContent = String(new Date().getFullYear());
 
   const icons = {
@@ -46,7 +41,6 @@
       element.rel = 'noopener noreferrer';
     } else {
       element.setAttribute('aria-disabled', 'true');
-      element.title = 'Соцмережі стануть активними після додавання посилань.';
     }
     element.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + svg + '</svg>';
     container.appendChild(element);
@@ -56,6 +50,12 @@
   const validCoordinates = Number.isFinite(latitude) && Number.isFinite(longitude)
     && Math.abs(latitude) <= 90 && Math.abs(longitude) <= 180;
   const map = $('#yf-map'), directions = $('#yf-directions');
+  const hasAddress = typeof location.address === 'string' && location.address.trim().length > 0;
+  if (map && hasAddress) {
+    const mapLabel = 'Карта: ' + location.address.trim();
+    map.setAttribute('title', mapLabel);
+    map.setAttribute('aria-label', mapLabel);
+  }
   if (map && validCoordinates) {
     const zoom = Math.min(18, Math.max(8, Number(location.mapZoom) || 14));
     const delta = 0.006 * Math.pow(2, 14 - zoom);
@@ -67,7 +67,7 @@
       + encodeURIComponent(bbox) + '&layer=mapnik&marker='
       + encodeURIComponent(latitude + ',' + longitude);
   }
-  if (directions && !isDemo && validCoordinates) {
+  if (directions && hasAddress && validCoordinates) {
     directions.href = 'https://www.google.com/maps/dir/?api=1&destination='
       + encodeURIComponent(latitude + ',' + longitude);
     directions.target = '_blank';

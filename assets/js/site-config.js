@@ -4,10 +4,10 @@ window.YF_SITE_CONFIG = {
   location: {
     isDemo: true,
     venueName: "Тренування онлайн та в залі",
-    address: "Місто й адресу залу буде додано",
-    latitude: 50.4501,
-    longitude: 30.5234,
-    mapZoom: 14
+    address: "м. Київ, вул. Хрещатик, 22",
+    latitude: 50.449855,
+    longitude: 30.523063,
+    mapZoom: 16
   },
   socialLinks: {
     instagram: "",
