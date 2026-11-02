@@ -1,0 +1,22 @@
+/* Central theme values are supplied by site-config.js.
+   With original values the approved design is left pixel-identical. */
+html[data-custom-palette="true"][data-theme="light"] {
+ --bg:var(--cfg-light-background);--ink:var(--cfg-light-text);
+ --yf-cream:var(--cfg-light-background);--yf-ink:var(--cfg-light-text);
+ --yf-light-surface:var(--cfg-light-background);--yf-light-card:var(--cfg-light-surface);
+ --yf-light-ink:var(--cfg-light-text);--yf-light-muted:var(--cfg-light-muted);
+ --yf-light-border:var(--cfg-light-border);
+}
+html[data-custom-palette="true"][data-theme="dark"] {
+ --bg:var(--cfg-dark-background);--ink:var(--cfg-dark-text);
+ --yf-cream:var(--cfg-dark-background);--yf-ink:var(--cfg-dark-text);
+}
+html[data-custom-palette="true"][data-theme="light"] :is(#mission,#about,#studio,#nutrition,#reviews,#faq,.light-section,#formats,#results,#pricing,#final-cta,.yf-footer) {
+ background-color:var(--cfg-light-background);color:var(--cfg-light-text);
+}
+html[data-custom-palette="true"][data-theme="dark"] :is(#mission,#about,#studio,#nutrition,#reviews,#faq,.light-section,#formats,#results,#pricing,#final-cta,.yf-footer) {
+ background-color:var(--cfg-dark-background);color:var(--cfg-dark-text);
+}
+html[data-custom-fonts="true"] body {font-family:var(--cfg-font-body)}
+html[data-custom-fonts="true"] :is(h1,h2,h3,h4,.section .heading,.fhero-brand,.yf-footer-brand){font-family:var(--cfg-font-heading)}
+html[data-motion-enabled="false"] :is(.yf-motion-item,.yf-motion-portrait){animation:none!important;transition:none!important;transform:none!important;opacity:1!important}
