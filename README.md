@@ -1,4 +1,4 @@
-# YULIIA ZAGORODNIA — interactive frontend
+# FITNES TRENER — універсальний адаптивний сайт
 
 **Primary deliverable: the responsive, animated frontend published on GitHub Pages.** This is not a WordPress theme and does not need WordPress, PHP, or a build step.
 
@@ -70,3 +70,32 @@ The bilingual test checks first-visit language detection, persistent UA/EN switc
 `assets/css/premium-motion.css` and `assets/js/premium-motion.js` add a quiet 24-second hero-photo zoom, stepped card reveals, bounded desktop portrait parallax, CTA arrow feedback, FAQ entry and accessible dialog entrances. Approved content/layout and existing carousel interactions are unchanged. Effects are opt-in: without JavaScript, with reduced-motion preference or data-saver, content stays visible and usable.
 
 Regression check: `python tests/premium_motion_smoke.py` (in GitHub Actions before Pages deployment).
+
+## Єдині налаштування / One-file configuration
+
+**Усі основні параметри — у `assets/js/site-config.js`**, у JSON-об’єкті
+`window.YF_SITE_CONFIG`. Для іншого тренера достатньо змінити поля:
+
+- `brand.name` — єдина назва тренера й сайту, початково **Fitnes Trener**.
+  `brand.isPerson = true` автоматично додає до SEO Title фразу
+  «Фітнес-тренер» (англійською Fitness Coach).
+- `seo` — title, description, canonical URL, robots, Open Graph.
+  Для демоверсії залишається `noindex,follow`.
+- `theme.accent`, `theme.light`, `theme.dark`, `theme.default` —
+  кольори та Light/Dark/Mixed; `typography`, `design`, `motion` —
+  шрифти, радіуси й Premium Motion.
+- `location`, `contact`, `socialLinks` — адреса, контакти, карта, соцмережі.
+- `media` — усі 44 фото з SEO-дружніми назвами. **Замінити фото**:
+  додати новий файл з тією самою назвою та форматом у
+  `assets/images/`; для іншої назви змінити відповідне значення у
+  `media` й додати файл. Важливо зберігати співвідношення сторін.
+- Favicon також зберігається в `assets/images/`.
+
+`python tools/build_site.py` генерує готовий `dist/index.html` з
+коректними **статичними** SEO-метаданими та JSON-LD — не покладаючись на
+виконання JavaScript пошуковими роботами. GitHub Pages публікує `dist/`.
+Тест зміни імені та SEO: `python tests/site_config_smoke.py`.
+
+Не змінюйте значення `noindex` без готового підтвердженого контенту,
+реальних контактів і домену. Поточні фото, відгуки, ціни та деякі показники
+є демонстраційними. Бронювання та відправлення заявок не підключені до сервера.

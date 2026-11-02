@@ -31,6 +31,8 @@ jobs:
           else
             python -m playwright install --with-deps chromium
           fi
+      - name: Build SEO pages and validate central settings
+        run: python tests/site_config_smoke.py
       - name: Verify Premium Motion, parallax and reduced-motion fallback
         run: python tests/premium_motion_smoke.py
       - name: Verify bilingual device detection, persistence, contact footer and CTA geometry
@@ -47,6 +49,19 @@ jobs:
         run: python tests/formats_cards_smoke.py
       - name: Enforce visual-layout gate before deployment
         run: python tests/hero_visual_audit.py
+      - name: Store editable source archive
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fitness-source
+          path: |
+            index.html
+            README.md
+            assets/
+            tools/
+            tests/
+            .github/workflows/
+          retention-days: 14
       - name: Store test screenshots
         if: always()
         uses: actions/upload-artifact@v4
@@ -64,9 +79,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Build configured static website
+        run: python tools/build_site.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: dist
       - id: deployment
         uses: actions/deploy-pages@v4
