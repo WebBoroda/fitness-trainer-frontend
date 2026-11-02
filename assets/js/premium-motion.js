@@ -3,7 +3,8 @@
   'use strict';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const saveData = navigator.connection?.saveData === true;
-  if (reduced.matches || saveData || !('IntersectionObserver' in window)) return;
+  const motion = window.YF_SITE_CONFIG?.motion;
+  if (motion?.enabled === false || reduced.matches || saveData || !('IntersectionObserver' in window)) return;
 
   // The effect is applied to existing cards; markup, ordering and dimensions
   // are untouched. Reveal-once avoids replaying motion while reading the page.
@@ -63,7 +64,7 @@
     scheduled = true;
     requestAnimationFrame(update);
   };
-  if (portraitFrame && portrait && media.matches) {
+  if (portraitFrame && portrait && media.matches && motion?.parallax !== false) {
     portrait.classList.add('yf-motion-portrait');
     const visibleObserver = new IntersectionObserver(entries => {
       frameVisible = entries[0]?.isIntersecting === true;

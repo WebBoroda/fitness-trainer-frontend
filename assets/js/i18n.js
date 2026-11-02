@@ -111,10 +111,11 @@
     translateTree(document.body);
     const description = document.querySelector('meta[name="description"]');
     if (description) translateAttributes(description);
-    const titleSource = document.title.includes('A Stronger You')
-      ? 'Yuliia Zahorodnia — Сильніша версія тебе'
-      : document.title;
-    document.title = language === 'en' ? translate(titleSource) : 'Yuliia Zahorodnia — Сильніша версія тебе';
+    const settings = window.YF_SITE_CONFIG || {};
+    const label = settings.brand?.name || 'Fitnes Trener';
+    const seo = settings.seo || {};
+    document.title = (settings.brand?.isPerson ? (language === 'en' ? seo.roleEn : seo.roleUk) + ' ' : '') + label + ' | ' +
+      (language === 'en' ? seo.titleSuffixEn : seo.titleSuffixUk);
     showSelected();
     if (persist) remember(language);
     document.dispatchEvent(new CustomEvent('yf:languagechange', { detail: { language } }));

@@ -183,7 +183,7 @@ try:
                     assert child is not None and parent is not None
                     assert child["x"]>=parent["x"]-2 and child["x"]+child["width"]<=parent["x"]+parent["width"]+2,(locale,width,"arrow out of button",child,parent)
                 if expected=="en":
-                    assert "A Stronger You" in page.title(),(locale,width,"English page title")
+                    assert "Personal and Online Training" in page.title(),(locale,width,"English page title")
                     assert page.locator("#pricing .heading").inner_text()=="CHOOSE YOUR PLAN",(locale,width,"untranslated pricing")
                     assert page.locator("#faq .heading").inner_text().startswith("FREQUENTLY"),(locale,width,"untranslated FAQ")
                 if width in (375,974,1920) and locale in ("en-US","uk-UA"):

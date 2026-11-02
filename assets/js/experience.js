@@ -327,7 +327,7 @@
     const goal = input.value.trim();
     if (!goal) { input.focus(); return; }
     const tr = value => window.YF_I18N?.t(value) || value;
-    const value = tr('Заявка на консультацію YULIIA ZAGORODNIA') + '\n'
+    const value = (document.documentElement.lang === 'en' ? 'Consultation request — ' : 'Заявка на консультацію ') + (window.YF_SITE_CONFIG?.brand?.name || 'Fitnes Trener') + '\n'
       + tr('Формат:') + ' ' + tr(format.value) + '\n'
       + tr('Мета:') + ' ' + goal;
     try {
