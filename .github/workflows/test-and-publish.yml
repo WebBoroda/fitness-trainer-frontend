@@ -35,6 +35,8 @@ jobs:
           fi
       - name: Build SEO pages and validate central settings
         run: python tests/site_config_smoke.py
+      - name: Verify Light/Dark/Mixed browser favicons
+        run: python tests/favicon_theme_smoke.py
       - name: Verify Premium Motion, parallax and reduced-motion fallback
         run: python tests/premium_motion_smoke.py
       - name: Verify bilingual device detection, persistence, contact footer and CTA geometry

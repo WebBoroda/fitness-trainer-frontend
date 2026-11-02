@@ -99,3 +99,15 @@ Regression check: `python tests/premium_motion_smoke.py` (in GitHub Actions befo
 Не змінюйте значення `noindex` без готового підтвердженого контенту,
 реальних контактів і домену. Поточні фото, відгуки, ціни та деякі показники
 є демонстраційними. Бронювання та відправлення заявок не підключені до сервера.
+
+
+## Theme-aware FT favicons
+The two vector icons are in assets/images/:
+- fitness-trener-favicon-light.svg — light background and dark FT lettering.
+- fitness-trener-favicon-dark.svg — dark background and light FT lettering.
+
+Change filenames or select the Mixed-theme variant via assets/js/site-config.js >
+favicon (mixed defaults to "dark"). The active icon follows the site's theme
+without reloading. To replace the design, overwrite an SVG with the same filename
+and publish; no markup edits are needed. The build validates both SVGs and emits
+the configured Mixed icon as the initial favicon.

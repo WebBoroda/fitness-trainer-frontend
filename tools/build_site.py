@@ -29,12 +29,30 @@ for original, desired in settings["media"].items():
         raise SystemExit("Missing configured image: " + desired)
 if not (ROOT / "assets/images" / seo["ogImage"]).is_file():
     raise SystemExit("Missing OG image")
+# Check both favicon variants before copying files to the published site.
+favicons = settings["favicon"]
+for variant in ("light", "dark"):
+    filename = favicons[variant]
+    if not re.fullmatch(r"[a-z0-9][a-z0-9-]*\.svg", filename):
+        raise SystemExit("Invalid favicon filename: " + filename)
+    if not (ROOT / "assets/images" / filename).is_file():
+        raise SystemExit("Missing favicon: " + filename)
+if favicons.get("mixed") not in ("light", "dark"):
+    raise SystemExit("favicon.mixed must be light or dark")
 if DEST.exists():
     shutil.rmtree(DEST)
 DEST.mkdir()
 shutil.copytree(ROOT / "assets", DEST / "assets")
 
 content = (ROOT / "index.html").read_text(encoding="utf-8")
+default_icon = favicons[favicons["mixed"]]
+content, icon_count = re.subn(
+    r'(<link rel="icon" type="image/svg\+xml" href=")[^"]+(">)',
+    lambda m: m.group(1) + "assets/images/" + default_icon + m.group(2),
+    content, count=1
+)
+if icon_count != 1:
+    raise SystemExit("Missing favicon link in HTML")
 def replace_one(pattern, value):
     global content
     content, count = re.subn(pattern, lambda _: value, content, count=1, flags=re.S)

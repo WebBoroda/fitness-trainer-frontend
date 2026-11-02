@@ -7,6 +7,11 @@ window.YF_SITE_CONFIG = {
     "taglineUk": "Сильніша версія тебе",
     "taglineEn": "A Stronger You"
   },
+  "favicon": {
+    "light": "fitness-trener-favicon-light.svg",
+    "dark": "fitness-trener-favicon-dark.svg",
+    "mixed": "dark"
+  },
   "seo": {
     "roleUk": "Фітнес-тренер",
     "roleEn": "Fitness Coach",
@@ -128,6 +133,19 @@ window.YF_SITE_CONFIG = {
 (() => {
   'use strict';
   const c = window.YF_SITE_CONFIG, root = document.documentElement;
+  // Update the same browser-tab icon when the visible theme changes.
+  const favicon = document.querySelector('link[rel="icon"]');
+  const safeIcon = name => typeof name === 'string' && /^[a-z0-9][a-z0-9-]*\.svg$/.test(name) ? name : null;
+  const syncFavicon = () => {
+    const theme = root.dataset.theme || c.theme.default || 'mixed';
+    const mode = theme === 'light' ? 'light' : theme === 'dark' ? 'dark' :
+      c.favicon?.mixed === 'light' ? 'light' : 'dark';
+    const name = safeIcon(c.favicon?.[mode]) || 'fitness-trener-favicon-' + mode + '.svg';
+    const target = 'assets/images/' + name;
+    if (favicon && favicon.getAttribute('href') !== target) favicon.setAttribute('href', target);
+  };
+  syncFavicon();
+  new MutationObserver(syncFavicon).observe(root, {attributes: true, attributeFilter: ['data-theme']});
   const baseline = {"accent":"#efd8c6","light":{"background":"#f8f5f1","surface":"#fffdfb","text":"#1b1715","muted":"#60574f","border":"#dfd2c8"},"dark":{"background":"#0e1010","surface":"#171a1a","text":"#f6f1ed","muted":"#c9bdb6","border":"#ffffff29"}};
   const safeColor = v => /^#[0-9a-fA-F]{6}$/.test(v || '') ? v : null;
   const accent = safeColor(c.theme.accent) || baseline.accent;
