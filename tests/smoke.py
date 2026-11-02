@@ -258,7 +258,7 @@ try:
                 about=page.locator('#about')
                 assert about.locator('blockquote.yf-about-quote').count()==1
                 assert about.locator('.yf-about-benefits li').count()==3
-                photo=about.locator('img[data-media-field="about.portrait"][src$="about-trainer-editorial.webp"]')
+                photo=about.locator('img[data-media-field="about.portrait"][src$="fitness-trainer-portrait.webp"]')
                 assert photo.count()==1
                 photo.scroll_into_view_if_needed()
                 photo.evaluate("(img)=>img.decode()")
