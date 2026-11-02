@@ -21,8 +21,9 @@ try:
         for width, height in ((375, 812), (1440, 900)):
             for theme in ("light", "dark", "mixed"):
                 page = browser.new_page(viewport={"width": width, "height": height})
-                page.add_init_script(f"localStorage.setItem('fitness-theme','{theme}')")
                 page.goto(f"http://127.0.0.1:{server.server_port}/", wait_until="domcontentloaded")
+                page.evaluate("(theme) => localStorage.setItem('fitness-theme', theme)", theme)
+                page.reload(wait_until="domcontentloaded")
                 link = page.locator('link[rel="icon"]')
                 expected = lambda mode: f"assets/images/fitness-trener-favicon-{mode}.svg"
                 assert page.locator("html").get_attribute("data-theme") == theme
@@ -33,6 +34,7 @@ try:
                 page.wait_for_function("theme => document.documentElement.dataset.theme === theme", arg=next_theme)
                 page.wait_for_function('icon => document.querySelector("link[rel=icon]").getAttribute("href") === icon',
                                        arg=expected("light" if next_theme == "light" else "dark"))
+                assert page.evaluate("localStorage.getItem(\'fitness-theme\')") == next_theme
                 page.reload(wait_until="domcontentloaded")
                 assert page.locator("html").get_attribute("data-theme") == next_theme
                 assert link.get_attribute("href") == expected("light" if next_theme == "light" else "dark")
