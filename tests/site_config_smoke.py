@@ -18,9 +18,11 @@ try:
     assert 'content="noindex,follow"' in generated
     assert "Yuliia Zahorodnia" not in generated
     assert 'assets/images/fitness-trainer-hero.webp' in generated
-    assert (root / "dist/assets/images/fitness-trener-favicon.svg").is_file()
+    assert (root / "dist/assets/images/fitness-trener-favicon-light.svg").is_file()
+    assert (root / "dist/assets/images/fitness-trener-favicon-dark.svg").is_file()
+    assert 'href="assets/images/fitness-trener-favicon-dark.svg"' in generated
     assert (root / "dist/assets/css/site-theme.css").is_file()
-    assert len(list((root / "dist/assets/images").iterdir())) == 45
+    assert len(list((root / "dist/assets/images").iterdir())) == 46
     assert 'schema.org' in generated and '"@type":"WebPage"' in generated
     modified = original.replace('"name": "Fitnes Trener"', '"name": "Олена Тренер"')
     modified = modified.replace('"isPerson": false', '"isPerson": true')
