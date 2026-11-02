@@ -34,7 +34,15 @@ try:
                 assert page.locator("main h1").count()==1,(width,theme,"main H1")
                 assert page.locator("html").get_attribute("lang")=="uk",(width,theme,"document language")
                 assert page.locator("#reviews .yf-demo-review-note").is_visible(),(width,theme,"demo reviews not disclosed")
-                assert page.locator(".yf-demo-flag").count()==1,(width,theme,"demo statistics not disclosed")
+                # Removing the demo badge must also eliminate the unwanted
+                # first-column divider without changing the two real dividers.
+                assert page.locator(".yf-demo-flag").count()==0,(width,theme,"obsolete visible demo flag")
+                stats = page.locator(".fhero-stats")
+                assert stats.get_attribute("title") == "Демонстраційні показники — потребують підтвердження",(width,theme,"unverified data disclosure")
+                borders = stats.evaluate("""el => [...el.querySelectorAll(':scope > div')]
+                    .map(cell => getComputedStyle(cell).borderLeftWidth)""")
+                assert borders == ["0px","1px","1px"],(width,theme,"statistics dividers",borders)
+                assert page.locator("#results .yf-result-ai").count()==6,(width,theme,"AI sample labels preserved")
                 missing=page.evaluate("""() => [...document.querySelectorAll('a,button,summary')]
                   .filter(el => {
                     const cs=getComputedStyle(el);
