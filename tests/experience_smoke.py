@@ -54,7 +54,7 @@ try:
                 about_frame = page.locator('#about .yf-about-media')
                 quote_box = page.locator('#about .yf-about-quote')
                 assert about_image.count() == 1, (width, "missing replaceable portrait")
-                assert about_image.get_attribute('src') == "assets/images/about-trainer-editorial.webp", width
+                assert about_image.get_attribute('src') == "assets/images/fitness-trainer-portrait.webp", width
                 assert about_image.get_attribute('alt'), width
                 assert float(about_frame.evaluate("(el)=>getComputedStyle(el).borderTopLeftRadius.replace('px','')")) >= 10, (width, "unrounded photo frame")
                 assert quote_box.count() == 1 and quote_box.locator('cite').count() == 0, (width, 'removed signature must not reappear')
@@ -78,7 +78,7 @@ try:
                 page.keyboard.press('Escape')
                 assert not page.locator('#yf-about-details').evaluate('(el)=>el.open'), (width,"Escape close failed")
                 original_src = about_image.get_attribute('src')
-                about_image.evaluate("(el)=>el.setAttribute('src','assets/images/gym-01-main.webp')")
+                about_image.evaluate("(el)=>el.setAttribute('src','assets/images/fitness-gym-main.webp')")
                 assert quote_box.inner_text() == quote_text, (width, "quote changed on photo replacement")
                 assert float(about_frame.evaluate("(el)=>getComputedStyle(el).borderTopLeftRadius.replace('px','')")) >= 10, (width, "radius changed on photo replacement")
                 about_image.evaluate("(el,src)=>el.setAttribute('src',src)",original_src)
@@ -88,7 +88,7 @@ try:
                 closing = page.locator(".final-section")
                 final_image = closing.locator("img.final-photo")
                 assert final_image.count() == 1, (width, "closing photo absent")
-                assert final_image.get_attribute("src") == "assets/images/final-cta-trainer.webp", (width, "old screenshot crop remains")
+                assert final_image.get_attribute("src") == "assets/images/fitness-trainer-final-cta.webp", (width, "old screenshot crop remains")
                 assert final_image.get_attribute("loading") == "lazy", width
                 final_image.scroll_into_view_if_needed()
                 final_image.evaluate("(img)=>img.decode()")
@@ -175,7 +175,7 @@ try:
                 assert page.locator("html").get_attribute("data-theme") == scheme
                 assert page.locator(".studio-gallery .gallery-photo").count() == 5
                 assert page.locator(".studio-gallery .gallery-photo:visible").count() == 3
-                expected = ["gym-01-main.webp","gym-02-dumbbells.webp","gym-03-cardio.webp","gym-04-strength.webp","gym-05-stretching.webp"]
+                expected = ["fitness-gym-main.webp","fitness-gym-dumbbells.webp","fitness-gym-cardio.webp","fitness-gym-strength.webp","fitness-gym-stretching.webp"]
                 paths = page.locator("#studio .studio-gallery img").evaluate_all("(items)=>items.map(img=>img.getAttribute('src').split('/').pop())")
                 assert paths == expected, (width,paths)
                 nutrition = page.locator("#nutrition")
@@ -183,7 +183,7 @@ try:
                 assert nutrition.locator(".nutrition-aside li").count() == 5, (width, "nutrition checklist")
                 assert nutrition.locator(".nutrition-note").count() == 1, width
                 nutrition_photo = nutrition.locator("img.nutrition-photo")
-                assert nutrition_photo.get_attribute("src") == "assets/images/formats-nutrition.webp", (width, "low-res source remains")
+                assert nutrition_photo.get_attribute("src") == "assets/images/fitness-nutrition-program.webp", (width, "low-res source remains")
                 assert nutrition_photo.get_attribute("width") == "1086", width
                 assert nutrition_photo.get_attribute("alt"), width
                 nutrition_photo.scroll_into_view_if_needed()
@@ -312,7 +312,7 @@ try:
                     assert fixed_boxes[0]["x"] < width * .12 and fixed_boxes[1]["x"] > width * .80, (width,fixed_boxes)
 
                 photo_first = page.locator(".yf-gallery-modal figure > img").get_attribute("src")
-                assert photo_first.endswith("gym-01-main.webp"), (width,photo_first)
+                assert photo_first.endswith("fitness-gym-main.webp"), (width,photo_first)
                 viewport = page.locator(".yf-gallery-mobile-viewport")
                 if is_mobile:
                     assert viewport.is_visible() and page.locator(".yf-gallery-mobile-track img").count()==3, width

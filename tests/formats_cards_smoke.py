@@ -51,8 +51,8 @@ try:
                 })""")
                 for i,x in enumerate(data):
                     assert x['src']==(
-                        f"assets/images/formats-{['personal','group','online'][i]}-v2.webp" if i<3
-                        else "assets/images/formats-nutrition.webp"
+                        ["assets/images/personal-fitness-training.webp","assets/images/group-fitness-training.webp","assets/images/online-fitness-coaching.webp"][i] if i<3
+                        else "assets/images/fitness-nutrition-program.webp"
                     ),(w,i,x['src'])
                     assert x['width']>=1000,(w,i,'image resolution',x['width'])
                     # Mobile card widths require more lines than desktop. Check

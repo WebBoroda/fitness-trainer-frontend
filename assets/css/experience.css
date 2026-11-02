@@ -44,7 +44,7 @@ html[data-theme=dark] .light-section{background:#171a1a;color:#f6f1ed}
   background:#0d0f0f;color:#fff;position:relative}
 #formats::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.22;
   background:linear-gradient(90deg,#0d0e0efa,#0d0e0e88 65%,#0d0e0ef4),
-  url("../images/hero-trainer.webp") center 58%/cover no-repeat;filter:saturate(.5)}
+  url("../images/fitness-training-background.webp") center 58%/cover no-repeat;filter:saturate(.5)}
 #formats::after{content:"";position:absolute;inset:0;z-index:-1;
   background:linear-gradient(180deg,#0506066b 0%,transparent 32%,#0a0b0ca3 100%);pointer-events:none}
 #formats .wrap{display:grid;gap:clamp(1.5rem,2.5vw,3rem);align-items:stretch}
