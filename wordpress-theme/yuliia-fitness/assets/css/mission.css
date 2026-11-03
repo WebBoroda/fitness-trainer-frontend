@@ -1,0 +1,175 @@
+/* Screen 2 — the approved left narrative and right-hand 2x2 benefit grid. */
+#mission {
+  --mission-ink: #171412;
+  --mission-subtle: #5f5650;
+  --mission-bg: #f8f5f1;
+  --mission-card: rgba(255,255,255,.8);
+  --mission-icon: #f5eae1;
+  background: var(--mission-bg);
+  color: var(--mission-ink);
+  padding: clamp(3rem, 5vw, 5rem) 0;
+  font-family: Manrope, Inter, sans-serif;
+}
+#mission .wrap { width: min(calc(100% - 2 * clamp(1.25rem,4.4vw,6rem)), 90rem); max-width: none; margin-inline: auto; }
+#mission .mission-layout { display: grid; gap: 1.5rem; }
+#mission .intro { display: grid; grid-template-columns: 1fr; gap: .9rem; align-content: start; }
+#mission .intro > div { min-width: 0; }
+#mission .intro > div:last-child { padding: 0; max-width: 34rem; }
+#mission .eyebrow {
+  display: inline-flex;
+  padding: .45rem .8rem;
+  margin: 0;
+  border-radius: 99rem;
+  background: #f1e3d8;
+  color: #3d302b;
+  font-size: .75rem;
+  letter-spacing: .01em;
+}
+#mission .heading {
+  max-width: 14ch;
+  margin: .9rem 0 0;
+  color: inherit;
+  font: 800 clamp(2.4rem, 6.8vw, 4rem)/1.02 Manrope,Inter,sans-serif;
+  letter-spacing: -.056em;
+  text-transform: uppercase;
+}
+#mission .heading span { display: block; max-width: 16ch; color: inherit; font-weight: 240; letter-spacing: -.07em; }
+#mission .lead { max-width: 44ch; margin: 0; color: var(--mission-subtle); font-size: 1rem; line-height: 1.58; }
+#mission .btn.fill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .85rem;
+  min-width: 0;
+  width: max-content;
+  max-width: 100%;
+  min-height: 3.1rem;
+  margin-top: 1.1rem;
+  padding: .3rem .35rem .3rem 1.15rem;
+  border: 0;
+  border-radius: 99rem;
+  background: #f0d7c5;
+  color: #1a1613;
+  font-size: 1rem;
+  font-weight: 650;
+}
+#mission .btn.fill .arrow {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  flex: 0 0 2.35rem;
+  border-radius: 50%;
+  background: white;
+  color: #171412;
+  font-size: 1.25rem;
+}
+#mission .cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .8rem;
+  margin: 0;
+  min-width: 0;
+}
+#mission .benefit {
+  display: grid;
+  grid-template-columns: 3rem minmax(0,1fr);
+  grid-template-rows: auto 1fr;
+  gap: .28rem .85rem;
+  align-content: start;
+  min-width: 0;
+  min-height: 9.4rem;
+  padding: 1rem;
+  border: 1px solid rgba(255,255,255,.84);
+  border-radius: 1.1rem;
+  background: var(--mission-card);
+  box-shadow: none;
+}
+#mission .benefit .icon {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin: 0;
+  border-radius: 50%;
+  background: var(--mission-icon);
+  color: inherit;
+}
+#mission .benefit .icon svg { width: 1.7rem; height: 1.7rem; stroke-linejoin: round; stroke-linecap: round; }
+#mission .benefit h3 {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  margin: 0;
+  max-width: 17ch;
+  font: 750 1rem/1.3 Manrope,Inter,sans-serif;
+  letter-spacing: -.02em;
+}
+#mission .benefit p {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+  color: var(--mission-subtle);
+  font-size: .9375rem;
+  line-height: 1.47;
+}
+#mission .quote {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: clamp(19rem, 36vw, 31rem);
+  margin-top: clamp(1.5rem,3vw,2.5rem);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: #38302b;
+  color: white;
+}
+#mission .quote img {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 37%;
+}
+#mission .quote::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(90deg,rgba(16,14,14,.83),rgba(21,18,17,.22) 75%);
+}
+#mission .quote blockquote { max-width: 39rem; margin: 0; padding: 2rem; font: 400 clamp(1.1rem, 1.9vw, 1.55rem)/1.5 Manrope,Inter,sans-serif; }
+#mission .quote blockquote::before { content: "“"; display: block; margin-bottom: .7rem; color: #f1d8c3; font: 5rem/.7 Georgia,serif; }
+#mission .quote cite { display: block; margin: 1.3rem 0 0 2.5rem; color: #f1d8c3; font: italic clamp(1.2rem,2vw,1.8rem)/1.2 "Brush Script MT","Segoe Script",cursive; }
+html[data-theme=dark] #mission {
+  --mission-ink: #fff;
+  --mission-subtle: #d2cdca;
+  --mission-bg: #151819;
+  --mission-card: rgba(45,46,45,.85);
+  --mission-icon: #41403d;
+}
+html[data-theme=dark] #mission .eyebrow { background: #393633; color: #f9f4f0; }
+html[data-theme=dark] #mission .benefit { border-color: #ffffff12; }
+@media (min-width: 38rem) {
+  #mission .cards { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (min-width: 62rem) {
+  #mission .mission-layout { grid-template-columns: minmax(0,.94fr) minmax(0,1.06fr); gap: clamp(1.5rem,3vw,4rem); align-items: center; }
+  #mission .intro { gap: 1rem; }
+  #mission .heading { font-size: clamp(2.7rem,3.35vw,3.65rem); }
+  #mission .cards { gap: .8rem; }
+  #mission .benefit { min-height: 10rem; padding: 1rem; }
+  #mission .quote blockquote { padding-inline: clamp(2rem,5vw,5rem); }
+}
+@media (min-width: 85rem) {
+  #mission .benefit { min-height: 10.5rem; padding: 1.3rem; }
+  #mission .heading { font-size: clamp(3.15rem,3.25vw,4.15rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #mission *, #mission *::before, #mission *::after { animation: none !important; transition: none !important; }
+}

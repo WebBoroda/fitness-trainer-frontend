@@ -1,0 +1,7 @@
+.yf-editor-section{border:1px solid #dbc9b8;border-radius:12px;padding:22px;background:#fffcfa;color:#161412}
+.yf-editor-heading{padding:14px;margin:-10px -10px 20px;background:#f5e7d9;border-radius:9px}
+.yf-editor-heading strong{font-size:18px}.yf-editor-heading p{font-size:13px;margin:6px 0 0}
+.yf-editor-section .components-panel__body{border:1px solid #e9dcd0}
+.yf-editor-section .components-base-control{max-width:100%}
+.yf-editor-image{display:grid;gap:6px;margin:14px 0;padding:12px;border:1px solid #ddd;border-radius:8px}
+.yf-editor-image img{height:130px;max-width:220px;object-fit:cover;border-radius:6px}
